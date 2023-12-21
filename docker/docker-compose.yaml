@@ -18,13 +18,26 @@ services:
   reverse:
     container_name: homelab-nginx
     image: nginx
+    restart: unless-stopped
     volumes:
       - /plex/plex.conf:/etc/nginx/conf.d/default.conf
       - /etc/letsencrypt:/etc/nginx/certs:ro
     networks:
       physical:
         ipv4_address: 10.0.1.98
-
+  cifs:
+    container_name: cifs
+    image: dperson/samba
+    restart: unless-stopped
+    ports:
+      - "445:445"
+      - "139:139"
+    networks:
+      - bridehomelab
+    volumes:
+      - /plex/media:/mount
 networks:
   physical:
     external: true
+  bridehomelab:
+    driver: bridge
