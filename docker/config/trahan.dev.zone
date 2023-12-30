@@ -1,0 +1,27 @@
+$TTL 2d
+$ORIGIN trahan.dev.
+
+@		IN      SOA     ns3.trahan.dev. admin.trahan.dev. (
+                                	20230218		; serial number
+		                	3600			; refresh period
+		                	600			    ; retry period
+		                	604800			; expire time
+		                	1800 			; negative TTL
+                                )
+@		IN      NS      ns1.trahan.dev.
+@		IN      NS      ns2.trahan.dev.
+@		IN      NS      ns3.trahan.dev.
+
+ns2.trahan.dev.		IN      A	10.0.0.11
+ns1.trahan.dev.		IN	A	10.0.0.15
+ns3.trahan.dev.		IN	A	10.0.0.99
+
+; Main VLAN network services
+portainer.trahan.dev.		IN	A	10.0.1.97
+pgadmin.trahan.dev.		IN	A	10.0.1.97
+plex.trahan.dev.		IN	A	10.0.1.97
+api.trahan.dev.			IN      A       10.0.0.32
+pfsense.trahan.dev.		IN      A       10.0.1.158
+db.trahan.dev.			IN	A	10.0.0.32
+homelab-nginx.trahan.dev.	IN	A	10.0.1.98
+
