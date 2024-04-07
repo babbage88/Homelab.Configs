@@ -11,8 +11,6 @@ if [ "$color_prompt" = yes ]; then
 fi
 unset color_prompt force_color_prompt
 
-alias docker='sudo docker'
-
 dockerbash() {
   if [ -z "$1" ]; then
     echo "Usage: dockerbash <container_name>"
