@@ -1,0 +1,120 @@
+[2024-01-21 20:52:52.886 +00:00] [INF] [6] Main: Jellyfin version: "10.8.13"
+[2024-01-21 20:52:52.919 +00:00] [INF] [6] Main: Environment Variables: ["[JELLYFIN_WEB_DIR, /jellyfin/jellyfin-web]", "[JELLYFIN_DATA_DIR, /config]", "[JELLYFIN_LOG_DIR, /config/log]", "[JELLYFIN_PublishedServerUrl, http://jellyfin.trahan.dev:8096]", "[DOTNET_SYSTEM_GLOBALIZATION_INVARIANT, 1]", "[JELLYFIN_CONFIG_DIR, /config/config]", "[JELLYFIN_CACHE_DIR, /cache]", "[JELLYFIN_FFMPEG, /usr/lib/jellyfin-ffmpeg/ffmpeg]"]
+[2024-01-21 20:52:52.922 +00:00] [INF] [6] Main: Arguments: ["/jellyfin/jellyfin.dll"]
+[2024-01-21 20:52:52.924 +00:00] [INF] [6] Main: Operating system: "Linux"
+[2024-01-21 20:52:52.924 +00:00] [INF] [6] Main: Architecture: X64
+[2024-01-21 20:52:52.925 +00:00] [INF] [6] Main: 64-Bit Process: True
+[2024-01-21 20:52:52.925 +00:00] [INF] [6] Main: User Interactive: True
+[2024-01-21 20:52:52.925 +00:00] [INF] [6] Main: Processor count: 4
+[2024-01-21 20:52:52.925 +00:00] [INF] [6] Main: Program data path: "/config"
+[2024-01-21 20:52:52.925 +00:00] [INF] [6] Main: Web resources path: "/jellyfin/jellyfin-web"
+[2024-01-21 20:52:52.925 +00:00] [INF] [6] Main: Application directory: "/jellyfin/"
+[2024-01-21 20:52:52.958 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Marking following migrations as applied because this is a fresh install: ["CreateNetworkConfiguration"]
+[2024-01-21 20:52:53.092 +00:00] [INF] [6] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: "/cache"
+[2024-01-21 20:52:53.102 +00:00] [INF] [6] Emby.Server.Implementations.ApplicationHost: Loading assemblies
+[2024-01-21 20:52:53.192 +00:00] [INF] [6] Jellyfin.Networking.Manager.NetworkManager: Defined LAN addresses : "[10.0.0.0/8,172.16.0.0/12,192.168.0.0/16]"
+[2024-01-21 20:52:53.192 +00:00] [INF] [6] Jellyfin.Networking.Manager.NetworkManager: Defined LAN exclusions : "[]"
+[2024-01-21 20:52:53.193 +00:00] [INF] [6] Jellyfin.Networking.Manager.NetworkManager: Using LAN addresses: "[10.0.0.0/8,172.16.0.0/12,192.168.0.0/16]"
+[2024-01-21 20:52:53.205 +00:00] [INF] [6] Jellyfin.Networking.Manager.NetworkManager: Using bind addresses: "[]"
+[2024-01-21 20:52:53.205 +00:00] [INF] [6] Jellyfin.Networking.Manager.NetworkManager: Using bind exclusions: "[]"
+[2024-01-21 20:52:54.747 +00:00] [INF] [6] Jellyfin.Server.Implementations.JellyfinDbProvider: There are pending EFCore migrations in the database. Applying... (This may take a while, do not stop Jellyfin)
+[2024-01-21 20:52:55.836 +00:00] [INF] [6] Jellyfin.Server.Implementations.JellyfinDbProvider: EFCore migrations applied successfully
+[2024-01-21 20:52:58.066 +00:00] [INF] [6] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[2024-01-21 20:52:58.067 +00:00] [INF] [6] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: "/cache"
+[2024-01-21 20:52:58.074 +00:00] [INF] [6] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: "TMDb" "10.8.13.0"
+[2024-01-21 20:52:58.075 +00:00] [INF] [6] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: "Studio Images" "10.8.13.0"
+[2024-01-21 20:52:58.075 +00:00] [INF] [6] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: "OMDb" "10.8.13.0"
+[2024-01-21 20:52:58.076 +00:00] [INF] [6] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: "MusicBrainz" "10.8.13.0"
+[2024-01-21 20:52:58.076 +00:00] [INF] [6] Emby.Server.Implementations.Plugins.PluginManager: Loaded plugin: "AudioDB" "10.8.13.0"
+[2024-01-21 20:52:58.148 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Marking following migrations as applied because this is a fresh install: ["DisableTranscodingThrottling", "CreateLoggingConfigHeirarchy", "MigrateActivityLogDatabase", "RemoveDuplicateExtras", "MigrateUserDatabase", "MigrateDisplayPreferencesDatabase", "RemoveDownloadImagesInAdvance", "MigrateAuthenticationDatabase"]
+[2024-01-21 20:52:58.149 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Applying migration '"AddDefaultPluginRepository"'
+[2024-01-21 20:52:58.149 +00:00] [INF] [6] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Saving system configuration
+[2024-01-21 20:52:58.150 +00:00] [INF] [6] Emby.Server.Implementations.AppBase.BaseConfigurationManager: Setting cache path: "/cache"
+[2024-01-21 20:52:58.151 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Migration '"AddDefaultPluginRepository"' applied successfully
+[2024-01-21 20:52:58.166 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Applying migration '"ReaddDefaultPluginRepository"'
+[2024-01-21 20:52:58.166 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Migration '"ReaddDefaultPluginRepository"' applied successfully
+[2024-01-21 20:52:58.167 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Applying migration '"AddPeopleQueryIndex"'
+[2024-01-21 20:52:58.168 +00:00] [INF] [6] Jellyfin.Server.Migrations.Routines.AddPeopleQueryIndex: Creating index idx_TypedBaseItemsUserDataKeyType
+[2024-01-21 20:52:58.266 +00:00] [INF] [6] Jellyfin.Server.Migrations.Routines.AddPeopleQueryIndex: Creating index idx_PeopleNameListOrder
+[2024-01-21 20:52:58.375 +00:00] [INF] [6] Jellyfin.Server.Migrations.MigrationRunner: Migration '"AddPeopleQueryIndex"' applied successfully
+[2024-01-21 20:52:58.384 +00:00] [INF] [6] Main: Kestrel listening on "Any IP4 Address"
+[2024-01-21 20:52:58.456 +00:00] [WRN] [6] Microsoft.AspNetCore.DataProtection.Repositories.EphemeralXmlRepository: Using an in-memory repository. Keys will not be persisted to storage.
+[2024-01-21 20:52:58.456 +00:00] [WRN] [6] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: Neither user profile nor HKLM registry available. Using an ephemeral key repository. Protected data will be unavailable when application exits.
+[2024-01-21 20:52:58.981 +00:00] [WRN] [6] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager: No XML encryptor configured. Key {c4856bb7-5938-4488-a468-32ae408f1c1d} may be persisted to storage in unencrypted form.
+[2024-01-21 20:52:59.016 +00:00] [INF] [6] Emby.Server.Implementations.ApplicationHost: Running startup tasks
+[2024-01-21 20:52:59.058 +00:00] [INF] [6] Emby.Server.Implementations.ScheduledTasks.TaskManager: Daily trigger for "Extract Chapter Images" set to fire at 2024-01-22 02:00:00.000 +00:00, which is 05:07:00.9422196 from now.
+[2024-01-21 20:53:00.834 +00:00] [INF] [6] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Found ffmpeg version "5.1.4"
+[2024-01-21 20:53:00.995 +00:00] [INF] [6] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available "decoders": ["libdav1d", "av1", "av1_cuvid", "av1_qsv", "h264", "h264_qsv", "h264_cuvid", "hevc", "hevc_qsv", "hevc_cuvid", "mpeg2video", "mpeg2_qsv", "mpeg2_cuvid", "mpeg4", "mpeg4_cuvid", "msmpeg4", "vc1_qsv", "vc1_cuvid", "vp8", "libvpx", "vp8_cuvid", "vp8_qsv", "vp9", "libvpx-vp9", "vp9_cuvid", "vp9_qsv", "aac", "ac3", "dca", "flac", "mp3", "truehd"]
+[2024-01-21 20:53:01.040 +00:00] [INF] [6] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available "encoders": ["libx264", "h264_amf", "h264_nvenc", "h264_qsv", "h264_v4l2m2m", "h264_vaapi", "libx265", "hevc_amf", "hevc_nvenc", "hevc_qsv", "hevc_vaapi", "mpeg4", "msmpeg4", "libvpx", "libvpx-vp9", "aac", "libfdk_aac", "ac3", "dca", "flac", "libmp3lame", "libopus", "truehd", "libvorbis", "srt"]
+[2024-01-21 20:53:01.100 +00:00] [INF] [6] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available filters: ["deinterlace_qsv", "deinterlace_vaapi", "hwupload_cuda", "hwupload_vaapi", "overlay_opencl", "overlay_qsv", "overlay_vaapi", "overlay_cuda", "procamp_vaapi", "scale_cuda", "scale_opencl", "scale_qsv", "scale_vaapi", "tonemap_cuda", "tonemap_opencl", "tonemap_vaapi", "vpp_qsv", "yadif_cuda", "zscale", "alphasrc"]
+[2024-01-21 20:53:01.368 +00:00] [INF] [6] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: Available hwaccel types: ["cuda", "vaapi", "qsv", "drm", "opencl", "vulkan"]
+[2024-01-21 20:53:01.733 +00:00] [INF] [6] MediaBrowser.MediaEncoding.Encoder.MediaEncoder: FFmpeg: "/usr/lib/jellyfin-ffmpeg/ffmpeg"
+[2024-01-21 20:53:01.735 +00:00] [INF] [6] Emby.Server.Implementations.ApplicationHost: ServerId: "dafab4adf4114f43a9d415151cac3a6d"
+[2024-01-21 20:53:01.879 +00:00] [INF] [6] Emby.Server.Implementations.ApplicationHost: Executed all pre-startup entry points in 0:00:00.1323636
+[2024-01-21 20:53:01.879 +00:00] [INF] [6] Emby.Server.Implementations.ApplicationHost: Core startup complete
+[2024-01-21 20:53:02.065 +00:00] [INF] [7] Emby.Server.Implementations.ScheduledTasks.TaskManager: "StartupTrigger" fired for task: "Update Plugins"
+[2024-01-21 20:53:02.066 +00:00] [INF] [7] Emby.Server.Implementations.ScheduledTasks.TaskManager: Queuing task "PluginUpdateTask"
+[2024-01-21 20:53:02.069 +00:00] [INF] [12] Emby.Server.Implementations.ScheduledTasks.TaskManager: Executing "Update Plugins"
+[2024-01-21 20:53:02.333 +00:00] [INF] [6] Emby.Server.Implementations.ApplicationHost: Executed all post-startup entry points in 0:00:00.452913
+[2024-01-21 20:53:02.333 +00:00] [INF] [6] Main: Startup complete 0:00:09.7304654
+[2024-01-21 20:53:03.130 +00:00] [INF] [6] Emby.Server.Implementations.ScheduledTasks.TaskManager: "Update Plugins" Completed after 0 minute(s) and 1 seconds
+[2024-01-21 20:53:03.153 +00:00] [INF] [6] Emby.Server.Implementations.ScheduledTasks.TaskManager: ExecuteQueuedTasks
+[2024-01-21 20:53:07.247 +00:00] [INF] [7] Emby.Dlna.DlnaManager: No matching device profile found. The default will need to be used. 
+DeviceIdentification { FriendlyName: "Living Room TV", ModelNumber: "1.0", SerialNumber: null, ModelName: "Renderer", ModelDescription: "#CAP#
+mac=dc9a7d177db7
+macWifi=10b232f34480
+macEthernet=dc9a7d177db7
+ip=10.0.1.100
+region=6
+country=USA
+model_name=55A53FUA
+tv_version=V0010.01.00V.N0509
+language=eng
+transport_protocol=1001
+platform=2
+network_wakeup=1
+voice=0
+mqttport=36669
+", ModelUrl: "http://www.smarttv.com", Manufacturer: "SmartTV", ManufacturerUrl: "http://www.smarttv.com", Headers: [] }
+[2024-01-21 20:53:07.253 +00:00] [INF] [7] Emby.Dlna.Main.DlnaEntryPoint: DLNA Session created for "Living Room TV" - "Renderer"
+[2024-01-21 20:53:23.078 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"AccessSchedule"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"ActivityLog"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"CustomItemDisplayPreferences"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"DisplayPreferences"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"HomeSection"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"ImageInfo"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"ItemDisplayPreferences"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"Permission"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"Preference"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.080 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"ApiKey"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.081 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"Device"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.081 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"DeviceOptions"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 20:53:23.081 +00:00] [WRN] [4] Microsoft.EntityFrameworkCore.Model.Validation: The entity type '"User"' is configured to use schema '"jellyfin"', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+[2024-01-21 21:01:15.778 +00:00] [INF] [2] Main: Received a SIGTERM signal, shutting down
+[2024-01-21 21:01:15.779 +00:00] [INF] [2] Main: Running query planner optimizations in the database... This might take a while
+[2024-01-21 21:01:15.793 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "CoreAppHost"
+[2024-01-21 21:01:15.795 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "MusicBrainzAlbumProvider"
+[2024-01-21 21:01:15.795 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "LibraryMonitorStartup"
+[2024-01-21 21:01:15.795 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "RecordingNotifier"
+[2024-01-21 21:01:15.797 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "DlnaEntryPoint"
+[2024-01-21 21:01:15.797 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: Disposing PlayToManager
+[2024-01-21 21:01:15.798 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: Disposing DeviceDiscovery
+[2024-01-21 21:01:15.799 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: Disposing SsdpCommunicationsServer
+[2024-01-21 21:01:15.800 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: "SsdpCommunicationsServer" disposing _BroadcastListenSocket
+[2024-01-21 21:01:15.802 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: "SsdpCommunicationsServer" Disposing 5 sendSockets
+[2024-01-21 21:01:15.802 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: "SsdpCommunicationsServer" disposing sendSocket from "0.0.0.0"
+[2024-01-21 21:01:15.803 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: "SsdpCommunicationsServer" disposing sendSocket from "10.0.0.99"
+[2024-01-21 21:01:15.803 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: "SsdpCommunicationsServer" disposing sendSocket from "172.17.0.1"
+[2024-01-21 21:01:15.804 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: "SsdpCommunicationsServer" disposing sendSocket from "172.19.0.1"
+[2024-01-21 21:01:15.805 +00:00] [INF] [2] Emby.Dlna.Main.DlnaEntryPoint: "SsdpCommunicationsServer" disposing sendSocket from "127.0.0.1"
+[2024-01-21 21:01:15.806 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "SchedulesDirect"
+[2024-01-21 21:01:15.806 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "NotificationEntryPoint"
+[2024-01-21 21:01:15.807 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "UdpServerEntryPoint"
+[2024-01-21 21:01:15.809 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "UserDataChangeNotifier"
+[2024-01-21 21:01:15.810 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "EntryPoint"
+[2024-01-21 21:01:15.810 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "EntryPoint"
+[2024-01-21 21:01:15.810 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "DeviceAccessEntryPoint"
+[2024-01-21 21:01:15.810 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "LibraryChangedNotifier"
+[2024-01-21 21:01:15.815 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "ExternalPortForwarding"
+[2024-01-21 21:01:15.816 +00:00] [INF] [2] Emby.Server.Implementations.EntryPoints.ExternalPortForwarding: Stopping NAT discovery
+[2024-01-21 21:01:15.821 +00:00] [INF] [2] Emby.Server.Implementations.ApplicationHost: Disposing "EmbyTV"

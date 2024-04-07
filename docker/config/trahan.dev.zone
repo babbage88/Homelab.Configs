@@ -12,16 +12,28 @@ $ORIGIN trahan.dev.
 @		IN      NS      ns2.trahan.dev.
 @		IN      NS      ns3.trahan.dev.
 
-ns2.trahan.dev.		IN      A	10.0.0.11
-ns1.trahan.dev.		IN	A	10.0.0.15
-ns3.trahan.dev.		IN	A	10.0.0.99
+; Name Servers
+ns2.trahan.dev.			IN      A	10.0.0.11
+ns1.trahan.dev.			IN	A	10.0.0.15
+ns3.trahan.dev.			IN	A	10.0.0.99
 
 ; Main VLAN network services
-portainer.trahan.dev.		IN	A	10.0.1.97
-pgadmin.trahan.dev.		IN	A	10.0.1.97
-plex.trahan.dev.		IN	A	10.0.1.97
-api.trahan.dev.			IN      A       10.0.0.32
-pfsense.trahan.dev.		IN      A       10.0.1.158
-db.trahan.dev.			IN	A	10.0.0.32
-homelab-nginx.trahan.dev.	IN	A	10.0.1.98
-
+calc.trahan.dev.		IN	CNAME	react-trahan-compound.pages.dev.
+jellyfin.trahan.dev.            IN      A       10.0.0.32
+jelly.trahan.dev.               IN      A       10.0.1.97
+h1.trahan.dev.                  IN      A       10.0.0.32
+truenas.trahan.dev.             IN      A       10.0.0.12
+vm1.trahan.dev.                 IN      A       10.0.1.97
+vm2.trahan.dev.                 IN      A       10.0.1.97
+proxmox1.trahan.dev.            IN      A       10.0.0.50
+proxmox2.trahan.dev.            IN      A       10.0.0.9
+nas.trahan.dev.                 IN      A       10.0.1.97
+pgadmin.trahan.dev.             IN      A       10.0.1.97
+ppgadmin.trahan.dev.            IN      A       10.0.1.97
+plex.trahan.dev.                IN      A       10.0.1.97
+plex.trahan.dev.                IN      A       10.0.1.98
+api.trahan.dev.                 IN      A       10.0.0.32
+pfsense.trahan.dev.             IN      A       10.0.1.158
+db.trahan.dev.                  IN      A       10.0.0.32
+homelab-nginx.trahan.dev.       IN      A       10.0.1.98
+homelab-nginx2.trahan.dev.      IN      A       10.0.1.97
