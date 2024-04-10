@@ -1,4 +1,5 @@
-version: "333"
+version: "3.6"
+
 services:
   bind9:
     container_name: bind-dns
