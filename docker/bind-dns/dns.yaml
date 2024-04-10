@@ -1,0 +1,23 @@
+version: '333'
+services:
+  bind9:
+    container_name: bind-dns
+    image: ubuntu/bind9:latest
+    environment:
+      - BIND9_USER=root
+      - TZ=America/Chicago
+    networks:
+      - bridgehomelab
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - /dockconf/bind9/config/:/etc/bind
+      - /dockconf/bind9/cache:/var/cache/bind
+      - /dockconf/bind9/records:/var/lib/bind
+    restart: unless-stopped
+networks:
+ bridehomelab:
+    driver: bridge
+
+
