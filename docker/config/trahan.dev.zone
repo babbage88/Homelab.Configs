@@ -37,3 +37,5 @@ pfsense.trahan.dev.             IN      A       10.0.1.158
 db.trahan.dev.                  IN      A       10.0.0.32
 homelab-nginx.trahan.dev.       IN      A       10.0.1.98
 homelab-nginx2.trahan.dev.      IN      A       10.0.1.97
+trah-dev-01.trahan.dev.		IN	A	10.0.0.32
+trah-dev-03.trahan.dev.		IN	A	10.0.0.16
