@@ -1,4 +1,4 @@
-version: '333'
+version: "333"
 services:
   bind9:
     container_name: bind-dns
@@ -13,9 +13,9 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
-      - /dockconf/bind9/config/:/etc/bind
-      - /dockconf/bind9/cache:/var/cache/bind
-      - /dockconf/bind9/records:/var/lib/bind
+      - ./bind-dns/config:/etc/bind
+      - ./bind-dns/cache:/var/cache/bind
+      - ./bind-dns/records:/var/lib/bind
     restart: unless-stopped
   plex:
     container_name: plex
