@@ -1,4 +1,4 @@
-version: '3'
+version: "3.6"
 services:
   bind9:
     container_name: bind-dns
@@ -17,7 +17,6 @@ services:
       - ./records:/var/lib/bind
     restart: unless-stopped
 networks:
- bridgehomelab:
+  bridgehomelab:
     driver: bridge
-
-
+    name: lab-bridge
