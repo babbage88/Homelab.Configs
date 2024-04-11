@@ -41,5 +41,5 @@ homelab-nginx.trahan.dev.       IN      A       10.0.1.98
 homelab-nginx2.trahan.dev.      IN      A       10.0.1.97
 git.trahan.dev.                 IN      A       10.0.0.64
 trah-dev-01.trahan.dev.         IN      A       10.0.0.16
-trah-dev-01.trahan.dev.         IN      A       10.0.0.16
+trah-dev-03.trahan.dev.         IN      A       10.0.0.16
 portainer.trahan.dev.         	IN      A       10.0.0.16
