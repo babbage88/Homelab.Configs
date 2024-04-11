@@ -1,9 +1,9 @@
-version: "3"
+version: "3.8"
 services:
   reverse:
-    container_name: homelab-nginx2
+    container_name: nginx-cluster
     image: nginx
-    hostname: homelab-nginx2
+    hostname: nginx-cluster
     restart: unless-stopped
     volumes:
       - ./configs/nginx.conf:/etc/nginx/nginx.conf
@@ -11,7 +11,10 @@ services:
       - /etc/letsencrypt/:/etc/nginx/certs:ro
     networks:
       - bridgehomelab
+    ports:
+      - "80:80"
+      - "443:443"
 networks:
   bridgehomelab:
-    driver: bridge
+    external: true
     name: lab-bridge
