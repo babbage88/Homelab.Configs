@@ -1,1 +1,5 @@
 ref.yaml
+docker/git-tea/data
+data/
+db_passwd.*
+
