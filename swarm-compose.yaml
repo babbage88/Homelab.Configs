@@ -1,0 +1,65 @@
+version: "3.8"
+services:
+  bind9:
+    image: git.trahan.dev/jtrahan/bind9-ub
+    environment:
+      - BIND9_USER=root
+      - TZ=America/Chicago
+    networks:
+      - ovnet1
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - /mnt/trahan-nas/swarm-vols/bind-dns-4/config/:/etc/bind
+      - /mnt/trahan-nas/swarm-vols/bind-dns-4/cache:/var/cache/bind
+      - /mnt/trahan-nas/swarm-vols/bind-dns-4/records:/var/lib/bind
+    deploy:
+      replicas: 3
+    restart: unless-stopped
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/trahan-nas/portainer_data/:/data
+      - /mnt/trahan-nas/letsencrypt/:/ssl
+    networks:
+      - ovnet1
+  nginx:
+    container_name: git.trahan.dev/jtrahan/nginx:dev
+    image: nginx
+    hostname: nginx-cluster
+    restart: unless-stopped
+    volumes:
+      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/nginx.conf:/etc/nginx/nginx.conf
+      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/conf.d:/etc/nginx/conf.d
+      - /etc/letsencrypt/:/etc/nginx/certs:ro
+    networks:
+      - ovnet1
+    ports:
+      - "80:80"
+      - "443:443"
+    deploy:
+      replicas: 3
+  pg-dbadmin:
+    image: git.trahan.dev/jtrahan/pgadmin4:dev
+    environment:
+      PGADMIN_DEFAULT_EMAIL: humidnerd@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: LetsmakeaData1
+    ports:
+      - "8888:80"
+    volumes:
+      - /mnt/trahan-nas/pgadmin:/var/lib/pgadmin
+    networks:
+      - ovnet1
+    deploy:
+      replicas: 3
+networks:
+  ovnet1:
+    external: true
+    name: ovnet1

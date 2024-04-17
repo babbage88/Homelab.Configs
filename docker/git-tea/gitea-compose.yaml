@@ -18,8 +18,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "3000"
-      - "22"
+      - "3000:3000"
+      - "222:22"
     deploy:
       mode: replicated
       replicas: 1
