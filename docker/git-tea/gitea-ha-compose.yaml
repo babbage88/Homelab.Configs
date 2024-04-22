@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  git-repo:
+    image: gitea/gitea:1.21.10
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - APP_NAME="Gitea"
+      - DB_TYPE=postgres
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=10.0.0.92:5432
+      - GITEA__database__NAME=giteamig
+      - GITEA__database__USER=giteamig
+      - GITEA__database__PASSWD=giteadb!
+      - GITEA__cache__ENABLED=true
+      - GITEA__cache__ADAPTER=redis
+      - GITEA__cache__HOST=redis://gitea-cache:6379/0?pool_size=100&idle_timeout=180s
+      - GITEA__cache__ITEM_TTL=24h
+    restart: unless-stopped
+    networks:
+      - ovnet1
+    volumes:
+      - /mnt/trahan-nas/gitea-migration:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+    deploy:
+      mode: replicated
+      replicas: 1
+  gitea-cache:
+    container_name: gitea-cache
+    image: redis:6-alpine
+    restart: unless-stopped
+    networks:
+      - ovnet1
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 3s
+      retries: 30
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+networks:
+  ovnet1:
+    external: true
+    name: ovnet1

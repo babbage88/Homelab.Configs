@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  haproxy:
+    image: haproxy
+    ports:
+      - "80:80"
+      - "8404:8404"
+    volumes:
+      - /mnt/trahan-nas/swarm-vols/haproxy:/usr/local/etc/haproxy
+      - /etc/letsencrypt/live/trahan.dev:/etc/ssl
+    networks:
+      - ovnet1
+networks:
+  ovnet1:
+    external: true
+    name: ovnet1

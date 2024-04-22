@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  pg-dbadmin:
+    image: git.trahan.dev/jtrahan/pgadmin4:dev
+    environment:
+      PGADMIN_DEFAULT_EMAIL: humidnerd@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: LetsmakeaData1
+    ports:
+      - "8888:80"
+    volumes:
+      - /mnt/trahan-nas/pgadmin:/var/lib/pgadmin
+    networks:
+      - ovnet1
+    deploy:
+      replicas: 3
+networks:
+  ovnet1:
+    external: true
+    name: ovnet1
