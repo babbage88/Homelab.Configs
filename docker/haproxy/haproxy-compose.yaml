@@ -4,12 +4,17 @@ services:
     image: haproxy
     ports:
       - "80:80"
+      - "443:443"
       - "8404:8404"
     volumes:
       - /mnt/trahan-nas/swarm-vols/haproxy:/usr/local/etc/haproxy
       - /etc/letsencrypt/live/trahan.dev:/etc/ssl
     networks:
       - ovnet1
+    deploy:
+      replicas: 5
+      placement:
+        max_replicas_per_node: 2
 networks:
   ovnet1:
     external: true
