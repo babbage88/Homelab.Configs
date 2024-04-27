@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   haproxy:
-    image: haproxy
+    image: git.trahan.dev/jtrahan/haproxy:dev
     ports:
       - "80:80"
       - "443:443"
@@ -15,6 +15,22 @@ services:
       replicas: 5
       placement:
         max_replicas_per_node: 2
+  nginxplex:
+    image: git.trahan.dev/jtrahan/nginx:dev
+    restart: unless-stopped
+    volumes:
+      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/nginx.conf:/etc/nginx/nginx.conf
+      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/conf.d/plextrahdev.conf:/etc/nginx/conf.d/plextrahdev.conf
+      - /etc/letsencrypt/:/etc/nginx/certs:ro
+    networks:
+      - ovnet1
+    ports:
+      - "87:80"
+      - "3443:443"
+    deploy:
+      replicas: 1
+    depends_on:
+      - haproxy
 networks:
   ovnet1:
     external: true
