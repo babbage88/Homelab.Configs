@@ -1,17 +1,20 @@
 $TTL 2d
 $ORIGIN trahan.dev.
 
-@		IN      SOA     ns2.trahan.dev. admin.trahan.dev. (
+@		IN      SOA     ns3.trahan.dev. admin.trahan.dev. (
                                 	20230218		; serial number
 		                	3600			; refresh period
 		                	600			    ; retry period
 		                	604800			; expire time
 		                	1800 			; negative TTL
                                 )
+@		IN      NS      ns1.trahan.dev.
 @		IN      NS      ns2.trahan.dev.
+@		IN      NS      ns3.trahan.dev.
 
 ns2.trahan.dev.		IN      A	10.0.0.11
 ns1.trahan.dev.		IN	A	10.0.0.15
+ns3.trahan.dev.		IN	A	10.0.0.99
 
 ; Main VLAN network services
 plex.trahan.dev.		IN	A	10.0.1.99

@@ -1,0 +1,50 @@
+$TTL 2d
+$ORIGIN trahan.dev.
+
+@		IN      SOA     ns4.trahan.dev. admin.trahan.dev. (
+                            20230218		; serial number
+		                	3600			; refresh period
+		                	600			    ; retry period
+		                	604800			; expire time
+		                	1800 			; negative TTL
+                                )
+@		IN      NS      ns1.trahan.dev.
+@		IN      NS      ns2.trahan.dev.
+@		IN      NS      ns3.trahan.dev.
+@		IN      NS      ns4.trahan.dev.
+
+; Name Servers
+ns2.trahan.dev.			IN  	A	10.0.0.11
+ns1.trahan.dev.			IN		A	10.0.0.15
+ns3.trahan.dev.			IN		A	10.0.0.99
+ns4.trahan.dev.			IN		A	10.0.0.16
+
+; Main VLAN network services
+calc.trahan.dev.		IN	CNAME	react-trahan-compound.pages.dev.
+jellyfin.trahan.dev.            IN      A       10.0.0.64
+jelly.trahan.dev.               IN      A       10.0.0.64
+h1.trahan.dev.                  IN      A       10.0.0.32
+truenas.trahan.dev.             IN      A       10.0.0.12
+vm1.trahan.dev.                 IN      A       10.0.0.64
+vm2.trahan.dev.                 IN      A       10.0.0.64
+proxmox1.trahan.dev.            IN      A       10.0.0.50
+proxmox2.trahan.dev.            IN      A       10.0.0.9
+nas.trahan.dev.                 IN      A       10.0.0.64
+pgadmin.trahan.dev.             IN      A       10.0.0.64
+ppgadmin.trahan.dev.            IN      A       10.0.1.64
+plex.trahan.dev.                IN      A       10.0.0.64
+api.trahan.dev.                 IN      A       10.0.0.64
+pfsense.trahan.dev.             IN      A       10.0.1.158
+db.trahan.dev.                  IN      A       10.0.0.92
+homelab-nginx.trahan.dev.       IN      A       10.0.0.64
+homelab-nginx2.trahan.dev.      IN      A       10.0.0.64
+git.trahan.dev.                 IN      A       10.0.0.64
+trah-dev-01.trahan.dev.         IN      A       10.0.0.32
+trah-dev-03.trahan.dev.         IN      A       10.0.0.16
+trah-dev-01.trahan.dev          IN      A       10.0.0.32
+trah-dev-03.trahan.dev          IN      A       10.0.0.16
+portainer.trahan.dev.         	IN      A       10.0.0.64
+trahan-nas.trahan.dev			IN		A		10.0.0.8
+trahan-nas.trahan.dev.			IN		A		10.0.0.8
+proxmox1.trahan.dev             IN      A       10.0.0.50
+proxmox2.trahan.dev             IN      A       10.0.0.9

@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    hostname: devdbsrv
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: devdb
+      POSTGRES_USER: devadmin
+      POSTGRES_PASSWORD: LetsmakeaData1
+    volumes:
+      - /mnt/trahan-nas/dockconf/database:/var/lib/postgresql/data
+    networks:
+      - bridgehomelab
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: humidnerd@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: LetsmakeaData1
+    ports:
+      - "8888:80"
+    volumes:
+      - /mnt/trahan-nas/dockconf/pgadmin:/var/lib/pgadmin
+    networks:
+      - bridgehomelab
+networks:
+  bridgehomelab:
+    external: true
+    name: lab-bridge

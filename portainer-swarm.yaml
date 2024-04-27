@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  portainersvc:
+    image: portainer/portainer-ce:latest
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/trahan-nas/portainer_data/:/data
+      - /mnt/trahan-nas/letsencrypt/:/ssl
+    networks:
+      - ovnet1
+    deploy:
+      replicas: 1
+networks:
+  ovnet1:
+    external: true
+    name: ovnet1
