@@ -1,9 +1,0 @@
-zone "trahan.dev" {
-    type master;
-    file "/etc/bind/zones/db.trahan.dev";
-};
-
-zone "justintrahan.com" {
-    type master;
-    file "/etc/bind/zones/db.justintrahan.com";
-};
