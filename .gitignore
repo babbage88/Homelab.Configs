@@ -1,5 +1,5 @@
 ref.yaml
 docker/git-tea/data
 data/
-db_passwd.*
-
+docker/bind-dns/cache
+docker/bind-dns/records
