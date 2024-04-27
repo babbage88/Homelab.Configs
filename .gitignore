@@ -3,3 +3,5 @@ docker/git-tea/data
 data/
 docker/bind-dns/cache
 docker/bind-dns/records
+docker/config
+docker/jellyfin/config
