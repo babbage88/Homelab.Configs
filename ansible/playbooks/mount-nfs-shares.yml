@@ -1,5 +1,5 @@
 - name: Mount NAS NFS Shares
-  hosts: utility-gui
+  hosts: trah-dev-01
   remote_user: jtrahan
   become: true
 
@@ -47,9 +47,8 @@
         device: /dev/sdb
         number: 1
         label: gpt
-        unit: GB
-        part_start: 0
-        part_end: 75
+        part_start: 0GB
+        part_end: 75GB
         state: present
 
     - name: format gfs partition
@@ -60,7 +59,8 @@
     - name: Creat mount point for brick
       ansible.builtin.file:
         path: /gfs_bricks
-        state: present
+        state: directory
+        mode: 755
 
     - name: Mount gfs brick
       ansible.posix.mount:
