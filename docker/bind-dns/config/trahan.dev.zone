@@ -20,7 +20,8 @@ ns3.trahan.dev.			IN		A	10.0.0.99
 ns4.trahan.dev.			IN		A	10.0.0.16
 
 ; Main VLAN network services
-calc.trahan.dev.		IN	CNAME	react-trahan-compound.pages.dev.
+calc.trahan.dev.				IN		CNAME	react-trahan-compound.pages.dev.
+calc.test						IN		A 		10.0.0.64
 jellyfin.trahan.dev.            IN      A       10.0.0.64
 jelly.trahan.dev.               IN      A       10.0.0.64
 h1.trahan.dev.                  IN      A       10.0.0.32

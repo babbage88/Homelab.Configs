@@ -8,7 +8,11 @@ services:
       - "8404:8404"
     volumes:
       - /mnt/trahan-nas/swarm-vols/haproxy:/usr/local/etc/haproxy
-      - /etc/letsencrypt/live/trahan.dev:/etc/ssl
+      - /etc/letsencrypt/live/trahan.dev:/etc/ssl/trahan.dev
+      - /etc/letsencrypt/live/test.trahan.dev:/etc/ssl/test.trahan.dev
+      - /etc/letsencrypt/live/api.trahan.dev:/etc/ssl/api.trahan.dev
+      - /etc/letsencrypt/live/justintrahan.com:/etc/ssl/justintrahan.com
+      - /etc/letsencrypt/live/balloonstx.com:/etc/ssl/balloonstx.com
     networks:
       - ovnet1
     deploy:
@@ -21,6 +25,7 @@ services:
     volumes:
       - /mnt/trahan-nas/swarm-vols/nginx-1/configs/nginx.conf:/etc/nginx/nginx.conf
       - /mnt/trahan-nas/swarm-vols/nginx-1/configs/conf.d/plextrahdev.conf:/etc/nginx/conf.d/plextrahdev.conf
+      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/conf.d/guacamole.conf:/etc/nginx/conf.d/guacamole.conf
       - /etc/letsencrypt/:/etc/nginx/certs:ro
     networks:
       - ovnet1
@@ -28,7 +33,9 @@ services:
       - "87:80"
       - "3443:443"
     deploy:
-      replicas: 1
+      replicas: 5
+      placement:
+        max_replicas_per_node: 2
     depends_on:
       - haproxy
 networks:
