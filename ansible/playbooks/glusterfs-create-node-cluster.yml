@@ -23,7 +23,7 @@
       gluster.gluster.gluster_volume:
         state: present
         name: gv0
-        bricks: /gfs_bricks/
+        bricks: /gfs_bricks/gv0
         rebalance: yes
         cluster:
           - trah-dev-01
