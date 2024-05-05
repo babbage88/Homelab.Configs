@@ -1,0 +1,37 @@
+- name: Create Gluster Node Pool
+  hosts: trah-dev-03
+  remote_user: jtrahan
+  become: true
+
+  tasks:
+    - name: Ensure dependencies are installed.
+      apt:
+        name:
+          - gnupg2
+          - apt-transport-https
+          - ca-certificates
+        state: present
+
+    - name: Create a trusted storage pool
+      gluster.gluster.gluster_peer:
+        state: present
+        nodes:
+          - trah-dev-01
+          - trah-ub-plex
+
+    - name: create gluster volume
+      gluster.gluster.gluster_volume:
+        state: present
+        name: gv0
+        bricks: /gfs_bricks/
+        rebalance: yes
+        cluster:
+          - trah-dev-01
+          - trah-dev-03
+          - trah-ub-plex
+      run_once: true
+
+    - name: start gluster volume
+      gluster.gluster.gluster_volume:
+        state: started
+        name: gv0
