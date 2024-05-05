@@ -11,7 +11,7 @@ LIGHTGREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 
 printf "${LIGHTCYN} Copying haproxy.cfg file to share swarm volume mount\n"
-cp ~/projects/Homelab.Configs/docker/haproxy/haproxy.cfg /mnt/trahan-nas/swarm-vols/haproxy/haproxy.cfg
+cp ~/projects/Homelab.Configs/docker/haproxy/haproxy.cfg /mnt/share/gluster/haproxy/haproxy.cfg
 printf "${LIGHTRED} File copy complete\n"
 
 printf "${YELLOW} Creating docker swarm haproxy-stack\n ${NC}"

@@ -9,8 +9,8 @@ services:
       - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/trahan-nas/portainer_data/:/data
-      - /mnt/trahan-nas/letsencrypt/:/ssl
+      - /mnt/share/gluster/portainer_data/:/data
+      - /mnt/share/gluster/letsencrypt/:/ssl
     networks:
       - ovnet1
     deploy:
