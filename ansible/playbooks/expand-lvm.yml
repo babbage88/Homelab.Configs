@@ -1,0 +1,11 @@
+- name: Expand LVM to 100 percent
+  hosts: trah-dev-01
+  remote_user: jtrahan
+  become: true
+
+  tasks:
+    - name: Extend the logical volume to consume all remaining space in the volume group
+      community.general.lvol:
+        vg: ubuntu-vg
+        lv: ubuntu-lv
+        size: +100%FREE
