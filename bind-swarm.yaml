@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  bind9:
+    image: ubuntu/bind9:latest
+    environment:
+      - BIND9_USER=root
+      - TZ=America/Chicago
+    networks:
+      - ovnet1
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - /mnt/share/gluster/bind-dns-4/config/:/etc/bind
+      - /mnt/share/gluster/bind-dns-4/cache:/var/cache/bind
+      - /mnt/share/gluster/bind-dns-4/records:/var/lib/bind
+    deploy:
+      replicas: 4
+      placement:
+        max_replicas_per_node: 2
+    restart: unless-stopped
+networks:
+  ovnet1:
+    external: true
+    name: ovnet1

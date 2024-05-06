@@ -1,0 +1,68 @@
+version: "3.6"
+services:
+  bind9:
+    container_name: bind-dns
+    image: ubuntu/bind9:latest
+    environment:
+      - BIND9_USER=root
+      - TZ=America/Chicago
+    networks:
+      - ovnet1
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - ./docker/bind-dns/config/:/etc/bind
+      - ./docker/bind-dns/cache:/var/cache/bind
+      - ./docker/bind-dns/records:/var/lib/bind
+    restart: unless-stopped
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/trahan-nas/portainer_data/:/data
+      - /mnt/trahan-nas/letsencrypt/:/ssl
+    networks:
+      - ovnet1
+  nginx:
+    container_name: nginx
+    image: nginx
+    hostname: nginx-cluster
+    restart: unless-stopped
+    volumes:
+      - ./docker/nginx/configs/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/configs/conf.d:/etc/nginx/conf.d
+      - /etc/letsencrypt/:/etc/nginx/certs:ro
+    networks:
+      - ovnet1
+    ports:
+      - "80:80"
+      - "443:443"
+  pg-dbadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: humidnerd@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: LetsmakeaData1
+    ports:
+      - "8888:80"
+    volumes:
+      - /mnt/trahan-nas/pgadmin:/var/lib/pgadmin
+    networks:
+      - ovnet1
+  tcpdump:
+    image: nicolaka/netshoot
+    depends_on:
+      - nginx
+    command: tcpdump -i eth0 -w /data/nginx.pcap
+    network_mode: service:nginx
+    volumes:
+      - $PWD/data:/data
+networks:
+  ovnet1:
+    external: true
+    name: ovnet1

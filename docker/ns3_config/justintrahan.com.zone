@@ -1,7 +1,7 @@
 $TTL 2d
 $ORIGIN justintrahan.com.
 
-@		IN      SOA     ns2.justintrahan.com. admin.justintrahan.com. (
+@		IN      SOA     ns3.justintrahan.com. admin.justintrahan.com. (
                                 	20230218		; serial number
 		                	3600			; refresh period
 		                	600			; retry period
@@ -10,9 +10,11 @@ $ORIGIN justintrahan.com.
                                 )
 @		IN      NS      ns1.justintrahan.com.
 @		IN	NS	ns2.justintrahan.com.
+@		IN	NS	ns3.justintrahan.com.
 
 ns1.justintrahan.com.		IN      A	10.0.0.15
 ns2.justintrahan.com.		IN	A	10.0.0.11
+ns3.justintrahan.com.		IN	A	10.0.0.99
 
 ; Main VLAN network services
 plex.justintrahan.com.		IN	A	10.0.1.99

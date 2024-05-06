@@ -1,0 +1,75 @@
+- name: Mount NAS NFS Shares
+  hosts: docker-hosts
+  remote_user: jtrahan
+  become: true
+
+  tasks:
+    - name: Ensure neovim is installed
+      ansible.builtin.apt:
+        name: neovim
+        state: latest
+
+    - name: Ensure nfs-common is at the latest version
+      ansible.builtin.apt:
+        name: nfs-common
+        state: latest
+
+    - name: Create directory to mount trahan-nas share
+      ansible.builtin.file:
+        path: /mnt/trahan-nas
+        state: directory
+        mode: "0755"
+        owner: jtrahan
+        group: docker
+
+    - name: Create directory to mount truenas-old share
+      ansible.builtin.file:
+        path: /mnt/truenas-old
+        state: directory
+        mode: "0755"
+
+    - name: Mount an NFS volume trahan-nas
+      ansible.posix.mount:
+        src: 10.0.0.8:/mnt/share/media
+        path: /mnt/trahan-nas
+        opts: rw,sync,hard
+        state: mounted
+        fstype: nfs
+
+    - name: Mount an NFS volume truenas-old
+      ansible.posix.mount:
+        src: 10.0.0.12:/mnt/main/share
+        path: /mnt/truenas-old
+        opts: rw,sync,hard
+        state: mounted
+        fstype: nfs
+
+    - name: Creat mount point for brick
+      ansible.builtin.file:
+        path: /gfs_bricks
+        state: directory
+        mode: 755
+        owner: jtrahan
+        group: docker
+
+    - name: Creat mount point for brick
+      ansible.builtin.file:
+        path: /mnt/share/gluster
+        state: directory
+        mode: 755
+        owner: jtrahan
+        group: docker
+
+    - name: Mount gfs brick
+      ansible.posix.mount:
+        fstype: ext4
+        src: /dev/sdb1
+        path: /gfs_bricks
+        state: mounted
+
+    - name: Mount gfs brick
+      ansible.posix.mount:
+        fstype: glusterfs
+        src: localhost:/gv0
+        path: /mnt/share/gluster
+        state: mounted

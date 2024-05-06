@@ -1,0 +1,21 @@
+- name: install docker
+  hosts: utility-gui
+  remote_user: jtrahan
+  become: true
+
+  tasks:
+    - name: Apt Update
+      ansible.builtin.apt:
+        update_cache: true
+    - name: installing docker.io version compatible with portainer
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - docker-ce=5:25.0.5-1~ubuntu.22.04~jammy
+    - name: add jtrahan to docker group
+      user:
+        name: jtrahan
+        groups: docker
+        append: yes
