@@ -9,8 +9,8 @@ services:
     image: prom/prometheus
     restart: on-failure
     volumes:
-      - /mnt/trahan-nas/swarm-vols/prometheus:/etc/prometheus/
-      - /mnt/trahan-nas/swarm-vols/prometheus/prometheus_data:/prometheus
+      - /mnt/share/gluster/prometheus:/etc/prometheus/
+      - /mnt/share/gluster/prometheus/prometheus_data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -51,7 +51,7 @@ services:
     ports:
       - 9093:9093
     volumes:
-      - /mnt/trahan-nas/swarm-vols/alertmanager/:/etc/alertmanager/
+      - /mnt/share/gluster/alertmanager/:/etc/alertmanager/
     command:
       - "--config.file=/etc/alertmanager/config.yml"
       - "--storage.path=/alertmanager"
@@ -80,10 +80,10 @@ services:
     environment:
       GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
     volumes:
-      - /mnt/trahan-nas/swarm-vols/grafana/grafana_data:/var/lib/grafana
-      - /mnt/trahan-nas/swarm-vols/grafana/provisioning/:/etc/grafana/provisioning/
+      - /mnt/share/gluster/grafana/grafana_data:/var/lib/grafana
+      - /mnt/share/gluster/grafana/provisioning/:/etc/grafana/provisioning/
     env_file:
-      - /mnt/trahan-nas/swarm-vols/grafana/config.monitoring
+      - /mnt/share/gluster/grafana/config.monitoring
     networks:
       - ovnet1
     ports:
