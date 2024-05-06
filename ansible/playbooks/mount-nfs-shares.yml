@@ -1,5 +1,5 @@
 - name: Mount NAS NFS Shares
-  hosts: trah-dev-01
+  hosts: docker-hosts
   remote_user: jtrahan
   become: true
 
@@ -19,6 +19,8 @@
         path: /mnt/trahan-nas
         state: directory
         mode: "0755"
+        owner: jtrahan
+        group: docker
 
     - name: Create directory to mount truenas-old share
       ansible.builtin.file:
@@ -42,29 +44,32 @@
         state: mounted
         fstype: nfs
 
-    - name: Create parition
-      parted:
-        device: /dev/sdb
-        number: 1
-        label: gpt
-        part_start: 0GB
-        part_end: 75GB
-        state: present
-
-    - name: format gfs partition
-      filesystem:
-        fstype: ext4
-        dev: /dev/sdb1
-
     - name: Creat mount point for brick
       ansible.builtin.file:
         path: /gfs_bricks
         state: directory
         mode: 755
+        owner: jtrahan
+        group: docker
+
+    - name: Creat mount point for brick
+      ansible.builtin.file:
+        path: /mnt/share/gluster
+        state: directory
+        mode: 755
+        owner: jtrahan
+        group: docker
 
     - name: Mount gfs brick
       ansible.posix.mount:
         fstype: ext4
         src: /dev/sdb1
         path: /gfs_bricks
+        state: mounted
+
+    - name: Mount gfs brick
+      ansible.posix.mount:
+        fstype: glusterfs
+        src: localhost:/gv0
+        path: /mnt/share/gluster
         state: mounted

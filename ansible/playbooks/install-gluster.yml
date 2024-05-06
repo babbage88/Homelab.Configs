@@ -1,0 +1,36 @@
+- name: Create Gluster Node Pool
+  hosts: trah-ub-plex
+  remote_user: jtrahan
+  become: true
+
+  tasks:
+    - name: Ensure dependencies are installed.
+      apt:
+        name:
+          - gnupg2
+          - apt-transport-https
+          - ca-certificates
+        state: present
+
+    - name: Add Gluster PPA
+      apt_repository:
+        validate_certs: no
+        repo: "ppa:gluster/glusterfs-9"
+        state: present
+
+    - name: Install Gluster Server
+      apt:
+        update_cache: true
+        name:
+          - glusterfs-server
+        state: present
+
+    - name: Make sure a service unit is running
+      ansible.builtin.systemd:
+        state: started
+        name: glusterd.service
+
+    - name: Enable glusterd.service
+      ansible.builtin.systemd:
+        name: glusterd.service
+        enabled: true
