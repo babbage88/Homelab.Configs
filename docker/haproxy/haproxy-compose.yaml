@@ -7,7 +7,7 @@ services:
       - "443:443"
       - "8404:8404"
     volumes:
-      - /mnt/trahan-nas/swarm-vols/haproxy:/usr/local/etc/haproxy
+      - /mnt/share/gluster/haproxy:/usr/local/etc/haproxy
       - /etc/letsencrypt/live/trahan.dev:/etc/ssl/trahan.dev
       - /etc/letsencrypt/live/test.trahan.dev:/etc/ssl/test.trahan.dev
       - /etc/letsencrypt/live/api.trahan.dev:/etc/ssl/api.trahan.dev
@@ -23,9 +23,9 @@ services:
     image: git.trahan.dev/jtrahan/nginx:dev
     restart: unless-stopped
     volumes:
-      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/nginx.conf:/etc/nginx/nginx.conf
-      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/conf.d/plextrahdev.conf:/etc/nginx/conf.d/plextrahdev.conf
-      - /mnt/trahan-nas/swarm-vols/nginx-1/configs/conf.d/guacamole.conf:/etc/nginx/conf.d/guacamole.conf
+      - /mnt/share/gluster/nginx-1/configs/nginx.conf:/etc/nginx/nginx.conf
+      - /mnt/share/gluster/nginx-1/configs/conf.d/plextrahdev.conf:/etc/nginx/conf.d/plextrahdev.conf
+      - /mnt/share/gluster/nginx-1/configs/conf.d/guacamole.conf:/etc/nginx/conf.d/guacamole.conf
       - /etc/letsencrypt/:/etc/nginx/certs:ro
     networks:
       - ovnet1
