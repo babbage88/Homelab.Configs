@@ -7,6 +7,7 @@ volumes:
 services:
   prometheus:
     image: prom/prometheus
+    user: "474"
     restart: on-failure
     volumes:
       - /mnt/share/gluster/prometheus:/etc/prometheus/
@@ -88,8 +89,37 @@ services:
       - ovnet1
     ports:
       - 3007:3000
+    deploy:
+      mode: global
     depends_on:
       - prometheus
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    networks:
+      - ovnet1
+    volumes:
+      - /mnt/share/gluster/loki/loki-config.yaml
+    command: >-
+      -config.file=/etc/loki/local-config.yaml
+      -boltdb.shipper.compactor.ring.instance-addr=127.0.0.1
+      -distributor.ring.instance-addr=127.0.0.1
+      -frontend.instance-addr=127.0.0.1
+      -index-gateway.ring.instance-addr=127.0.0.1
+      -ingester.lifecycler.addr=127.0.0.1
+      -query-scheduler.ring.instance-addr=127.0.0.1
+      -ruler.ring.instance-addr=127.0.0.1
+    deploy:
+      mode: global
+  promtail:
+    image: grafana/promtail:latest
+    volumes:
+      - /mnt/share/gluster/loki/promtail-config.yaml:/etc/promtail/promtail-config.yaml
+    networks:
+      - ovnet1
+    depends_on:
+      - loki
 networks:
   ovnet1:
     external: true
