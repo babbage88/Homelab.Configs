@@ -20,3 +20,19 @@ dockerbash() {
     docker exec -it "$1" bash
   fi
 }
+
+stageup() {
+  if [ -z "$1" ]; then
+    docker compose -f ~/projects/WebAPICielos/docker-compose.yaml up -d
+  else
+    docker compose -f $1 up -d
+  fi
+}
+
+labup() {
+  if [ -z "$1" ]; then
+    docker compose -f /plex/docker-compose.yaml up -d
+  else
+    docker compose -f $1 up -d
+  fi
+}
