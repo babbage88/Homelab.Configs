@@ -8,9 +8,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB: devdb
-      - POSTGRES_USER: devadmin
-      - POSTGRES_PASSWORD: LetsmakeaData1
+      POSTGRES_DB: devdb
+      POSTGRES_USER: devadmin
+      POSTGRES_PASSWORD: LetsmakeaData1
     volumes:
       - /mnt/trahan-nas/dockconf/database:/var/lib/postgresql/data
     networks:
