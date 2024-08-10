@@ -1,4 +1,5 @@
 IMAGE_USER=jtrahan
+IMGAGE_DOWNLOAD_URL=https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
 SSH_PUB_KEY_PATH=/mnt/pve/proxbkup/id_rsa_lap.pub
 GO_DOWNLOAD_PATH=/home/devops/go.tar.gz
 VM_ID=9002
@@ -11,6 +12,9 @@ wget --progress=dot -q https://cloud-images.ubuntu.com/noble/current/${IMAGE_NAM
 
 # Install libguestfs-tools, used to cutomize image
 sudo apt update -y && sudo apt install libguestfs-tools -y
+
+# Expand image size
+qemu-img resize ${IMAGE_NAME-noble-server-cloudimg-amd64.img} +32G
 
 # Install qemu guest agent on image/template and enable the service
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --install curl,wget,jq,git,dotnet-sdk-8.0 
