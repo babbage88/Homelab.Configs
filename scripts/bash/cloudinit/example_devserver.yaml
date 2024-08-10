@@ -1,0 +1,44 @@
+#dev server cloudinit
+#cloud-config
+# Add groups to the system
+# The following example adds the 'admingroup' group with members 'root' and 'sys'
+# and the empty group cloud-users.
+groups:
+- admingroup: [root, sys]
+- cloud-users
+
+# Add users to the system. Users are added after groups are added.
+# Note: Most of these configuration options will not be honored if the user
+#       already exists. Following options are the exceptions and they are
+#       applicable on already-existing users:
+#       - 'plain_text_passwd', 'hashed_passwd', 'lock_passwd', 'sudo',
+#         'ssh_authorized_keys', 'ssh_redirect_user'.
+users:
+- default
+- name: jtrahan
+  gecos: Justin Trahan
+  primary_group: jtrahan
+  groups: users, admin
+  selinux_user: staff_u
+  ssh_authorized_keys:
+  - ssh-ed25519 sdfasdfasdfsdfasdfoMXb4e76Rb32fP2XYCTJCxpNme3fqIgH6KTaqO example@example
+  lock_passwd: false
+  passwd: $6$rounds=4096$IysA.SMBHUQTBcbk$muywU7QI6Q0c/DnEBfeE90gc4vqZ6zcVrm2Z.OffsMosfLV.Df7RXtE6AT3bQaxz22aKnBpIH2PLpU7nQGLXw.
+- name: devops
+  gecos: DevOps System Automation
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  groups: users, admin
+  lock_passwd: true
+  primary_group: devops
+  ssh_authorized_keys:
+  - ssh-ed25519 sdfasdfasdfsdfasdfoMXb4e76Rb32fP2XYCTJCxpNme3fqIgH6KTaqO example@example
+
+runcmd:
+- apt update
+- apt install -y qemu-guest-agent curl wget jq git dotnet-sdk-8.0 vim
+- systemctl start qemu-guest-agent
+- wget https://go.dev/dl/go1.22.4.linux-amd64.tar.gz -O /tmp/go.tar.gz
+- tar -xzvf ${GO_DOWNLOAD_PATH-/tmp/go.tar.gz} -C /usr/local
+- echo 'export PATH=/usr/local/go/bin:$PATH' >>/home/jtrahan/.bash_profile
+- echo 'export PATH=/usr/local/go/bin:$PATH' >>/home/devops/.bash_profile
+- reboot

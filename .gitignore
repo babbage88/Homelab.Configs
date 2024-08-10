@@ -6,5 +6,4 @@ docker/bind-dns/cache
 docker/bind-dns/records
 docker/config
 docker/jellyfin/config
-**devserver.yaml
 
