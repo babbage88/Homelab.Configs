@@ -15,10 +15,19 @@ services:
       - /mnt/share/gluster/bind-dns-4/cache:/var/cache/bind
       - /mnt/share/gluster/bind-dns-4/records:/var/lib/bind
     deploy:
-      replicas: 4
+      replicas: 5
       placement:
         max_replicas_per_node: 2
     restart: unless-stopped
+    logging:
+      driver: "loki"
+      options:
+        loki-url: "http://${LOKI_URL}:3100/loki/api/v1/push"
+        loki-batch-size: "400"
+        no-file: "false"
+        keep-file: "true"
+        max-size: "5m"
+        max-file: "3"
 networks:
   ovnet1:
     external: true
