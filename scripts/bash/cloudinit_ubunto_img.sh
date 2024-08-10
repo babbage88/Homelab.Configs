@@ -1,14 +1,14 @@
-IMAGE_USER=jtrahan
-IMGAGE_DOWNLOAD_URL=https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
-SSH_PUB_KEY_PATH=/mnt/pve/proxbkup/id_rsa_lap.pub
-GO_DOWNLOAD_PATH=/home/devops/go.tar.gz
-VM_ID=9002
+export IMAGE_USER=jtrahan
+export IMGAGE_DOWNLOAD_URL=https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
+export SSH_PUB_KEY_PATH=/mnt/pve/proxbkup/id_rsa_lap.pub
+export GO_DOWNLOAD_PATH=/home/devops/go.tar.gz
+export VM_ID=9002
 
 #Verify wget is instlled
 sudo apt install wget
 
 #download latest ubuntu server image
-wget --progress=dot -q https://cloud-images.ubuntu.com/noble/current/${IMAGE_NAME-noble-server-cloudimg-amd64.img} --show-progress
+wget --progress=dot -q ${IMAGE_DOWNLOAD_URL-https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img} --show-progress
 
 # Install libguestfs-tools, used to cutomize image
 sudo apt update -y && sudo apt install libguestfs-tools -y
@@ -17,9 +17,8 @@ sudo apt update -y && sudo apt install libguestfs-tools -y
 qemu-img resize ${IMAGE_NAME-noble-server-cloudimg-amd64.img} +32G
 
 # Install qemu guest agent on image/template and enable the service
-sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --install curl,wget,jq,git,dotnet-sdk-8.0 
-
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --install qemu-guest-agent --run-command 'systemctl enable qemu-guest-agent.service'
+sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --install curl,wget,jq,git,dotnet-sdk-8.0 
 
 # Create user and configure and add ssh key as authorized
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --run-command "useradd ${IMAGE_USER}"
@@ -37,7 +36,7 @@ sudo virt-copy-in -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} ${GO_DOWNLOAD
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --run-command "tar -xzvf ${GO_DOWNLOAD_PATH-/tmp/go.tar.gz} -C /usr/local"
 
 ## Create vm from image
-qm create ${VM_ID-9002} --memory 2048 --core 2 --name ubuntu-template --net0 virtio,bridge=vmbr0
+qm create ${VM_ID-9002} --memory 1024 --core 2 --name ubuntu-template --net0 virtio,bridge=vmbr0
 
 # Import the downloaded Ubuntu disk to the correct storage
 qm importdisk ${VM_ID-9002} ${IMAGE_NAME-noble-server-cloudimg-amd64.img} local-lvm
