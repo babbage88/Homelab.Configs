@@ -37,5 +37,8 @@ runcmd:
 - apt update
 - apt install -y qemu-guest-agent curl wget jq git dotnet-sdk-8.0 vim
 - systemctl start qemu-guest-agent
-
+- wget https://go.dev/dl/go1.22.4.linux-amd64.tar.gz -O /tmp/go.tar.gz
+- tar -xzvf ${GO_DOWNLOAD_PATH-/tmp/go.tar.gz} -C /usr/local
+- echo 'export PATH=/usr/local/go/bin:$PATH' >>/home/jtrahan/.bash_profile
+- echo 'export PATH=/usr/local/go/bin:$PATH' >>/home/devops/.bash_profile
 - reboot
