@@ -1,7 +1,9 @@
+#!/bin/bash
+
 export IMAGE_USER=jtrahan
-export IMGAGE_DOWNLOAD_URL=https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
-export SSH_PUB_KEY_PATH=/mnt/pve/proxbkup/id_rsa_lap.pub
-export GO_DOWNLOAD_PATH=/home/jtrahan/go.tar.gz
+export IMGAGE_DOWNLOAD_URL="https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
+export SSH_PUB_KEY_PATH="/mnt/pve/proxbkup/id_rsa_lap.pub"
+export GO_DOWNLOAD_PATH="/home/jtrahan/go.tar.gz"
 export VM_ID=9002
 
 #Verify wget is instlled
@@ -18,14 +20,14 @@ qemu-img resize ${IMAGE_NAME-noble-server-cloudimg-amd64.img} +32G
 
 # Install qemu guest agent on image/template and enable the service
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --install qemu-guest-agent --run-command 'systemctl enable qemu-guest-agent.service'
-sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --install curl,wget,jq,git,dotnet-sdk-8.0 
+sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --install curl,wget,jq,git,dotnet-sdk-8.0
 
 # Create user and configure and add ssh key as authorized
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --run-command "useradd ${IMAGE_USER}"
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --run-command "mkdir -p /home/${IMAGE_USER}/.ssh"
 
 # Assumes the public key being added is in the current directory, can also pass full path
-sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --ssh-inject ${IMAGE_USER}:file:${SSH_PUB_KEY_PATH-id_rsa_lap.pub} 
+sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --ssh-inject ${IMAGE_USER}:file:${SSH_PUB_KEY_PATH-id_rsa_lap.pub}
 sudo virt-customize -a ${IMAGE_NAME-noble-server-cloudimg-amd64.img} --run-command "chown -R ${IMAGE_USER}:${IMAGE_USER} /home/${IMAGE_USER}"
 
 ## Download go binary on host then copy to image, since name resolution inside libguestfs-tools isn't the best...
@@ -54,7 +56,3 @@ qm set ${VM_ID-9002} --agent enabled=1
 
 #convert to template
 qm template ${VM_ID-9002}
-
-
-
-
