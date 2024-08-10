@@ -1,0 +1,6 @@
+#dev server cloudinit
+runcmd:
+    - apt update
+    - apt install -y qemu-guest-agent curl wget jq git dotnet-sdk-8.0 vim
+    - systemctl start qemu-guest-agent
+    - reboot
