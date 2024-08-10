@@ -1,7 +1,7 @@
 export IMAGE_USER=jtrahan
 export IMGAGE_DOWNLOAD_URL=https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
 export SSH_PUB_KEY_PATH=/mnt/pve/proxbkup/id_rsa_lap.pub
-export GO_DOWNLOAD_PATH=/home/devops/go.tar.gz
+export GO_DOWNLOAD_PATH=/home/jtrahan/go.tar.gz
 export VM_ID=9002
 
 #Verify wget is instlled
