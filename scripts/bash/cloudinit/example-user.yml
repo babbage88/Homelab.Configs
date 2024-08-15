@@ -1,0 +1,21 @@
+#cloud-config
+hostname: ymltest
+manage_etc_hosts: true
+fqdn: ymltest.example.dev
+user: example
+password: redacted
+ssh_authorized_keys:
+- ssh-rsa redacted+E/knkjefngvjfdngvkjdfn/2e++/hovCQ++++B0/aSBXW4+FHLekGxdUozSg3/= example@DESKTOP
+chpasswd:
+  expire: False
+users:
+- default
+package_upgrade: true
+packages:
+- curl
+- wget
+- jq
+- git
+- vim
+- net-tools
+- python-is-python3

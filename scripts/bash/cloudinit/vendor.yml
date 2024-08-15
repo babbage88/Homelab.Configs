@@ -1,0 +1,6 @@
+runcmd:
+- [mkdir, /gotmp]
+- [wget, "https://go.dev/dl/go1.22.4.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
+- [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
+- [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/jtrahan/.bashrc"]
+
