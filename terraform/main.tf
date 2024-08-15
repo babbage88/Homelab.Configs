@@ -7,14 +7,6 @@ terraform {
   }
 }
 
-variable "PROX_API_ID" {
-  type = string
-}
-
-variable "PROX_API_TOKEN" {
-  type = string
-}
-
 provider "proxmox" {
   # url is the hostname (FQDN if you have one) for the proxmox host you'd like to connect to to issue the commands. my proxmox host is 'prox-1u'. Add /api2/json at the end for the API
   pm_api_url = "https://vm2.trahan.dev/api2/json"
@@ -56,7 +48,7 @@ resource "proxmox_vm_qemu" "test_server" {
     # set disk size here. leave it small for testing because expanding the disk takes time.
     size = "10G"
     type = "scsi"
-    storage = "local-zfs"
+    storage = "local-lvm"
     iothread = 1
   }
   
@@ -78,7 +70,7 @@ resource "proxmox_vm_qemu" "test_server" {
   # be 10.98.1.91 since count.index starts at 0. this is how you can create
   # multiple VMs and have an IP assigned to each (.91, .92, .93, etc.)
 
-  ipconfig0 = "ip=10.98.1.9${count.index + 1}/24,gw=10.98.1.1"
+  ipconfig0 = "ip=10.0.1.201${count.index + 1}/23,gw=10.0.0.254"
   
   # sshkeys set using variables. the variable contains the text of the key.
   sshkeys = <<EOF
