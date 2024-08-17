@@ -17,6 +17,5 @@ terraform/providers/**
 scripts/bash/old.sh
 terraform/.terraform**
 terraform/id_rsa.pub*
-terraform/vars.tf**
-terraform/vars.tf
-**vars.tf
+**.tfvars
+**credentials.tfvars

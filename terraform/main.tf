@@ -10,7 +10,7 @@ terraform {
 provider "proxmox" {
   # Configuration options
   endpoint  = var.proxmox_host
-  api_token = "${var.PROX_API_ID}=${var.PROX_API_TOKEN}"
+  api_token = "${var.prox_api_id}=${var.prox_api_token}"
   insecure  = true
   ssh {
     username    = var.prox_user
@@ -31,39 +31,38 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
 
   source_raw {
     data = <<-EOF
-    #cloud-config
-    hostname: ${each.value}
-    manage_etc_hosts: true
-    fqdn: ${each.value}.${var.domain_name}
-    user: ${var.vm_user}
-    password: ${var.vm_pw}
-    ssh_authorized_keys:
-      - ${trimspace(data.local_file.ssh_public_key.content)}
-      - ${var.laptop_ssh_key}
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    chpasswd:
-      expire: False
-    users:
-      - default
-    package_upgrade: true
-    packages:
-      - curl
-      - wget
-      - jq
-      - git
-      - vim
-      - net-tools
-      - python-is-python3
-      - dotnet-sdk-8.0
-    runcmd:
-      - mkdir /gotmp
-      - [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
-      - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
-      - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
-      - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
-    EOF
+#cloud-config
+hostname: ${each.value}
+manage_etc_hosts: true
+fqdn: ${each.value}.${var.domain_name}
+user: ${var.vm_user}
+password: ${var.vm_pw}
+ssh_authorized_keys:
+${join("\n", [for key in var.ssh_keys : "- ${key}"])}
+sudo: ALL=(ALL) NOPASSWD:ALL
+chpasswd:
+expire: False
+users:
+- default
+package_upgrade: true
+packages:
+- curl
+- wget
+- jq
+- git
+- vim
+- net-tools
+- python-is-python3
+- dotnet-sdk-8.0
+runcmd:
+- mkdir /gotmp
+- [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
+- [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
+- [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
+- apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
+EOF
 
-    file_name = "${each.value}_cloud-config.yaml"
+    file_name = "${each.value}_cloud-config.yml"
   }
 }
 
