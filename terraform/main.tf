@@ -4,6 +4,10 @@ terraform {
       source  = "bpg/proxmox"
       version = "0.62.0"
     }
+    dns = {
+      source  = "hashicorp/dns"
+      version = "~> 3.0"
+    }
   }
 }
 
@@ -16,6 +20,15 @@ provider "proxmox" {
     username    = var.prox_user
     agent       = false
     private_key = file("~/.ssh/id_rsa")
+  }
+}
+
+provider "dns" {
+  update {
+    server        = var.dns_ip
+    key_name      = "${var.dns_key}."
+    key_algorithm = "hmac-sha256"
+    key_secret    = var.dns_key_secret
   }
 }
 
@@ -107,6 +120,16 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
     bridge = "vmbr0"
   }
 
+}
+
+resource "dns_a_record_set" "vms" {
+  for_each  = { for vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.name => vm.ipv4_addresses[1][0] }
+  zone      = var.dns_zone
+  name      = each.key
+  addresses = [each.value]
+  ttl       = 300
+
+  depends_on = [proxmox_virtual_environment_vm.ubuntu_vm]  # Ensures that the VM creation completes
 }
 
 output "vm_ipv4_addresses" {

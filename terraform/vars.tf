@@ -70,5 +70,22 @@ variable "vm_hd_Size" {
 
 variable "vm_cpu_cores" {
   type = number
-  default = 2  
+  default = 2
+}
+
+variable "dns_ip" {
+  description = "IP address of Master DNS-Server"
+  default = "10.0.0.15"
+}
+variable "dns_key" {
+  description = "name of the DNS-Key to user"
+  default = "tsig-key"
+}
+variable "dns_key_secret" {
+  description = "base 64 encoded string"
+}
+
+variable "dns_zone" {
+  description = "DNS Zone to create recors for each VM"
+  default = "trahan.dev."
 }
