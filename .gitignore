@@ -7,4 +7,14 @@ docker/bind-dns/records
 docker/config
 docker/jellyfin/config
 scripts/bash/cloudinit/user.yaml
-
+terraform/vars.tf
+terraform/terraform.tfstate
+**terraform.tfstate
+**terraform.tfstate.backup
+**user.yml
+**userdev.yml
+terraform/providers/**
+scripts/bash/old.sh
+terraform/.terraform**
+terraform/id_rsa.pub*
+terraform/vars.tf**
