@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.62.0"
     }
   }
@@ -11,9 +11,9 @@ provider "proxmox" {
   # Configuration options
   endpoint  = var.proxmox_host
   api_token = "${var.PROX_API_ID}=${var.PROX_API_TOKEN}"
-  insecure = true
+  insecure  = true
   ssh {
-    username = var.prox_user
+    username    = var.prox_user
     agent       = false
     private_key = file("~/.ssh/id_rsa")
   }
@@ -24,6 +24,7 @@ data "local_file" "ssh_public_key" {
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
+  for_each    = { for vm_name in var.vm_names : vm_name => vm_name }
   content_type = "snippets"
   datastore_id = "local"
   node_name    = "proxmox2"
@@ -31,9 +32,9 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
   source_raw {
     data = <<-EOF
     #cloud-config
-    hostname: ${var.vm_name}
+    hostname: ${each.value}
     manage_etc_hosts: true
-    fqdn: ${var.vm_name}.${var.domain_name}
+    fqdn: ${each.value}.${var.domain_name}
     user: ${var.vm_user}
     password: ${var.vm_pw}
     ssh_authorized_keys:
@@ -58,16 +59,17 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
       - mkdir /gotmp
       - [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
       - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
-      - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/jtrahan/.bashrc"]
+      - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
       - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
     EOF
 
-    file_name = "cloud-config.yaml"
+    file_name = "${each.value}_cloud-config.yaml"
   }
 }
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name      = var.vm_name
+  for_each   = { for vm_name in var.vm_names : vm_name => vm_name }
+  name      = each.value
   node_name = "proxmox2"
 
   agent {
@@ -76,7 +78,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 
   cpu {
     cores = var.vm_cpu_cores
-    type = "host"
+    type  = "host"
   }
 
   memory {
@@ -99,7 +101,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
       }
     }
 
-    user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
+    user_data_file_id = proxmox_virtual_environment_file.cloud_config[each.key].id
   }
 
   network_device {
@@ -108,6 +110,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 
 }
 
-output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.ubuntu_vm.ipv4_addresses[1][0]
+output "vm_ipv4_addresses" {
+  value = { for vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.name => vm.ipv4_addresses[1][0] }
 }
+
