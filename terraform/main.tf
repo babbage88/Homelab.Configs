@@ -59,6 +59,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
       - [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
       - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
       - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/jtrahan/.bashrc"]
+      - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
     EOF
 
     file_name = "cloud-config.yaml"
@@ -74,11 +75,12 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   }
 
   cpu {
-    cores = 2
+    cores = var.vm_cpu_cores
+    type = "host"
   }
 
   memory {
-    dedicated = 2048
+    dedicated = var.vm_memory
   }
 
   disk {
@@ -87,7 +89,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
     interface    = "virtio0"
     iothread     = true
     discard      = "on"
-    size         = 20
+    size         = var.vm_hd_Size
   }
 
   initialization {
