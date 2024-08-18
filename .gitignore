@@ -19,3 +19,4 @@ terraform/.terraform**
 terraform/id_rsa.pub*
 **.tfvars
 **credentials.tfvars
+**.backup
