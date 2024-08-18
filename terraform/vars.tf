@@ -37,6 +37,12 @@ variable "vm_names" {
   default = ["trahkube1","trahkube2","trahkube3"]
 }
 
+variable "db_vm_names" {
+  description = "List of Database VMs to create"
+  type = list(string)
+  default = ["trahdb1"]
+}
+
 variable "domain_name" {
   type = string
   default = "trahan.dev"

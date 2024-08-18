@@ -20,3 +20,8 @@ terraform/id_rsa.pub*
 **.tfvars
 **credentials.tfvars
 **.backup
+terraform/proxmox/**.terraform
+terraform/proxmox1/.terraform.lock.hcl
+terraform/proxmox1/.terraform/
+scripts/bash/cloudinit/devserver.yaml
+scripts/bash/debian.sh

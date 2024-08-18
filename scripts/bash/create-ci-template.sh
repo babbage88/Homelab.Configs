@@ -33,7 +33,8 @@ qm set ${VM_ID-9000} -ide2 local-lvm:cloudinit
 # This step adds another 8G of disk space, but change this as you need to
 #qm resize ${VM_ID-9000} virtio0 +8G
 
-qm set ${VM_ID-9000} --cicustom "user=local:snippets/user.yml,network=local:snippets/network.yml"
+#qm set ${VM_ID-9000} --cicustom "user=local:snippets/user.yml,network=local:snippets/network.yml"
+qm set ${VM_ID-9000} --cicustom "user=local:snippets/userdev.yml,network=local:snippets/network.yml"
 
 # Convert the VM to the template
 qm template ${VM_ID-9000}
