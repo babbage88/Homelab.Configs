@@ -16,6 +16,10 @@ terraform {
       source  = "hashicorp/time"
       version = "~> 0"
     }
+    template = {
+      source = "hashicorp/template"
+      version = "2.2.0"
+    }
   }
 }
 
@@ -45,11 +49,6 @@ provider "dns" {
 resource "random_password" "ct_root_pw" {
   count  = var.ctinit.root_pw == null ? 1 : 0
   length = 26
-}
-
-resource "random_password" "ct_userpw" {
-  count  = 1
-  length = 12
 }
 
 resource "proxmox_virtual_environment_container" "ct" {
@@ -168,8 +167,18 @@ resource "proxmox_virtual_environment_container" "ct" {
   }
 }
 
+
+resource "local_file" "init" {
+  content = templatefile("cloud-init-lxc.tpl",
+           {
+              lxc_user = "${var.vm_user}"
+              lxc_pw = "${var.vm_pw}"
+           })
+
+          filename = "99-mydata.cfg"
+  }
 resource "time_sleep" "wait_for_ct" {
-  count           = var.ct-bootstrap-script == null ? 0 : 1
+  count = var.ct-bootstrap-script == null ? 0 : 1
   create_duration = "10s"
   triggers = {
     vmid = proxmox_virtual_environment_container.ct.vm_id
@@ -182,11 +191,6 @@ resource "time_sleep" "wait_for_ct" {
 resource "terraform_data" "bootstrap_ct" {
   count = var.ct-bootstrap-script == null ? 0 : 1
 
-  provisioner "file" {
-    source      = var.ct-bootstrap-script
-    destination = "/tmp/${var.ct-bootstrap-script}"
-  }
-
   connection {
     type  = "ssh"
     host  = replace(proxmox_virtual_environment_container.ct.initialization[0].ip_config[0].ipv4[0].address, "/23", "")
@@ -195,7 +199,21 @@ resource "terraform_data" "bootstrap_ct" {
     private_key = file(var.ct-ssh-privkey)
   }
   provisioner "remote-exec" {
-    inline = [ "chmod +x /tmp/${var.ct-bootstrap-script}", "/tmp/${var.ct-bootstrap-script} ${random_password.ct_userpw[0].result}" ]
+    inline = [ "apt update && apt install -y vim cloud-init" ]
+  }
+
+  provisioner "file" {
+    source      = resource.local_file.init.filename
+    destination = "/etc/cloud/cloud.cfg.d/${resource.local_file.init.filename}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [ "apt update && apt install -y vim cloud-init", 
+                "cloud-init init --local",
+                "cloud-init init",
+                "cloud-init modules --mode=config",
+                "cloud-init modules --mode=final",
+                "cloud-init status --wait --long" ]
   }
 
   triggers_replace = [
@@ -332,7 +350,3 @@ output "vm_ipv4_addresses" {
   value = { for vm in proxmox_virtual_environment_vm.pgdb_vm : vm.name => vm.ipv4_addresses[1][0] }
 }
 
-output "temporary_ct_password_non_root" {
-  sensitive = true
-  value = { username = var.vm_user, password = random_password.ct_userpw[0].result}
-}
