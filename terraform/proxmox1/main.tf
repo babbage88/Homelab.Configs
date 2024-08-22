@@ -173,6 +173,7 @@ resource "local_file" "init" {
            {
               lxc_user = "${var.vm_user}"
               lxc_pw = "${var.vm_pw}"
+              lxc_ssh_key = "${var.ssh_key}"
            })
 
           filename = "99-mydata.cfg"
@@ -208,12 +209,12 @@ resource "terraform_data" "bootstrap_ct" {
   }
 
   provisioner "remote-exec" {
-    inline = [ "apt update && apt install -y vim cloud-init", 
-                "cloud-init init --local",
+    inline = [  "cloud-init init --local",
                 "cloud-init init",
                 "cloud-init modules --mode=config",
                 "cloud-init modules --mode=final",
                 "cloud-init status --wait --long" ]
+    on_failure = continue
   }
 
   triggers_replace = [

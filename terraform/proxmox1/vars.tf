@@ -187,8 +187,25 @@ variable "ct-disk" {
   })
   description = "Container storage."
   default     = {
-    datastore = "local-lvm"
-    size = 25
+    datastore = "storageprox"
+    size = 90
+  }
+}
+
+variable "ct-disks" {
+  type = map(object({
+    datastore = optional(string)
+    size      = optional(number)
+  }))
+  description = "Container storage."
+  default = {
+    disk0 = { datastore = "local-lvm"
+      size = 25
+    }
+
+    disk1 = { datastore = "storageprox" 
+      size = 100
+    }
   }
 }
 
