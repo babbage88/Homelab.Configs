@@ -322,7 +322,6 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
   url          = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 }
 
-
 resource "dns_a_record_set" "vms" {
   for_each  = { for vm in proxmox_virtual_environment_vm.pgdb_vm : vm.name => vm.ipv4_addresses[1][0] }
   zone      = var.dns_zone
@@ -332,6 +331,25 @@ resource "dns_a_record_set" "vms" {
 
   depends_on = [proxmox_virtual_environment_vm.pgdb_vm]  # Ensures that the VM creation completes
 }
+
+locals {
+  reverse_ip = {
+    for vm in proxmox_virtual_environment_vm.pgdb_vm :
+    vm.name => element(reverse(split(".", vm.ipv4_addresses[1][0])), 0)
+  }
+}
+
+
+resource "dns_ptr_record" "vms" {
+  for_each = proxmox_virtual_environment_vm.pgdb_vm
+
+  zone = var.reverse_dns_zone  # Specify the reverse DNS zone (should be fully qualified)
+  name = "${local.reverse_ip[each.key]}" # Use the calculated reverse IP
+  ptr  = "${each.key}.${var.domain_name}."  # The corresponding FQDN for the PTR record, add trailing dot
+  ttl  = 300
+}
+
+
 
 resource "dns_a_record_set" "ct_a_record" {
   zone    = var.dns_zone

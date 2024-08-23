@@ -403,3 +403,9 @@ variable "ct-bootstrap-script" {
   description = "Path to script file ro run on container creation."
   default     = null
 }
+
+variable "reverse_dns_zone" {
+  type        = string
+  description = "The reverse DNS zone, e.g., 113.0.203.in-addr.arpa."
+  default     = "1.0.10.in-addr.arpa."  # Example, ensure this is correct
+}
