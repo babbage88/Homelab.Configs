@@ -227,53 +227,54 @@ resource "terraform_data" "bootstrap_ct" {
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
-  for_each    = { for db_vm_name in var.db_vm_names : db_vm_name => db_vm_name }
+  for_each    = var.db_vm_names
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = var.proxmox_node
+  node_name    = each.value.node_name
 
   source_raw {
-  data = <<-EOF
-  #cloud-config
-  hostname: ${each.value}
-  manage_etc_hosts: true
-  fqdn: ${each.value}.${var.domain_name}
-  user: ${var.vm_user}
-  password: ${var.vm_pw}
-  ssh_authorized_keys:
-  ${join("\n", [for key in var.ssh_keys : "- ${key}"])}
-  sudo: ALL=(ALL) NOPASSWD:ALL
-  chpasswd:
-    expire: False
-  users:
-    - default
-  package_upgrade: true
-  packages:
-    - curl
-    - wget
-    - jq
-    - git
-    - vim
-    - net-tools
-    - python-is-python3
-    - dotnet-sdk-8.0
-    - postgresql
-  runcmd:
-    - mkdir /gotmp
-    - [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
-    - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
-    - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
-    - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
-  EOF
+    data = <<-EOF
+    #cloud-config
+    hostname: ${each.key}
+    manage_etc_hosts: true
+    fqdn: ${each.key}.${var.domain_name}
+    user: ${var.vm_user}
+    password: ${var.vm_pw}
+    ssh_authorized_keys:
+    ${join("\n", [for key in var.ssh_keys : "- ${key}"])}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    chpasswd:
+      expire: False
+    users:
+      - default
+    package_upgrade: true
+    packages:
+      - curl
+      - wget
+      - jq
+      - git
+      - vim
+      - net-tools
+      - python-is-python3
+      - dotnet-sdk-8.0
+      - postgresql
+    runcmd:
+      - mkdir /gotmp
+      - [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
+      - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
+      - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
+      - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
+    EOF
 
-    file_name = "${each.value}_cloud-config-pg.yml"
+    file_name = "${each.key}_cloud-config-pg.yml"
   }
 }
 
+
 resource "proxmox_virtual_environment_vm" "pgdb_vm" {
-  for_each   = { for db_vm_name in var.db_vm_names : db_vm_name => db_vm_name }
-  name      = each.value
-  node_name = var.proxmox_node
+  for_each   = var.db_vm_names
+  name       = each.key
+  node_name  = each.value.node_name
 
   agent {
     enabled = true
@@ -290,13 +291,12 @@ resource "proxmox_virtual_environment_vm" "pgdb_vm" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
+    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image[each.key].id
     interface    = "virtio0"
     iothread     = true
     discard      = "on"
     size         = 20
   }
-
 
   initialization {
     ip_config {
@@ -311,15 +311,17 @@ resource "proxmox_virtual_environment_vm" "pgdb_vm" {
   network_device {
     bridge = "vmbr0"
   }
-
 }
+
 
 resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
+  for_each    = var.db_vm_names
   content_type = "iso"
   datastore_id = "local"
-  node_name    = var.proxmox_node
+  node_name    = each.value.node_name
   url          = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 }
+
 
 resource "dns_a_record_set" "vms" {
   for_each  = { for vm in proxmox_virtual_environment_vm.pgdb_vm : vm.name => vm.ipv4_addresses[1][0] }

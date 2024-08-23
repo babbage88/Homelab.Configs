@@ -54,10 +54,21 @@ variable "vm_names" {
   default = ["trahkube1","trahkube2","trahkube3"]
 }
 
-variable "db_vm_names" {
+variable "db_vm_names_list" {
   description = "List of Database VMs to create"
   type = list(string)
-  default = ["trahdb1"]
+  default = ["trahdb1", "trahdb2"]
+}
+
+variable "db_vm_names" {
+  description = "Map of Database VMs with their corresponding Proxmox node"
+  type = map(object({
+    node_name = string
+  }))
+  default = {
+    "trahdb1" = { node_name = "proxmox1" }
+    "trahdb2" = { node_name = "proxmox2" }
+  }
 }
 
 variable "domain_name" {
