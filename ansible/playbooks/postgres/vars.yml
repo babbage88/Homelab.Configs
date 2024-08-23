@@ -1,0 +1,26 @@
+postgresql_options:
+- {name: listen_addresses, value: "localhost, 0.0.0.0"}
+- {name: logging_collector, value: "off"}
+
+postgresql_databases: [infradb-dev, automation-db]
+
+postgresql_users:
+- {db: infradb-dev, name: jtrahan, password: "{{ vault_postgresql_jtrahan_password }}"}
+- {db: automation-db, name: replicator, password: "{{ vault_postgresql_replicator_password }}"}
+
+postgresql_schemas:
+- {db: infradb-dev, name: jtrahan, owner: jtrahan}
+- {db: automation-db, name: replicator, owner: fooreplicator}
+
+postgresql_privs:
+- {db: infradb-dev, roles: vincent, privs: ALL, type: database}
+- {db: automation-db, roles: replicator, privs: ALL, type: database}
+
+postgresql_hba_entries:
+- {contype: local, databases: all, users: all, method: peer}
+- {contype: host, databases: infradb-dev, users: jtrahan, address: samenet, method: scram-sha-256}
+- {contype: host, databases: automation-db, users: replicator, address: samenet, method: scram-sha-256}
+
+postgresql_extensions:
+- {db: infradb-dev, name: hstore,}
+
