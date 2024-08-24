@@ -1,6 +1,8 @@
 postgresql_options:
-- {name: listen_addresses, value: "localhost, 0.0.0.0"}
-- {name: logging_collector, value: "off"}
+- {name: wal_level, value: replica}
+- {name: max_wal_senders, value: 5}
+- {name: archive_mode, value: on}
+- {name: archive_command, value: 'test ! -f /mnt/backups/pg_archive/%f && cp %p /mnt/backups/pg_archive/%f'}
 
 postgresql_databases: [infradb-dev, automation-db]
 
@@ -13,7 +15,7 @@ postgresql_schemas:
 - {db: automation-db, name: replicator, owner: fooreplicator}
 
 postgresql_privs:
-- {db: infradb-dev, roles: vincent, privs: ALL, type: database}
+- {db: infradb-dev, roles: jtrahan, privs: ALL, type: database}
 - {db: automation-db, roles: replicator, privs: ALL, type: database}
 
 postgresql_hba_entries:

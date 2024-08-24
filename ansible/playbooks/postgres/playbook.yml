@@ -9,34 +9,67 @@
       ansible.builtin.systemd:
         name: postgresql
         state: restarted
+      become: true  
 
   tasks:
     - name: Install PostgreSQL and psycopg2
       ansible.builtin.apt:
-        name: postgresql-server,postgresql-contrib,python3-psycopg2
+        name: postgresql,postgresql-contrib,python3-psycopg2
         state: present
         update_cache: true
-
-    - name: Create the cluster
-      ansible.builtin.command:
-        cmd: postgresql-setup --initdb
-        creates: /var/lib/postgresql/14/main/PG_VERSION
+      become: true
 
     - name: Start and enable the service
       ansible.builtin.systemd:
         name: postgresql
         state: started
         enabled: true
+      become: true
+
+    - name: Add entries to pg_hba
+      community.postgresql.postgresql_pg_hba:
+        dest: "/etc/postgresql/14/main/pg_hba.conf"
+        contype: local 
+        databases: all
+        method: peer
+        users: all
+      become: true
+    
+    - name: Add entries to pg_hba
+      community.postgresql.postgresql_pg_hba:
+        dest: "/etc/postgresql/14/main/pg_hba.conf"
+        contype: local 
+        databases: all
+        method: trust
+        users: all
+      become: true
+
+    - name: Add root postgres mapping
+      lineinfile:
+        path:  /etc/postgresql/14/main/pg_ident.conf
+        line: 'temproot root postgres'
+        state: present
+      become: true
 
     - name: Set options
       community.postgresql.postgresql_set:
         name: "{{ item.name }}"
         value: "{{ item.value }}"
-      become: true
+      become: yes
+      become_method: sudo
       become_user: postgres
+      vars:
+        allow_world_readable_tmpfiles: true
       with_items: "{{ postgresql_options }}"
       notify:
         - Restart postgresql
+
+    - name: Remove root postgres mapping
+      lineinfile:
+        path: /etc/postgresql/14/main/pg_ident.conf
+        line: 'temproot root postgres'
+        state: absent
+      become: true
 
     - name: Create the databases
       community.postgresql.postgresql_db:
@@ -50,7 +83,7 @@
       community.postgresql.postgresql_user:
         db: "{{ item.db }}"
         name: "{{ item.name }}"
-      password: "{{ item.password | default(omit) }}"
+        password: "{{ item.password | default(omit) }}"
       become: true
       become_user: postgres
       environment:

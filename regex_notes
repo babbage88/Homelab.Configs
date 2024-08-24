@@ -1,0 +1,7 @@
+remove all lines that begin with a # 
+(^#).*\n?
+
+remove empty lines
+^\s*$\n
+
+(^\s).*\n?
