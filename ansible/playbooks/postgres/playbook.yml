@@ -26,31 +26,6 @@
         enabled: true
       become: true
 
-    - name: Add entries to pg_hba
-      community.postgresql.postgresql_pg_hba:
-        dest: "/etc/postgresql/14/main/pg_hba.conf"
-        contype: local 
-        databases: all
-        method: peer
-        users: all
-      become: true
-    
-    - name: Add entries to pg_hba
-      community.postgresql.postgresql_pg_hba:
-        dest: "/etc/postgresql/14/main/pg_hba.conf"
-        contype: local 
-        databases: all
-        method: trust
-        users: all
-      become: true
-
-    - name: Add root postgres mapping
-      lineinfile:
-        path:  /etc/postgresql/14/main/pg_ident.conf
-        line: 'temproot root postgres'
-        state: present
-      become: true
-
     - name: Set options
       community.postgresql.postgresql_set:
         name: "{{ item.name }}"
@@ -63,13 +38,6 @@
       with_items: "{{ postgresql_options }}"
       notify:
         - Restart postgresql
-
-    - name: Remove root postgres mapping
-      lineinfile:
-        path: /etc/postgresql/14/main/pg_ident.conf
-        line: 'temproot root postgres'
-        state: absent
-      become: true
 
     - name: Create the databases
       community.postgresql.postgresql_db:
