@@ -25,6 +25,20 @@
         enabled: true
       become: true
 
+    - name: Add entries to pg_hba
+      community.postgresql.postgresql_pg_hba:
+        dest: "/etc/postgresql/14/main/pg_hba.conf"
+        address: "{{ item.address | default(omit) }}"
+        contype: "{{ item.contype }}"
+        databases: "{{ item.databases }}"
+        method: "{{ item.method }}"
+        users: "{{ item.users }}"
+      become: true
+      become_user: postgres
+      with_items: "{{ postgresql_hba_standby_entries }}"
+      notify:
+        - Restart postgresql
+
     - name: Stop postgresql
       ansible.builtin.systemd:
         name: postgresql
@@ -44,6 +58,8 @@
         cmd: pg_basebackup -h trahdb1.trahan.dev -D /var/lib/postgresql/14/main -U replicator -v -R -X stream
       become: true
       become_user: postgres
+      notify:
+        - Restart postgresql
 
         
 
