@@ -103,5 +103,26 @@
       with_items: "{{ postgresql_extensions }}"
       notify:
         - Restart postgresql
+    - name: Grant REPLICATION to user
+      community.postgresql.postgresql_query:
+        db: infradb-dev
+        query: 
+          - ALTER USER replicator REPLICATION;
+          - ALTER USER jtrahan REPLICATION;
+      become_user: postgres
+      become: true
+      notify:
+        - Restart postgresql
+    - name: Grant REPLICATION to user
+      community.postgresql.postgresql_query:
+        db: infradb-dev
+        query: 
+          - ALTER USER replicator REPLICATION;
+          - ALTER USER jtrahan REPLICATION;
+      become_user: postgres
+      become: true
+      notify:
+        - Restart postgresql
+
 
 

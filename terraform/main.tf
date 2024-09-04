@@ -45,7 +45,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
   source_raw {
   data = <<-EOF
   #cloud-config
-  hostname: ${each.value}
+  hostname: ${each.value.vm}
   manage_etc_hosts: true
   fqdn: ${each.value}.${var.domain_name}
   user: ${var.vm_user}

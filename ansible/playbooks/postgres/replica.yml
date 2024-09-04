@@ -1,0 +1,36 @@
+- hosts: replica-db
+  vars_files:
+    - vault.yml
+    - vars.yml
+
+  handlers:
+    - name: Restart postgresql
+      ansible.builtin.systemd:
+        name: postgresql
+        state: restarted
+      become: true  
+
+  tasks:
+    - name: Install PostgreSQL and psycopg2
+      ansible.builtin.apt:
+        name: postgresql,postgresql-contrib,python3-psycopg2
+        state: present
+        update_cache: true
+      become: true
+
+    - name: Start and enable the service
+      ansible.builtin.systemd:
+        name: postgresql
+        state: started
+        enabled: true
+      become: true
+
+    - name: Init streaming replica
+      ansible.builtin.command:
+        cmd: pg_basebackup -h trahdb1.trahan.dev -D /var/lib/postgresql/14/main -U replicator -v -R -X stream
+      become: true
+
+        
+
+
+

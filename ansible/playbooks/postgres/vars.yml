@@ -1,4 +1,5 @@
 postgresql_options:
+- {name: listen_addresses, value: '0.0.0.0'}
 - {name: wal_level, value: replica}
 - {name: max_wal_senders, value: 5}
 - {name: archive_mode, value: on}
@@ -12,7 +13,7 @@ postgresql_users:
 
 postgresql_schemas:
 - {db: infradb-dev, name: jtrahan, owner: jtrahan}
-- {db: automation-db, name: replicator, owner: fooreplicator}
+- {db: automation-db, name: replicator, owner: replicator}
 
 postgresql_privs:
 - {db: infradb-dev, roles: jtrahan, privs: ALL, type: database}
@@ -20,8 +21,12 @@ postgresql_privs:
 
 postgresql_hba_entries:
 - {contype: local, databases: all, users: all, method: peer}
+- {contype: host, databases: replication, users: replicator, address: trahdb2.trahan.dev, method: trust}
+- {contype: host, databases: all, users: replicator, address: trahdb2.trahan.dev, method: trust}
+- {contype: host, databases: all, users: jtrahan, address: trahdb2.trahan.dev, method: scram-sha-256}
+- {contype: host, databases: all, users: all, method: scram-sha-256}
 - {contype: host, databases: infradb-dev, users: jtrahan, address: samenet, method: scram-sha-256}
-- {contype: host, databases: automation-db, users: replicator, address: samenet, method: scram-sha-256}
+- {contype: host, databases: all, users: replicator, address: samenet, method: scram-sha-256}
 
 postgresql_extensions:
 - {db: infradb-dev, name: hstore,}
