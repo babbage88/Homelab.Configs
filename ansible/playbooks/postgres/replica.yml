@@ -25,10 +25,25 @@
         enabled: true
       become: true
 
+    - name: Stop postgresql
+      ansible.builtin.systemd:
+        name: postgresql
+        state: stopped
+      become: true 
+
+    - name: Remove all files and directories inside main, but keep main directory
+      ansible.builtin.command:
+        cmd: |
+          find /var/lib/postgresql/14/main/ -mindepth 1 -delete
+      become: true
+      become_user: postgres
+
+
     - name: Init streaming replica
       ansible.builtin.command:
         cmd: pg_basebackup -h trahdb1.trahan.dev -D /var/lib/postgresql/14/main -U replicator -v -R -X stream
       become: true
+      become_user: postgres
 
         
 
