@@ -21,18 +21,20 @@ postgresql_privs:
 
 postgresql_hba_entries:
 - {contype: local, databases: all, users: all, method: peer}
-- {contype: host, databases: replication, users: replicator, address: trahdb2.trahan.dev, method: trust}
+- {contype: host, databases: replication, users: replicator, address: samenet, method: trust}
 - {contype: host, databases: all, users: replicator, address: trahdb2.trahan.dev, method: trust}
-- {contype: host, databases: all, users: jtrahan, address: trahdb2.trahan.dev, method: scram-sha-256}
 - {contype: host, databases: all, users: all, method: scram-sha-256}
-- {contype: host, databases: infradb-dev, users: jtrahan, address: samenet, method: scram-sha-256}
-- {contype: host, databases: all, users: replicator, address: samenet, method: scram-sha-256}
 
 postgres_hba_standy_entries:
+- {contype: local, databases: all, users: all, method: peer}
 - {contype: host, databases: replication, users: replicator, address: samenet, method: trust}
+- {contype: host, databases: all, users: replicator, address: trahdb1.trahan.dev, method: trust}
 - {contype: host, databases: all, users: all, address: samenet, method: scram-sha-256}
 
 
 postgresql_extensions:
-- {db: infradb-dev, name: hstore,}
+- {db: infradb-dev, name: hstore}
+
+b2_app_key_and_secret:
+- {key: "{{ vault_b2_app_key }}", secret: "{{ vault_b2_app_secret }}",}
 

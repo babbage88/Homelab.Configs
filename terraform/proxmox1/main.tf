@@ -254,12 +254,21 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     - vim
     - net-tools
     - python-is-python3
+    - python3-pip
     - dotnet-sdk-8.0
+    - python3-venv
+    - python3-setuptools 
   runcmd:
     - mkdir /gotmp
+    - mkdir /pgdumps
+    - chown -R jtrahan:jtrahan /pgdumps && chmod -R 770 /pgdumps
+    - python -m venv /pgdumps/venv
+    - source /pgdumps/venv/bin/activate && pip3 install b2 && b2 account authorize ${var.b2_key} ${var.b2_secret}
     - [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
     - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
-    - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
+    - pip3 install b2
+    - b2 account authorize ${var.b2_key} ${var.b2_secret}
+    - [bash, -c, "echo 'export PATH=/home/${var.vm_user}/.local/bin:/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
     - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
   EOF
 
