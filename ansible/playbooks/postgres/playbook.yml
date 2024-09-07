@@ -134,7 +134,7 @@
       ansible.builtin.file:
         path: /pgdumps
         state: directory
-        mode: 775
+        mode: "0775"
         owner: postgres
       become: true
 
@@ -143,6 +143,15 @@
         name: pgbackup
         state: present
         gid: 1900
+      become: true
+
+    - name: Create directory for pg backups
+      ansible.builtin.file:
+        path: /pgdumps/venv
+        state: directory
+        mode: "0775"
+        owner: postgres
+        group: pgbackup
       become: true
 
     - name: Add users to pgbackup
@@ -164,8 +173,20 @@
       become: true
 
     - name: Download backup from b2 for go-infra
-      ansible.builtin.command: source /pgdumps/venv/bin/active && b2 account authorize "{{ item.key }}" "{{ item.secret }}"
+      ansible.builtin.command: /usr/local/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
       with_items: "{{ b2_app_key_and_secret }}"
+
+    - name: Download backup from b2 for go-infra
+      ansible.builtin.command: /pgdumps/venv/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
+      with_items: "{{ b2_app_key_and_secret }}"
+
+    - name: Download backup from b2 for go-infra
+      ansible.builtin.command: 
+        cmd: /pgdumps/venv/bin/b2 file download "{{ item.remotefile }}" "{{ item.localfile }}"
+        creates:
+      with_items: "{{ b2_app_key_and_secret }}"
+
+
     
 
 

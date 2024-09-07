@@ -36,5 +36,5 @@ postgresql_extensions:
 - {db: infradb-dev, name: hstore}
 
 b2_app_key_and_secret:
-- {key: "{{ vault_b2_app_key }}", secret: "{{ vault_b2_app_secret }}",}
+- {key: "{{ vault_b2_app_key }}", secret: "{{ vault_b2_app_secret }}", localfile: /pgdumps/goinfra.7z, remotefile: 'b2://trahan-postgres-backups/goinfra.7z',}
 

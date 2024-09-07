@@ -268,7 +268,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
     - pip3 install b2
     - b2 account authorize ${var.b2_key} ${var.b2_secret}
-    - [bash, -c, "echo 'export PATH=/home/${var.vm_user}/.local/bin:/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
+    - [bash, -c, "echo 'export PATH=/usr/local/bin:/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
     - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
   EOF
 
