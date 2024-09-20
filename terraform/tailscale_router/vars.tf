@@ -67,6 +67,7 @@ variable "rtr_vm_names" {
   }))
   default = {
     "trah-rt-01" = { node_name = "proxmox2" }
+    "trah-rt-02" = { node_name = "proxmox1" }
   }
 }
 
