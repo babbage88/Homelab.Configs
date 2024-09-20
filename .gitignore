@@ -37,3 +37,4 @@ terraform/postgres/.terraform/**
 terraform/tailscale_router/.terraform/**
 terraform/postgres/postgres.conf copy.tpl
 terraform/postgres/postgres.conf.tpl
+terraform/tailscale_router/cloud-init-lxc.tpl
