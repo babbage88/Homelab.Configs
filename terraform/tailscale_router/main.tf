@@ -86,6 +86,10 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
     - [bash, -c, "echo 'export PATH=/usr/local/bin:/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
     - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
+    - curl -fsSL https://tailscale.com/install.sh | sh
+    - [bash, -c, "echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf"]
+    - [bash, -c, "echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf"]
+    - sysctl -p /etc/sysctl.d/99-tailscale.conf
   EOF
 
     file_name = "${each.value.node_name}_cloud-config.yml"
