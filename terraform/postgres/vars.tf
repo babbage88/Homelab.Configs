@@ -409,3 +409,14 @@ variable "reverse_dns_zone" {
   description = "The reverse DNS zone, e.g., 113.0.203.in-addr.arpa."
   default     = "1.0.10.in-addr.arpa."  # Example, ensure this is correct
 }
+
+variable "b2_key" {
+  type = string
+  description = "B2 app key ID"
+}
+
+variable "b2_secret" {
+  type = string
+  description = "B2 App Key Secret"
+  sensitive = true
+}

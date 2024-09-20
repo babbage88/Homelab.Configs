@@ -113,6 +113,7 @@
       become: true
       notify:
         - Restart postgresql
+
     - name: Grant REPLICATION to user
       community.postgresql.postgresql_query:
         db: infradb-dev
@@ -123,6 +124,71 @@
       become: true
       notify:
         - Restart postgresql
+
+    - name: Install bottle python package
+      ansible.builtin.pip:
+        name: b2
+        state: present
+
+    - name: Create directory for pg backups
+      ansible.builtin.file:
+        path: /pgdumps
+        state: directory
+        mode: "0775"
+        owner: postgres
+      become: true
+
+    - name: Ensure group "pgbackup" exists
+      ansible.builtin.group:
+        name: pgbackup
+        state: present
+        gid: 1900
+      become: true
+
+    - name: Create directory for pg backups
+      ansible.builtin.file:
+        path: /pgdumps/venv
+        state: directory
+        mode: "0775"
+        owner: postgres
+        group: pgbackup
+      become: true
+
+    - name: Add users to pgbackup
+      ansible.builtin.user:
+        name: jtrahan
+        groups:
+          - postgres
+          - jtrahan
+          - pgbackup
+        append: true
+      become: true
+    
+    - name: Add postgres user to the pgbackup groups
+      ansible.builtin.user:
+        name: postgres
+        groups:
+          - pgbackup
+        append: true
+      become: true
+
+    - name: Download backup from b2 for go-infra
+      ansible.builtin.command: /usr/local/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
+      with_items: "{{ b2_app_key_and_secret }}"
+
+#    - name: Download backup from b2 for go-infra
+#      ansible.builtin.command: /pgdumps/venv/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
+#      with_items: "{{ b2_app_key_and_secret }}"
+
+    - name: Download backup from b2 for go-infra
+      ansible.builtin.command: 
+        cmd: /usr/local/bin/b2 file download "{{ item.remotefile }}" "{{ item.localfile }}"
+        creates:
+      with_items: "{{ b2_app_key_and_secret }}"
+
+
+    
+
 
 
 

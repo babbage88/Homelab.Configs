@@ -35,7 +35,7 @@
         users: "{{ item.users }}"
       become: true
       become_user: postgres
-      with_items: "{{ postgresql_hba_standby_entries }}"
+      with_items: "{{ postgres_hba_standy_entries }}"
       notify:
         - Restart postgresql
 
