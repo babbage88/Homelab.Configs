@@ -35,3 +35,5 @@ terraform/postgres/.terraform/**
 **.terraform.lock.hcl
 **99-mydata.cfg
 terraform/tailscale_router/.terraform/**
+terraform/postgres/postgres.conf copy.tpl
+terraform/postgres/postgres.conf.tpl
