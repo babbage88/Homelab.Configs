@@ -13,14 +13,17 @@ postgresql_users:
 
 postgresql_schemas:
 - {db: infradb-dev, name: jtrahan, owner: jtrahan}
+- {db: go-infra, name: jtrahan, owner: jtrahan}
 - {db: automation-db, name: replicator, owner: replicator}
 
 postgresql_privs:
 - {db: infradb-dev, roles: jtrahan, privs: ALL, type: database}
+- {db: go-infra, roles: jtrahan, privs: ALL, type: database}
 - {db: automation-db, roles: replicator, privs: ALL, type: database}
 
 postgresql_hba_entries:
 - {contype: local, databases: all, users: all, method: peer}
+- {contype: host, databases: all, users: jtrahan, method: scram-sha-256}
 - {contype: host, databases: replication, users: replicator, address: samenet, method: trust}
 - {contype: host, databases: all, users: replicator, address: trahdb2.trahan.dev, method: trust}
 - {contype: host, databases: all, users: all, method: scram-sha-256}

@@ -189,7 +189,7 @@
         creates: /pgdumps/go-infra.sql
       with_items: "{{ seven_z_pw }}"
 
-    - name: Create the databases
+    - name: Restore database from backup
       community.postgresql.postgresql_db:
         name: "{{ item.db_name }}"
         state: restore
