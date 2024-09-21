@@ -14,7 +14,7 @@
   tasks:
     - name: Install PostgreSQL and psycopg2
       ansible.builtin.apt:
-        name: postgresql,postgresql-contrib,python3-psycopg2
+        name: postgresql,postgresql-contrib,python3-psycopg2,p7zip-full
         state: present
         update_cache: true
       become: true
@@ -176,16 +176,28 @@
       ansible.builtin.command: /usr/local/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
       with_items: "{{ b2_app_key_and_secret }}"
 
-#    - name: Download backup from b2 for go-infra
-#      ansible.builtin.command: /pgdumps/venv/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
-#      with_items: "{{ b2_app_key_and_secret }}"
-
     - name: Download backup from b2 for go-infra
       ansible.builtin.command: 
         cmd: /usr/local/bin/b2 file download "{{ item.remotefile }}" "{{ item.localfile }}"
-        creates:
+        creates: "{{ item.localfile }}"
       with_items: "{{ b2_app_key_and_secret }}"
 
+    - name: Unarchive a file with extra options
+      ansible.builtin.command: 
+        cmd: 7z x {{ item.localfile }} "-p{{ item.pw }}"
+        chdir: /pgdumps
+        creates: /pgdumps/go-infra.sql
+      with_items: "{{ seven_z_pw }}"
+
+    - name: Create the databases
+      community.postgresql.postgresql_db:
+        name: "{{ item.db_name }}"
+        state: restore
+        target: "/pgdumps/{{ item.db_name }}.sql"
+        encoding: "UTF-8"
+      become: true
+      become_user: postgres
+      with_items: "{{ seven_z_pw }}"
 
     
 
