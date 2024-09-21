@@ -199,6 +199,16 @@
       become_user: postgres
       with_items: "{{ seven_z_pw }}"
 
+    - name: Grant access to restored db 
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: "{{ item.db_name }}"
+        role: "{{ item.db_user }}"
+        objs: ALL_IN_SCHEMA
+        privs: SELECT,INSERT,UPDATE,DELETE
+      with_items: "{{ seven_z_pw }}"
+
     
 
 

@@ -42,4 +42,4 @@ b2_app_key_and_secret:
 - {key: "{{ vault_b2_app_key }}", secret: "{{ vault_b2_app_secret }}", localfile: /pgdumps/goinfra.7z, remotefile: 'b2://trahan-postgres-backups/goinfra.7z'}
 
 seven_z_pw:
-- {pw: "{{ vault_archive_pw }}", localfile: goinfra.7z, path: /pgdumps, db_name: go-infra}
+- {pw: "{{ vault_archive_pw }}", localfile: goinfra.7z, path: /pgdumps, db_name: go-infra, db_user: jtrahan}
