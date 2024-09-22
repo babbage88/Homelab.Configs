@@ -5,20 +5,24 @@ postgresql_options:
 - {name: archive_mode, value: on}
 - {name: archive_command, value: 'test ! -f /mnt/backups/pg_archive/%f && cp %p /mnt/backups/pg_archive/%f'}
 
-postgresql_databases: [infradb-dev, automation-db, go-infra]
+postgresql_databases: [infradb-dev, automation-db, go-infra, k3s]
 
 postgresql_users:
 - {db: infradb-dev, name: jtrahan, password: "{{ vault_postgresql_jtrahan_password }}"}
+- {db: k3s, name: k3suser, password: "{{ vault_postgresql_jtrahan_password }}"}
 - {db: automation-db, name: replicator, password: "{{ vault_postgresql_replicator_password }}"}
 
 postgresql_schemas:
 - {db: infradb-dev, name: jtrahan, owner: jtrahan}
 - {db: go-infra, name: jtrahan, owner: jtrahan}
+- {db: k3s, name: k3suser, owner: k3suser}
 - {db: automation-db, name: replicator, owner: replicator}
 
 postgresql_privs:
 - {db: infradb-dev, roles: jtrahan, privs: ALL, type: database}
 - {db: go-infra, roles: jtrahan, privs: ALL, type: database}
+- {db: k3s, roles: k3suser, privs: ALL, type: database}
+- {db: k3s, roles: jtrahan, privs: ALL, type: database}
 - {db: automation-db, roles: replicator, privs: ALL, type: database}
 
 postgresql_hba_entries:

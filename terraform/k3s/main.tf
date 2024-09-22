@@ -2,7 +2,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "bpg/proxmox"
-      version = "0.62.0"
+      version = "~>0.57.0"
     }
     dns = {
       source  = "hashicorp/dns"
@@ -17,7 +17,7 @@ provider "proxmox" {
   api_token = "${var.prox_api_id}=${var.prox_api_token}"
   insecure  = true
   ssh {
-    username    = var.prox_user
+    username    = "root"
     agent       = false
     private_key = file("~/.ssh/id_rsa")
   }
@@ -32,22 +32,23 @@ provider "dns" {
   }
 }
 
+
 data "local_file" "ssh_public_key" {
   filename = "./id_rsa.pub"
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
-  for_each    = { for vm_name in var.vm_names : vm_name => vm_name }
+  for_each    = var.k3s_vm_names
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = "proxmox2"
+  node_name    = each.value.node_name
 
   source_raw {
   data = <<-EOF
   #cloud-config
-  hostname: ${each.value.vm}
+  hostname: ${each.key}
   manage_etc_hosts: true
-  fqdn: ${each.value}.${var.domain_name}
+  fqdn: ${each.key}.${var.domain_name}
   user: ${var.vm_user}
   password: ${var.vm_pw}
   ssh_authorized_keys:
@@ -66,23 +67,26 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     - vim
     - net-tools
     - python-is-python3
+    - python3-pip
     - dotnet-sdk-8.0
+    - python3-venv
+    - python3-setuptools 
   runcmd:
     - mkdir /gotmp
     - [wget, "https://go.dev/dl/go1.23.0.linux-amd64.tar.gz", -O, /gotmp/go.tar.gz]
     - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
-    - [bash, -c, "echo 'export PATH=/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
+    - [bash, -c, "echo 'export PATH=/usr/local/bin:/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
     - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
   EOF
 
-    file_name = "${each.value}_cloud-config.yml"
-  }
+    file_name = "${each.value.node_name}_cloud-config.yml"
+  } 
 }
 
-resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  for_each   = { for vm_name in var.vm_names : vm_name => vm_name }
-  name      = each.value
-  node_name = "proxmox2"
+resource "proxmox_virtual_environment_vm" "k3s_vms" {
+  for_each   = var.k3s_vm_names
+  name       = each.key
+  node_name  = each.value.node_name
 
   agent {
     enabled = true
@@ -103,7 +107,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
     interface    = "virtio0"
     iothread     = true
     discard      = "on"
-    size         = var.vm_hd_Size
+    size         = 30
   }
 
   initialization {
@@ -119,20 +123,36 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   network_device {
     bridge = "vmbr0"
   }
-
 }
 
 resource "dns_a_record_set" "vms" {
-  for_each  = { for vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.name => vm.ipv4_addresses[1][0] }
+  for_each  = { for vm in proxmox_virtual_environment_vm.k3s_vms : vm.name => vm.ipv4_addresses[1][0] }
   zone      = var.dns_zone
   name      = each.key
   addresses = [each.value]
   ttl       = 300
 
-  depends_on = [proxmox_virtual_environment_vm.ubuntu_vm]  # Ensures that the VM creation completes
+  depends_on = [proxmox_virtual_environment_vm.k3s_vms]  # Ensures that the VM creation completes
+}
+
+locals {
+  reverse_ip = {
+    for vm in proxmox_virtual_environment_vm.k3s_vms :
+    vm.name => element(reverse(split(".", vm.ipv4_addresses[1][0])), 0)
+  }
+}
+
+
+resource "dns_ptr_record" "vms" {
+  for_each = proxmox_virtual_environment_vm.k3s_vms
+
+  zone = var.reverse_dns_zone  # Specify the reverse DNS zone (should be fully qualified)
+  name = "${local.reverse_ip[each.key]}" # Use the calculated reverse IP
+  ptr  = "${each.key}.${var.domain_name}."  # The corresponding FQDN for the PTR record, add trailing dot
+  ttl  = 300
 }
 
 output "vm_ipv4_addresses" {
-  value = { for vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.name => vm.ipv4_addresses[1][0] }
+  value = { for vm in proxmox_virtual_environment_vm.k3s_vms : vm.name => vm.ipv4_addresses[1][0] }
 }
 

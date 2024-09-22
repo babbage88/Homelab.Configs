@@ -31,17 +31,18 @@ variable "prox_user" {
   default = "root"
 }
 
-variable "vm_names" {
-  description = "List of VMs to create"
-  type = list(string)
-  default = ["trahkube1","trahkube2","trahkube3"]
+variable "k3s_vm_names" {
+  description = "Map of Database VMs with their corresponding Proxmox node"
+  type = map(object({
+    node_name = string
+  }))
+  default = {
+    "trahkube1" = { node_name = "proxmox1" }
+    "trahkube2" = { node_name = "proxmox2" }
+    "trahkube3" = { node_name = "proxmox2" }
+  }
 }
 
-variable "db_vm_names" {
-  description = "List of Database VMs to create"
-  type = list(string)
-  default = ["trahdb1"]
-}
 
 variable "domain_name" {
   type = string
@@ -94,4 +95,10 @@ variable "dns_key_secret" {
 variable "dns_zone" {
   description = "DNS Zone to create recors for each VM"
   default = "trahan.dev."
+}
+
+variable "reverse_dns_zone" {
+  type        = string
+  description = "The reverse DNS zone, e.g., 113.0.203.in-addr.arpa."
+  default     = "1.0.10.in-addr.arpa."  # Example, ensure this is correct
 }
