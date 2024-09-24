@@ -79,7 +79,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
   EOF
 
-    file_name = "${each.value.node_name}_cloud-config.yml"
+    file_name = "${each.key}_cloud-config.yml"
   } 
 }
 
@@ -133,23 +133,6 @@ resource "dns_a_record_set" "vms" {
   ttl       = 300
 
   depends_on = [proxmox_virtual_environment_vm.k3s_vms]  # Ensures that the VM creation completes
-}
-
-locals {
-  reverse_ip = {
-    for vm in proxmox_virtual_environment_vm.k3s_vms :
-    vm.name => element(reverse(split(".", vm.ipv4_addresses[1][0])), 0)
-  }
-}
-
-
-resource "dns_ptr_record" "vms" {
-  for_each = proxmox_virtual_environment_vm.k3s_vms
-
-  zone = var.reverse_dns_zone  # Specify the reverse DNS zone (should be fully qualified)
-  name = "${local.reverse_ip[each.key]}" # Use the calculated reverse IP
-  ptr  = "${each.key}.${var.domain_name}."  # The corresponding FQDN for the PTR record, add trailing dot
-  ttl  = 300
 }
 
 output "vm_ipv4_addresses" {

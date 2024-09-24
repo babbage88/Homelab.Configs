@@ -39,3 +39,6 @@ terraform/postgres/postgres.conf copy.tpl
 terraform/postgres/postgres.conf.tpl
 terraform/tailscale_router/cloud-init-lxc.tpl
 terraform/postgres/.terraform.lock.hcl
+terraform/k3s/.terraform/**
+ansible/playbooks/k3s/roles/**
+terraform/proxmox_backup_server/**

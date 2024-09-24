@@ -1,0 +1,50 @@
+postgresql_options:
+- {name: listen_addresses, value: '0.0.0.0'}
+- {name: wal_level, value: replica}
+- {name: max_wal_senders, value: 5}
+- {name: archive_mode, value: on}
+- {name: archive_command, value: 'test ! -f /mnt/backups/pg_archive/%f && cp %p /mnt/backups/pg_archive/%f'}
+
+postgresql_databases: [infradb-dev, automation-db, go-infra, k3s]
+
+postgresql_users:
+- {db: infradb-dev, name: jtrahan, password: "{{ vault_postgresql_jtrahan_password }}"}
+- {db: k3s, name: k3suser, password: "{{ vault_postgresql_jtrahan_password }}"}
+- {db: automation-db, name: replicator, password: "{{ vault_postgresql_replicator_password }}"}
+
+postgresql_schemas:
+- {db: infradb-dev, name: jtrahan, owner: jtrahan}
+- {db: go-infra, name: jtrahan, owner: jtrahan}
+- {db: k3s, name: k3suser, owner: k3suser}
+- {db: automation-db, name: replicator, owner: replicator}
+
+postgresql_privs:
+- {db: infradb-dev, roles: jtrahan, privs: ALL, type: database}
+- {db: go-infra, roles: jtrahan, privs: ALL, type: database}
+- {db: k3s, roles: k3suser, privs: ALL, type: database}
+- {db: k3s, roles: jtrahan, privs: ALL, type: database}
+- {db: automation-db, roles: replicator, privs: ALL, type: database}
+
+postgresql_hba_entries:
+- {contype: local, databases: all, users: all, method: peer}
+- {contype: host, databases: all, users: jtrahan, method: scram-sha-256}
+- {contype: host, databases: all, users: all, address: samenet, method: scram-sha-256}
+- {contype: host, databases: replication, users: replicator, address: samenet, method: trust}
+- {contype: host, databases: all, users: replicator, address: trahdb2.trahan.dev, method: trust}
+- {contype: host, databases: all, users: all, method: scram-sha-256}
+
+postgres_hba_standy_entries:
+- {contype: local, databases: all, users: all, method: peer}
+- {contype: host, databases: replication, users: replicator, address: samenet, method: trust}
+- {contype: host, databases: all, users: replicator, address: trahdb1.trahan.dev, method: trust}
+- {contype: host, databases: all, users: all, address: samenet, method: scram-sha-256}
+
+
+postgresql_extensions:
+- {db: infradb-dev, name: hstore}
+
+b2_app_key_and_secret:
+- {key: "{{ vault_b2_app_key }}", secret: "{{ vault_b2_app_secret }}", localfile: /pgdumps/goinfra.7z, remotefile: 'b2://trahan-postgres-backups/goinfra.7z'}
+
+seven_z_pw:
+- {pw: "{{ vault_archive_pw }}", localfile: goinfra.7z, path: /pgdumps, db_name: go-infra, db_user: jtrahan}
