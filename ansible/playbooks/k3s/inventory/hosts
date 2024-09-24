@@ -1,0 +1,16 @@
+[k3s-workers]
+trahkube1 ansible_host=trahkube1.trahan.dev ansible_user=jtrahan
+trahkube2 ansible_host=trahkube2.trahan.dev ansible_user=jtrahan
+trahkube3 ansible_host=trahkube3.trahan.dev ansible_user=jtrahan
+
+[k3s-api-server]
+trahkube1 ansible_host=trahkube1.trahan.dev ansible_user=jtrahan
+
+[master_node]
+trahkube1 ansible_host=trahkube1.trahan.dev ansible_user=jtrahan
+
+[backup_node_1]
+trahkube2 ansible_host=trahkube2.trahan.dev ansible_user=jtrahan
+
+[backup_node_2]
+trahkube3 ansible_host=trahkube3.trahan.dev ansible_user=jtrahan
