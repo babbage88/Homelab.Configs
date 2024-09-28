@@ -1,0 +1,61 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calc-route
+  namespace: default
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`calc.test.trahan.dev`)
+    kind: Rule
+    services:
+    - name: calc-service
+      port: 3001
+  - match: Host(`api.test.trahan.dev`)
+    kind: Rule
+    services:
+    - name: calc-api-service
+      port: 8283
+  tls:
+    secretName: test-trahan-cert
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: http-to-https
+  namespace: default
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: HostRegexp(`{host:.+}`)
+    kind: Rule
+    services:
+    - name: noop
+      port: 443
+    middlewares:
+    - name: redirect-to-https
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-https
+  namespace: default
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: add-headers
+  namespace: default
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
+      X-Forwarded-Port: "443"
+    stsSeconds: 15768000
+    forceSTSHeader: true

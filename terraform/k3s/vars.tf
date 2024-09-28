@@ -43,6 +43,17 @@ variable "k3s_vm_names" {
   }
 }
 
+variable "internal_services_a_records" {
+  description = "Map of Database VMs with their corresponding Proxmox node"
+  type = map(object({
+    dns_name = string
+    ip_addr = string
+  }))
+  default = {
+    "goinfra" = { dns_name = "infra", ip_addr = "10.0.1.64" }
+    "calcui" = { dns_name = "calcui", ip_addr = "10.0.1.64" }
+  }
+}
 
 variable "domain_name" {
   type = string

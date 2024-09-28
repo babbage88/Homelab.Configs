@@ -135,6 +135,18 @@ resource "dns_a_record_set" "vms" {
   depends_on = [proxmox_virtual_environment_vm.k3s_vms]  # Ensures that the VM creation completes
 }
 
+resource "dns_a_record_set" "internal_services" {
+  for_each  = var.internal_services_a_records
+  zone      = var.dns_zone 
+  name      = each.value.dns_name
+  addresses = [each.value.ip_addr]
+  ttl       = 300
+}
+
+output "internal_services_a_records" {
+  value = { for service in dns_a_record_set.internal_services : service.name => service.addresses }
+}
+
 output "vm_ipv4_addresses" {
   value = { for vm in proxmox_virtual_environment_vm.k3s_vms : vm.name => vm.ipv4_addresses[1][0] }
 }
