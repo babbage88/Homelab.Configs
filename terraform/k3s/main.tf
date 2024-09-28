@@ -98,7 +98,7 @@ resource "proxmox_virtual_environment_vm" "k3s_vms" {
   }
 
   memory {
-    dedicated = var.vm_memory
+    dedicated = each.value.vm_memory
   }
 
   disk {
@@ -137,7 +137,7 @@ resource "dns_a_record_set" "vms" {
 
 resource "dns_a_record_set" "internal_services" {
   for_each  = var.internal_services_a_records
-  zone      = var.dns_zone 
+  zone      = each.value.zone 
   name      = each.value.dns_name
   addresses = [each.value.ip_addr]
   ttl       = 300

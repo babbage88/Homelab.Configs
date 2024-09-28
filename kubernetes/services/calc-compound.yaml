@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: calc-frontend
   labels:
-    app: frontend
+    app: calc-frontend
 spec:
   replicas: 2 # Initial number of replicas
   selector:
     matchLabels:
-      app: frontend
+      app: calc-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: calc-frontend
     spec:
       containers:
-      - name: frontend
+      - name: calc-frontend
         image: git.trahan.dev/jtrahan/calc-react:dev
         ports:
         - containerPort: 80
         env:
         - name: NODE_ENV
-          value: "development"
+          value: "production"
         resources:
           limits:
             cpu: "500m" # 500 millicores (0.5 CPU)
@@ -33,12 +33,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: frontend-hpa
+  name: calc-frontend-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: frontend
+    name: calc-frontend
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -52,21 +52,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: go-backend
+  name: calc-go-backend
   labels:
-    app: go-backend
+    app: calc-go-backend
 spec:
   replicas: 2 # Initial number of replicas
   selector:
     matchLabels:
-      app: go-backend
+      app: calc-go-backend
   template:
     metadata:
       labels:
-        app: go-backend
+        app: calc-go-backend
     spec:
       containers:
-      - name: go-backend
+      - name: calc-go-backend
         image: git.trahan.dev/jtrahan/go-backend:dev
         ports:
         - containerPort: 8283
@@ -81,12 +81,12 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: go-backend-hpa
+  name: calc-go-backend-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: go-backend
+    name: calc-go-backend
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -100,7 +100,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: calc-frontend-service
 spec:
   type: NodePort
   ports:
@@ -108,12 +108,12 @@ spec:
     targetPort: 80
     nodePort: 3001
   selector:
-    app: frontend
+    app: calc-frontend
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-backend-service
+  name: calc-go-backend-service
 spec:
   type: NodePort
   ports:
@@ -121,4 +121,4 @@ spec:
     targetPort: 8283
     nodePort: 8283
   selector:
-    app: go-backend
+    app: calc-go-backend

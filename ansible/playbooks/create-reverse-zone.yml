@@ -19,10 +19,32 @@
                   IN      NS      ns3.trahan.dev.
                   IN      NS      ns4.trahan.dev.
 
+    - name: Ensure reverse DNS zone file exists
+      copy:
+        dest: /etc/bind/zones/db.test.trahan.dev
+        content: |
+          $TTL    10800
+          @       IN      SOA     ns1.trahan.dev. root.trahan.dev. (
+                                  2024082101 ; Serial
+                                  3600       ; Refresh
+                                  1800       ; Retry
+                                  1209600    ; Expire
+                                  10800 )    ; Negative Cache TTL
+                  IN      NS      ns1.trahan.dev.
+                  IN      NS      ns2.trahan.dev.
+                  IN      NS      ns3.trahan.dev.
+                  IN      NS      ns4.trahan.dev.
+
     - name: Add the reverse DNS zone to named.conf.local
       lineinfile:
         path: /etc/bind/named.conf.local
         line: 'zone "1.0.10.in-addr.arpa" { type master; update-policy { grant tsig-key zonesub ANY; }; file "/etc/bind/zones/1.0.10.in-addr.arpa"; };'
+        state: present
+
+    - name: Add the reverse DNS zone to named.conf.local
+      lineinfile:
+        path: /etc/bind/named.conf.local
+        line: 'zone "test.trahan.dev" { type master; update-policy { grant tsig-key zonesub ANY; }; file "/etc/bind/zones/db.test.trahan.dev"; };'
         state: present
 
     - name: Restart BIND service to apply the changes

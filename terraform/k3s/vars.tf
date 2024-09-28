@@ -35,11 +35,13 @@ variable "k3s_vm_names" {
   description = "Map of Database VMs with their corresponding Proxmox node"
   type = map(object({
     node_name = string
+    vm_memory = number
+
   }))
   default = {
-    "trahkube1" = { node_name = "proxmox1" }
-    "trahkube2" = { node_name = "proxmox2" }
-    "trahkube3" = { node_name = "proxmox2" }
+    "trahkube1" = { node_name = "proxmox1", vm_memory = 4096 }
+    "trahkube2" = { node_name = "proxmox2", vm_memory = 3072 }
+    "trahkube3" = { node_name = "proxmox2", vm_memory = 3072 }
   }
 }
 
@@ -48,10 +50,12 @@ variable "internal_services_a_records" {
   type = map(object({
     dns_name = string
     ip_addr = string
+    zone = string
   }))
   default = {
-    "goinfra" = { dns_name = "infra", ip_addr = "10.0.1.64" }
-    "calcui" = { dns_name = "calcui", ip_addr = "10.0.1.64" }
+    "goinfra" = { dns_name = "infra", ip_addr = "10.0.1.64", zone = "trahan.dev." }
+    "calc" = { dns_name = "calc", ip_addr = "10.0.1.64", zone = "test.trahan.dev." }
+    "api" = { dns_name = "api", ip_addr = "10.0.1.64", zone = "test.trahan.dev." }
   }
 }
 
