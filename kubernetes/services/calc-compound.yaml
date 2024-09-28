@@ -106,7 +106,7 @@ spec:
   ports:
   - port: 80
     targetPort: 80
-    nodePort: 3001
+    nodePort: 30001
   selector:
     app: calc-frontend
 ---
@@ -119,6 +119,6 @@ spec:
   ports:
   - port: 8283
     targetPort: 8283
-    nodePort: 8283
+    nodePort: 30002
   selector:
     app: calc-go-backend
