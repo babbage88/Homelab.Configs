@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-ingress
+  namespace: default
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`prometheus.trahan.dev`)
+    kind: Rule
+    services:
+    - name: prometheus-server-ext
+      port: 30818
+  tls:
+    secretName: trahan-dev-cert

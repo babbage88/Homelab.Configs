@@ -54,6 +54,8 @@ variable "internal_services_a_records" {
   }))
   default = {
     "goinfra" = { dns_name = "infra", ip_addr = "10.0.1.64", zone = "trahan.dev." }
+    "traefikdb" = { dns_name = "traefik", ip_addr = "10.0.1.64", zone = "trahan.dev." }
+    "prometh" = { dns_name = "prometheus", ip_addr = "10.0.1.64", zone = "trahan.dev." }
     "calc" = { dns_name = "calc", ip_addr = "10.0.1.64", zone = "test.trahan.dev." }
     "api" = { dns_name = "api", ip_addr = "10.0.1.64", zone = "test.trahan.dev." }
   }
