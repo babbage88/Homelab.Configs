@@ -10,7 +10,7 @@ spec:
   - match: Host(`prometheus.trahan.dev`)
     kind: Rule
     services:
-    - name: prometheus-server-ext
-      port: 30818
+    - name: prometheus-server
+      port: 9090
   tls:
     secretName: trahan-dev-cert
