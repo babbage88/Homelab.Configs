@@ -10,12 +10,12 @@ spec:
   - match: Host(`calc.test.trahan.dev`)
     kind: Rule
     services:
-    - name: calc-service
-      port: 3001
+    - name: calc-frontend-service
+      port: 80
   - match: Host(`api.test.trahan.dev`)
     kind: Rule
     services:
-    - name: calc-api-service
+    - name: calc-go-backend-service
       port: 8283
   tls:
     secretName: test-trahan-cert

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: calc-frontend
-        image: git.trahan.dev/jtrahan/calc-react:dev
+        image: git.trahan.dev/jtrahan/calc-react:v1.0.1
         ports:
         - containerPort: 80
         env:
