@@ -1,0 +1,10 @@
+- name: Configure Hostname
+  hosts: "{{ ansible_limit | default(omit) }}"
+  remote_user: jtrahan
+  become: true
+
+  tasks:
+    - name: Set a hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname_short }}"
+        use: "debian"
