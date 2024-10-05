@@ -146,5 +146,5 @@ if __name__ == "__main__":
     if args.print256fg:
         print_256(ColorFormat.FOREGROUND)
 
-    if args.printbright:
+    if args.print254bright:
         print_256(ColorFormat.BRIGHT)
