@@ -112,6 +112,7 @@ if __name__ == "__main__":
     # Define arguments for different functions
     parser.add_argument('--print256bg', action='store_true', help='Print all available 256 Background  colors')
     parser.add_argument('--print256fg', action='store_true', help='Print all available 256 Forreground colors')
+    parser.add_argument('--print256bright', action='store_true', help='Print all available 256 Bright colors')
     parser.add_argument('--check-env', action='store_true', help='Check environment variables for color support')
     parser.add_argument('--gradient-24bit', action='store_true', help='Print RGB gradients for Red, Green, and Blue channels')
     parser.add_argument('--random-24bit', action='store_true', help='Print 3 random ranges of colors')
@@ -145,5 +146,5 @@ if __name__ == "__main__":
     if args.print256fg:
         print_256(ColorFormat.FOREGROUND)
 
-    if args.printBright:
+    if args.printbright:
         print_256(ColorFormat.BRIGHT)
