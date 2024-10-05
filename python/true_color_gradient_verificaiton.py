@@ -2,6 +2,13 @@
 import os
 import random
 import argparse
+from enum import Enum
+
+class ColorFormat(Enum):
+    BACKGROUND = "background"
+    FOREGROUND = "foreground"
+    BRIGHT = "bright"
+
 
 def rgb_to_hex(r, g, b):
     #Convert RGB values to Hex.
@@ -45,7 +52,7 @@ def print_gradient_24bit(name, color_channel):
             red, green, blue = 0, value, 0
         else:
             red, green, blue = 0, 0, value
-        
+
         hex_color = rgb_to_hex(red, green, blue)
         print(f"\x1b[48;2;{red};{green};{blue}m  {hex_color}  \x1b[0m", end="")
 
@@ -61,27 +68,56 @@ def check_environment():
     print(f"  TERM: {term}")
     print(f"  COLORTERM: {colorterm}\n")
 
-def print_256_colors():
+def print_256_colors_bg():
     #Print all available 256 colors.
     print("Available 256 colors:")
     for i in range(256):
         print(f"\x1b[48;5;{i}m  {i:3}  \x1b[0m", end=" ")
+        # Print 16 colors per line
+        if (i + 1) % 16 == 0:
+            print()
+    print()
 
-        if (i + 1) % 16 == 0:  # Print 16 colors per line
+def print_256_colors_fg():
+    #Prints all available 256 foreground colors.
+    print("Available 256 foreground colors:")
+    for i in range(256):
+        print(f"\x1b[38;5;{i}m  {i:3}  \x1b[0m", end=" ")
+
+        # Print 16 colors per line
+        if (i + 1) % 16 == 0:
+            print()
+    print()
+
+def print_256(format_type):
+    #Print available colors in 256 color mode based on the specified format type.
+    print(f"Available 256 {format_type.value} colors:")
+
+    for i in range(256):
+        if format_type == ColorFormat.BACKGROUND:
+            print(f"\x1b[48;5;{i}m  {i:3}  \x1b[0m", end=" ")
+        elif format_type == ColorFormat.FOREGROUND:
+            print(f"\x1b[38;5;{i}m  {i:3}  \x1b[0m", end=" ")
+        elif format_type == ColorFormat.BRIGHT:
+            print(f"\x1b[1;38;5;{i}m  {i:3}  \x1b[0m", end=" ")
+
+        # Print 16 colors per line
+        if (i + 1) % 16 == 0:
             print()
     print()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Truecolor Verification Script')
-    
+
     # Define arguments for different functions
-    parser.add_argument('--print256', action='store_true', help='Print all available 256 colors')
+    parser.add_argument('--print256bg', action='store_true', help='Print all available 256 Background  colors')
+    parser.add_argument('--print256fg', action='store_true', help='Print all available 256 Forreground colors')
     parser.add_argument('--check-env', action='store_true', help='Check environment variables for color support')
     parser.add_argument('--gradient-24bit', action='store_true', help='Print RGB gradients for Red, Green, and Blue channels')
     parser.add_argument('--random-24bit', action='store_true', help='Print 3 random ranges of colors')
-    
+
     args = parser.parse_args()
-    
+
     print("\nTruecolor Verification Script:")
     print("If your terminal supports Truecolor (24-bit color), you should see smooth gradients and exact colors (no color banding).")
 
@@ -103,8 +139,11 @@ if __name__ == "__main__":
         print_gradient_24bit("Green", "G")
         print_gradient_24bit("Blue", "B")
 
-    if args.random_24bit:
-        print_random_color_ranges()
+    if args.print256bg:
+        print_256(ColorFormat.BACKGROUND)
 
-    if args.print256:
-        print_256_colors()
+    if args.print256fg:
+        print_256(ColorFormat.FOREGROUND)
+
+    if args.printBright:
+        print_256(ColorFormat.BRIGHT)
