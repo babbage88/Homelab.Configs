@@ -4,11 +4,16 @@ import argparse
 
 class CustomFormatter(logging.Formatter):
     # Define color codes for log levels with bold and underline
-    bright_white = "\x1b[1;4;97m"
-    bright_magenta = "\x1b[1;4;95m"
-    bright_green = "\x1b[1;4;92m"
-    bright_yellow = "\x1b[1;4;93m"
-    bright_red = "\x1b[1;4;31m"
+    bright_white = "\x1b[1;97m" 
+    bright_magenta = "\x1b[1;95m"   
+    bright_green = "\x1b[1;92m"
+    bright_yellow = "\x1b[1;93m"
+    bright_red = "\x1b[1;91m"
+    ul_bright_white = "\x1b[1;4;97m"
+    ul_bright_magenta = "\x1b[1;4;95m"
+    ul_bright_green = "\x1b[1;4;92m"
+    ul_bright_yellow = "\x1b[1;4;93m"
+    ul_bright_red = "\x1b[1;4;31m"
     blinking_critical_red = "\x1b[1;4;5;91m"
     reset = "\x1b[0m"
 
