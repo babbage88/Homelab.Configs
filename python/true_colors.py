@@ -147,6 +147,9 @@ if __name__ == "__main__":
         print_gradient_24bit("Red", "R")
         print_gradient_24bit("Green", "G")
         print_gradient_24bit("Blue", "B")
+        
+    if args.random_24bit:
+        print_random_color_ranges()
 
     if args.print8:
         print_basic_colors_fg(ColorFormat.EIGHTCOLOR)
