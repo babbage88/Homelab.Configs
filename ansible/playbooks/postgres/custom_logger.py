@@ -1,19 +1,27 @@
+#!/usr/bin/env python3
 import logging
 import argparse
+from datetime import datetime
+from logging.handlers import TimedRotatingFileHandler
 
 class CustomFormatter(logging.Formatter):
     # Define color codes for log levels with bold and underline
-    bright_white = "\x1b[1;4;97m"
-    bright_magenta = "\x1b[1;4;95m"
-    bright_green = "\x1b[1;4;92m"
-    bright_yellow = "\x1b[1;4;93m"
-    bright_red = "\x1b[1;4;31m"
+    bright_white = "\x1b[1;97m"
+    bright_magenta = "\x1b[1;95m"
+    bright_green = "\x1b[1;92m"
+    bright_yellow = "\x1b[1;93m"
+    bright_red = "\x1b[1;91m"
+    ul_bright_white = "\x1b[1;4;97m"
+    ul_bright_magenta = "\x1b[1;4;95m"
+    ul_bright_green = "\x1b[1;4;92m"
+    ul_bright_yellow = "\x1b[1;4;93m"
+    ul_bright_red = "\x1b[1;4;31m"
     blinking_critical_red = "\x1b[1;4;5;91m"
     reset = "\x1b[0m"
 
     # Log format string
     format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
-    
+
     # Map log levels to their respective format strings
     FORMATS = {
         logging.DEBUG: bright_white + format + reset,
@@ -34,6 +42,7 @@ class CustomLogger:
     def __init__(self, name: str, log_file: str = None, log_level: int = logging.DEBUG):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(log_level)
+        self.log_file = log_file
 
         if not self.logger.hasHandlers():
             self._setup_handlers(log_file, log_level)
@@ -47,7 +56,7 @@ class CustomLogger:
 
         # File Handler if log_file is provided
         if log_file:
-            file_handler = logging.FileHandler(log_file)
+            file_handler = TimedRotatingFileHandler(filename=log_file, when='midnight', backupCount=60)
             file_handler.setLevel(log_level)
             # Use a simple format for the file log
             file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)")
