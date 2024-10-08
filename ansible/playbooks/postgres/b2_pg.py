@@ -27,7 +27,7 @@ class B2SyncJob:
         else:
             self.log_level = logging.INFO
 
-        self.logger = CustomLogger(name='B2SyncJob', log_file='b2_sync.log', log_level=self.log_level)
+        self.logger = CustomLogger(name='B2SyncJob', log_file='b2_sync.log', log_level=self.log_level).get_logger()
 
         self.logger.info("Configuring b2-sdk to store credentials in memory")
         info = InMemoryAccountInfo()
