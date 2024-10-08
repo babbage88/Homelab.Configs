@@ -85,6 +85,7 @@ class B2SyncJob:
                 dest_folder=destination,
                 now_millis=int(round(time.time() * 1000)),
                 reporter=reporter,
+                no_progress=False
                 )
 
 
