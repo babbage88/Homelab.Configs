@@ -100,4 +100,4 @@ parser.add_argument("--debug", type=bool, action=argparse.BooleanOptionalAction,
 argcomplete.autocomplete(parser)
 args = parser.parse_args()
 b2_job = B2SyncJob(dotenv_path=args.envfile, log_file=args.log_file, debug=args.debug, local_file_path=args.local_path, b2_bucket_name=args.bucket_name)
-b2_job.syncronize()
+b2_job.syncronize(src=args.sync_src, dst=args.sync_dst)
