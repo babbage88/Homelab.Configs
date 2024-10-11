@@ -1,0 +1,17 @@
+- name: Resize partition
+  hosts: primary-db
+  remote_user: jtrahan
+  become: true
+  vars:
+    drives:
+      hostname: trahdb1
+      name: /dev/vda
+
+  tasks:
+    - name: Extend an existing partition to fill all available space
+      community.general.parted:
+        device: /dev/vda
+        number: "{{ sdb_info.partitions | length }}"
+        part_end: "100%"
+        resize: true
+        state: present
