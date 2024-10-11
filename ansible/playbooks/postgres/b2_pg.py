@@ -79,13 +79,12 @@ class B2SyncJob:
         )
 
         self.logger.info("Starting B2 Synchronizor source: {} destination: {}".format(source, destination))
-        with SyncReport(sys.stdout) as reporter:
+        with SyncReport(sys.stdout, no_progress=False) as reporter:
             synchronizer.sync_folders(
                 source_folder=source,
                 dest_folder=destination,
                 now_millis=int(round(time.time() * 1000)),
-                reporter=reporter,
-                no_progress=False
+                reporter=reporter
                 )
 
 
