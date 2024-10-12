@@ -1,2 +1,2 @@
 [dns-servers]
-trahdn2 ansible_host=10.0.0.16 ansible_user=root
+trahdn2 ansible_host=10.0.0.14 ansible_user=root

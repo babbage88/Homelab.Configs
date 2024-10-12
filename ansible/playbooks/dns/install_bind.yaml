@@ -3,9 +3,22 @@
   hosts: dns-servers
 
   vars_files:
-    - vault.yml
     - vars.yml
   become: yes
 
+  handlers:
+  - name: Restart bind9
+    ansible.builtin.systemd:
+      name: bind9
+      state: restarted
+    become: true
+
   tasks:
+  - name: Ensure dependencies are installed.
+    apt:
+      name:
+        - bind9
+        - bind9utils
+        - bind9-doc
+      state: present
 

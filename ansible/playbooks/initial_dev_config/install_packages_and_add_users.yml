@@ -1,0 +1,39 @@
+---
+- name: Install Dev Applications and create users
+  hosts: dev-servers
+
+  vars_files:
+    - vars.yml
+    - vault.yml
+  become: yes
+
+  handlers:
+  - name: Restart sshd
+    ansible.builtin.systemd:
+      name: sshd
+      state: restarted
+    become: true
+
+  tasks:
+    - name: Create jtrahan and devops users
+      ansible.builtin.apt:
+        name: postgresql,postgresql-contrib,python3-psycopg2,p7zip-full
+        state: present
+        update_cache: true
+      become: true
+
+    - name: Ensure each user has their SSH keys added to authorized_keys
+      ansible.builtin.authorized_key:
+        user: "{{ item.user }}"
+        key: "{{ item.auth_keys | join('\n') }}"
+      loop: "{{ ssh_keys }}"
+
+    - name: Run apt cache update
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install a list of packages
+      ansible.builtin.apt:
+        pkg: "{{ apt_packages }}"
+        state: present 
+
