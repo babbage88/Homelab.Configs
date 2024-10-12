@@ -1,0 +1,11 @@
+---
+- name: Install Bind
+  hosts: dns-servers
+
+  vars_files:
+    - vault.yml
+    - vars.yml
+  become: yes
+
+  tasks:
+

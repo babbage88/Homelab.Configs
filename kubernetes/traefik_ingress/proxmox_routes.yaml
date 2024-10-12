@@ -1,0 +1,37 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prox1-trahan-ingress
+  namespace: default
+spec:
+  entryPoints:
+  - websecure # HTTPS entry point
+  routes:
+  - match: Host(`vm1.trahan.dev`)
+    kind: Rule
+    middlewares:
+    - name: http-to-https
+    services:
+    - name: proxmox1-service
+      port: 8006
+  tls:
+    secretName: trahan-dev-cert
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prox2-trahan-ingress
+  namespace: default
+spec:
+  entryPoints:
+  - websecure # HTTPS entry point
+  routes:
+  - match: Host(`vm1.trahan.dev`)
+    kind: Rule
+    middlewares:
+    - name: http-to-https
+    services:
+    - name: proxmox2-service
+      port: 8006
+  tls:
+    secretName: trahan-dev-cert
