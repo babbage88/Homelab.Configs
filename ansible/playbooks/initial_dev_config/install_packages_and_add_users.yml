@@ -1,0 +1,63 @@
+---
+- name: Install Dev Applications and create users
+  # pass --limit=<hostname>
+  hosts: "{{ ansible_limit | default(omit) }}"
+
+  vars_files:
+    - vars.yml
+    - vault.yml
+  become: yes
+
+  handlers:
+  - name: Restart sshd
+    ansible.builtin.systemd:
+      name: sshd
+      state: restarted
+    become: true
+
+  tasks:
+
+    - name: Ensure required groups are present
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ dev_server_users | map(attribute='groups') | flatten | unique }}"
+
+    - name: Create users
+      ansible.builtin.user:
+        user: "{{ item.username }}"
+        comment: "{{ item.description }}"
+        state: present
+        uid: "{{ item.uid }}"
+        create_home: yes
+        generate_ssh_key: true
+        groups: "{{ item.groups }}"
+        password: "{{ (user_pw | selectattr('user', 'equalto', item.username) | map(attribute='password') | first) }}"
+        shell: "{{ item.shell }}"
+      loop: "{{ dev_server_users }}"
+
+    - name: Ensure each user has their SSH keys added to authorized_keys
+      ansible.builtin.authorized_key:
+        user: "{{ item.user }}"
+        key: "{{ item.auth_keys | join('\n') }}"
+      loop: "{{ ssh_keys }}"
+
+    - name: Run apt cache update
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Install a list of packages
+      ansible.builtin.apt:
+        pkg: "{{ apt_packages }}"
+        state: present
+
+    - name: Configure sudoers settings for users.
+      community.general.sudoers:
+        name: "{{ item.username }}-sudoers-config"
+        state: present
+        user: "{{ item.username }}"
+        commands: ALL
+        sudoers_path: /etc/sudoers.d
+        nopassword: "{{ item.nopw_sudo }}"
+      loop: "{{ dev_server_users }}"
+

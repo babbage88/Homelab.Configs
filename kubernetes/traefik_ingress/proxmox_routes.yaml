@@ -1,33 +1,37 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: prometheus-ingress
+  name: prox1-trahan-ingress
   namespace: default
 spec:
   entryPoints:
-  - websecure
+  - websecure # HTTPS entry point
   routes:
-  - match: Host(`prometheus.trahan.dev`)
+  - match: Host(`vm1.trahan.dev`)
     kind: Rule
+    middlewares:
+    - name: http-to-https
     services:
-    - name: prometheus-server-ext
-      port: 9090
+    - name: proxmox1-service
+      port: 8006
   tls:
     secretName: trahan-dev-cert
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: grafana-ingress
+  name: prox2-trahan-ingress
   namespace: default
 spec:
   entryPoints:
-  - websecure
+  - websecure # HTTPS entry point
   routes:
-  - match: Host(`grafana.trahan.dev`)
+  - match: Host(`vm1.trahan.dev`)
     kind: Rule
+    middlewares:
+    - name: http-to-https
     services:
-    - name: grafana
-      port: 80
+    - name: proxmox2-service
+      port: 8006
   tls:
     secretName: trahan-dev-cert

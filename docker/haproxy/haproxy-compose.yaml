@@ -1,39 +1,39 @@
 version: '3.8'
 services:
   haproxy:
-    image: git.trahan.dev/jtrahan/haproxy:dev
+    image: haproxy:latest
     ports:
     - "80:80"
     - "443:443"
     - "8404:8404"
     volumes:
-    - /mnt/share/gluster/haproxy:/usr/local/etc/haproxy
-    - /mnt/share/gluster/letsencrypt/live/trahan.dev:/etc/ssl/trahan.dev
-    - /mnt/share/gluster/letsencrypt/live/test.trahan.dev:/etc/ssl/test.trahan.dev
-    - /mnt/share/gluster/letsencrypt/live/api.trahan.dev:/etc/ssl/api.trahan.dev
-    - /mnt/share/gluster/letsencrypt/live/justintrahan.com:/etc/ssl/justintrahan.com
-    - /mnt/share/gluster/letsencrypt/live/balloonstx.com:/etc/ssl/balloonstx.com
+    - /mnt/trahan-nas/haproxy:/usr/local/etc/haproxy
+    - /mnt/trahan-nas/letsencrypt/live/trahan.dev:/etc/ssl/trahan.dev
+    - /mnt/trahan-nas/letsencrypt/live/test.trahan.dev:/etc/ssl/test.trahan.dev
+    - /mnt/trahan-nas/letsencrypt/live/api.trahan.dev:/etc/ssl/api.trahan.dev
+    - /mnt/trahan-nas/letsencrypt/live/justintrahan.com:/etc/ssl/justintrahan.com
+    - /mnt/trahan-nas/letsencrypt/live/balloonstx.com:/etc/ssl/balloonstx.com
     networks:
     - ovnet1
     deploy:
-      replicas: 5
+      replicas: 3
       placement:
-        max_replicas_per_node: 2
+        max_replicas_per_node: 1
   nginxplex:
-    image: git.trahan.dev/jtrahan/nginx:dev
+    image: nginx:latest
     restart: unless-stopped
     volumes:
-    - /mnt/share/gluster/nginx-1/configs/nginx.conf:/etc/nginx/nginx.conf
-    - /mnt/share/gluster/nginx-1/configs/conf.d/plextrahdev.conf:/etc/nginx/conf.d/plextrahdev.conf
-    - /mnt/share/gluster/nginx-1/configs/conf.d/guacamole.conf:/etc/nginx/conf.d/guacamole.conf
-    - /mnt/share/gluster/letsencrypt/:/etc/nginx/certs:ro
+    - /mnt/trahan-nas/nginx-1/configs/nginx.conf:/etc/nginx/nginx.conf
+    - /mnt/trahan-nas/nginx-1/configs/conf.d/plex.conf:/etc/nginx/conf.d/plex.conf
+    #- /mnt/trahan-nas/nginx-1/configs/conf.d/guacamole.conf:/etc/nginx/conf.d/guacamole.conf
+    - /mnt/trahan-nas/letsencrypt/:/etc/nginx/certs:ro
     networks:
     - ovnet1
     ports:
     - "87:80"
     - "3443:443"
     deploy:
-      replicas: 5
+      replicas: 3
       placement:
         max_replicas_per_node: 2
     depends_on:

@@ -9,7 +9,7 @@
       ansible.builtin.systemd:
         name: postgresql
         state: restarted
-      become: true  
+      become: true
 
   tasks:
     - name: Install PostgreSQL and psycopg2

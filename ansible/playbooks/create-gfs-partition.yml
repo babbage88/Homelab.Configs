@@ -1,22 +1,22 @@
 - name: Mount NAS NFS Shares
-  hosts: trah-dev-01
+  hosts: k3node3
   remote_user: jtrahan
   become: true
 
   tasks:
     - name: Create parition
       parted:
-        device: /dev/sdb
+        device: /dev/vdb
         number: 1
         label: gpt
         part_start: 0GB
-        part_end: 75GB
+        part_end: 44GB
         state: present
 
     - name: format gfs partition
       filesystem:
         fstype: ext4
-        dev: /dev/sdb1
+        dev: /dev/vdb1
         state: present
 
     - name: Creat mount point for brick
@@ -28,6 +28,6 @@
     - name: Mount gfs brick
       ansible.posix.mount:
         fstype: ext4
-        src: /dev/sdb1
+        src: /dev/vdb1
         path: /gfs_bricks
         state: mounted

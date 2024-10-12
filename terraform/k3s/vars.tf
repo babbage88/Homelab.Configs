@@ -56,6 +56,7 @@ variable "internal_services_a_records" {
     "goinfra" = { dns_name = "infra", ip_addr = "10.0.1.64", zone = "trahan.dev." }
     "traefikdb" = { dns_name = "traefik", ip_addr = "10.0.1.64", zone = "trahan.dev." }
     "prometh" = { dns_name = "prometheus", ip_addr = "10.0.1.64", zone = "trahan.dev." }
+    "grafana" = { dns_name = "grafana", ip_addr = "10.0.1.64", zone = "trahan.dev." }
     "calc" = { dns_name = "calc", ip_addr = "10.0.1.64", zone = "test.trahan.dev." }
     "api" = { dns_name = "api", ip_addr = "10.0.1.64", zone = "test.trahan.dev." }
   }
@@ -107,6 +108,11 @@ variable "dns_key" {
 }
 variable "dns_key_secret" {
   description = "base 64 encoded string"
+}
+
+variable "bind_docker_key" {
+  type = string
+  
 }
 
 variable "dns_zone" {

@@ -257,7 +257,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     - python3-pip
     - dotnet-sdk-8.0
     - python3-venv
-    - python3-setuptools 
+    - python3-setuptools
   runcmd:
     - mkdir /gotmp
     - mkdir /pgdumps

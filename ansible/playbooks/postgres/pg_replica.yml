@@ -61,7 +61,5 @@
       notify:
         - Restart postgresql
 
-        
-
 
 

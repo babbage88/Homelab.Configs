@@ -3,31 +3,31 @@ services:
   bind9:
     image: ubuntu/bind9:latest
     environment:
-      - BIND9_USER=root
-      - TZ=America/Chicago
+    - BIND9_USER=root
+    - TZ=America/Chicago
     networks:
-      - ovnet1
+    - ovnet1
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
+    - "53:53/tcp"
+    - "53:53/udp"
     volumes:
-      - /mnt/share/gluster/bind-dns-4/config/:/etc/bind
-      - /mnt/share/gluster/bind-dns-4/cache:/var/cache/bind
-      - /mnt/share/gluster/bind-dns-4/records:/var/lib/bind
+    - /mnt/trahan-nas/bind/config/:/etc/bind
+    - /mnt/trahan-nas/bind/cache:/var/cache/bind
+    - /mnt/trahan-nas/bind/records:/var/lib/bind
     deploy:
-      replicas: 5
+      replicas: 3
       placement:
-        max_replicas_per_node: 2
+        max_replicas_per_node: 1
     restart: unless-stopped
-    logging:
-      driver: "loki"
-      options:
-        loki-url: "http://${LOKI_URL}:3100/loki/api/v1/push"
-        loki-batch-size: "400"
-        no-file: "false"
-        keep-file: "true"
-        max-size: "5m"
-        max-file: "3"
+#    logging:
+#      driver: "loki"
+#      options:
+#        loki-url: "http://${LOKI_URL}:3100/loki/api/v1/push"
+#        loki-batch-size: "400"
+#        no-file: "false"
+#        keep-file: "true"
+#        max-size: "5m"
+#        max-file: "3"
 networks:
   ovnet1:
     external: true
