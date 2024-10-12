@@ -1,3 +1,4 @@
+ansible/playbooks/initial_dev_config/vars.yml
 **app.log
 **/venv**
 scripts/bash/cloudinit/devserver.yaml
