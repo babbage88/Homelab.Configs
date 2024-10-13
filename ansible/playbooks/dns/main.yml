@@ -7,8 +7,9 @@
   - vars/vars.yml
 
 
+  # Include the handler using import_tasks
   handlers:
-    - include: handlers/restart-bind.yml
+    - import_tasks: handlers/restart-bind.yml
 
   tasks:
   - name: Verify if the current host is listed as a nameserver
