@@ -1,5 +1,5 @@
 $TTL 86400
-{% set current_nameserver = nameservers | selectattr('name', 'equalto', ansible_fqdn) | first %}
+{% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
 
 @   IN  SOA     {{ current_nameserver.name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
         {{ "%Y%m%d%H" | strftime }}01 ; Serial

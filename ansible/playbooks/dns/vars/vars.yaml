@@ -17,26 +17,13 @@ dns_records:
 - {host: vm3, type: A, zone: trahan.dev, ip_address: '10.0.1.64'}
 - {host: proxmox3, type: A, zone: trahan.dev, ip_address: '10.0.0.7'}
 - {host: trahan-nas, type: A, zone: trahan.dev, ip_address: '10.0.0.8'}
-- {host: trahan-nas, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '8'}
+- {host: trahdb2, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '208'}
 - {host: trahdb1, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '109'}
 - {host: trah-dns-01, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '14'}
 - {host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '14'}
 - {host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '17'}
-
-
----
-# vars file for Bind setup
-
-records:
-  ns1:
-    forward: 10.0.0.15
-    type: A
-    last: 15
-    rev: 30.1.10.in-addr.arpa.
-  ansible:
-    forward: 10.1.30.5
-    type: A
-    last: 5
-    rev: 30.1.10.in-addr.arpa.
+- {host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '210'}
+- {host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '249'}
+- {host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '29',}
 
 

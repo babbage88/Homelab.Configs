@@ -12,12 +12,19 @@
     - import_tasks: handlers/restart-bind.yml
 
   tasks:
+  - name: Include variables
+    ansible.builtin.include_vars:
+      file: "{{ item }}"
+    with_fileglob:
+     - vars/*
+
   - name: Verify if the current host is listed as a nameserver
     fail:
       msg: >
-        The current host {{ ansible_fqdn }} (or {{ inventory_hostname }}) is not listed as a nameserver in the vars.yml file.
+        The current host {{ ansible_fqdn }} (or {{ inventory_hostname_short }}) is not listed as a nameserver in the vars.yml file.
         Resolution: Make sure the current host's name or FQDN is correctly listed under 'nameservers' in the vars.yml.
-    when: ansible_fqdn not in (nameservers | map(attribute='name') | list)
+    when: "(ansible_fqdn not in (nameservers | map(attribute='name') | list)) and (inventory_hostname_short not in (nameservers | map(attribute='name') | list))"
+
 
   - name: Ensure dependencies are installed.
     ansible.builtin.apt:
@@ -92,3 +99,4 @@
       group: bind
       mode: '0644'
     become: yes
+    notify: restart bind9

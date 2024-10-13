@@ -1,0 +1,30 @@
+- name: Install Bind
+  hosts: "{{ ansible_limit | default(omit) }}"
+  become: yes
+  gather_facts: yes
+
+  vars_files:
+  - vars/vars.yml
+
+
+  # Include the handler using import_tasks
+  handlers:
+  - import_tasks: handlers/restart-bind.yml
+
+  tasks:
+  - name: Include variables
+    ansible.builtin.include_vars:
+      file: "{{ item }}"
+    with_fileglob:
+     - vars/*
+
+  - name: Debug ansible_fqdn and inventory_hostname
+    debug:
+      msg: "ansible_fqdn is {{ ansible_fqdn }}, inventory_hostname_short is {{ inventory_hostname_short }}"
+
+  - name: Debug nameservers variable
+    debug:
+      var: nameservers
+  - name: Debug domain variable
+    debug:
+      var: domain
