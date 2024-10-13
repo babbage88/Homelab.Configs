@@ -66,9 +66,10 @@ variable "tst_vm_names" {
     node_name = string
     vm_cpu = number
     vm_memory_bytes = number
+    template_image_name = string
   }))
   default = {
-    "trahdevtest1" = { node_name = "proxmox1", vm_cpu = 1, vm_memory_bytes = 2048 }
+    "trahdevtest1" = { node_name = "proxmox1", vm_cpu = 1, vm_memory_bytes = 2048, template_image_name = "local:iso/noble-server-cloudimg-amd64.img" }
   }
 }
 

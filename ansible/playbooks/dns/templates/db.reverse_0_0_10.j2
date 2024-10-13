@@ -1,0 +1,27 @@
+$TTL 86400
+{% set current_nameserver = nameservers | selectattr('name', 'equalto', ansible_fqdn) | first %}
+
+@   IN  SOA     {{ current_nameserver.name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
+        {{ "%Y%m%d%H" | strftime }}01 ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400 )    ; Minimum TTL
+
+; Define Name Servers
+{% for ns in nameservers %}
+@   IN  NS      {{ ns.name }}.{{ ns.zone }}.
+{% endfor %}
+
+; DNS PTR Records
+{% for record in dns_records | selectattr('zone', 'equalto', '0.0.10.in-addr.arpa.') | selectattr('type', 'equalto', 'PTR') | selectattr('type', 'equalto', 'ptr') %}
+{{ record.host }}   IN  {{ record.type }}       {{ record.ip_suffix }}
+{% endfor %}
+
+8       IN      PTR     trahan-nas.trahan.dev.
+11      IN      PTR     trah-dev-01-container.trahan.dev.
+15      IN      PTR     trah-dns-01.
+32      IN      PTR     trah-dev-01.trahan.dev.
+99      IN      PTR     trah-up-plex.trahan.dev.
+254     IN      PTR     asus.trahan.dev.
+16      IN      PTR     trah-dev-03.trahan.dev.

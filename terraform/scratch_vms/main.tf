@@ -86,10 +86,6 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     - [tar, -xzvf, /gotmp/go.tar.gz, -C, /usr/local]
     - [bash, -c, "echo 'export PATH=/usr/local/bin:/usr/local/go/bin:$PATH' >> /home/${var.vm_user}/.bashrc"]
     - apt install -y qemu-guest-agent && systemctl start qemu-guest-agent
-    - curl -fsSL https://tailscale.com/install.sh | sh
-    - [bash, -c, "echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf"]
-    - [bash, -c, "echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf"]
-    - sysctl -p /etc/sysctl.d/99-tailscale.conf
   EOF
 
     file_name = "${each.value.node_name}_${each.key}_cloud-config.yml"
@@ -117,7 +113,7 @@ resource "proxmox_virtual_environment_vm" "tst_vm" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = "local:iso/jammy-server-cloudimg-amd64.img"
+    file_id      = each.value.template_image_name
     interface    = "virtio0"
     iothread     = true
     discard      = "on"
@@ -147,23 +143,6 @@ resource "dns_a_record_set" "vms" {
   ttl       = 300
 
   depends_on = [proxmox_virtual_environment_vm.tst_vm]  # Ensures that the VM creation completes
-}
-
-locals {
-  reverse_ip = {
-    for vm in proxmox_virtual_environment_vm.tst_vm :
-    vm.name => element(reverse(split(".", vm.ipv4_addresses[1][0])), 0)
-  }
-}
-
-
-resource "dns_ptr_record" "vms" {
-  for_each = proxmox_virtual_environment_vm.tst_vm
-
-  zone = var.reverse_dns_zone  # Specify the reverse DNS zone (should be fully qualified)
-  name = "${local.reverse_ip[each.key]}" # Use the calculated reverse IP
-  ptr  = "${each.key}.${var.domain_name}."  # The corresponding FQDN for the PTR record, add trailing dot
-  ttl  = 300
 }
 
 output "vm_ipv4_addresses" {

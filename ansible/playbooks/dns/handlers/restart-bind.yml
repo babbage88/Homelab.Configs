@@ -1,0 +1,7 @@
+# handlers file for Bind setup
+- name: restart bind9
+  ansible.builtin.systemd:
+    name: bind9
+    state: restarted
+  become: true
+

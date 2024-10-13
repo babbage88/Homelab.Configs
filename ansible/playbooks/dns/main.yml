@@ -1,0 +1,93 @@
+- name: Install Bind
+  hosts: "{{ ansible_limit | default(omit) }}"
+  become: yes
+  gather_facts: yes
+
+  vars_files:
+  - vars/vars.yml
+
+
+  handlers:
+    - include: handlers/restart-bind.yml
+
+  tasks:
+  - name: Verify if the current host is listed as a nameserver
+    fail:
+      msg: >
+        The current host {{ ansible_fqdn }} (or {{ inventory_hostname }}) is not listed as a nameserver in the vars.yml file.
+        Resolution: Make sure the current host's name or FQDN is correctly listed under 'nameservers' in the vars.yml.
+    when: ansible_fqdn not in (nameservers | map(attribute='name') | list)
+
+  - name: Ensure dependencies are installed.
+    ansible.builtin.apt:
+      name:
+      - bind9
+      - bind9utils
+      - bind9-doc
+      state: present
+
+  - name: Generate TSIG key
+    ansible.builtin.command: tsig-keygen -a hmac-sha256
+    register: tsig_key_output
+    become: yes
+
+  - name: Save TSIG key to file
+    ansible.builtin.copy:
+        content: "{{ tsig_key_output.stdout }}"
+        dest: /etc/bind/tsig.key
+        owner: bind
+        group: bind
+        mode: '0640'
+    become: yes
+
+  - name: Add TSIG key include to named.conf
+    ansible.builtin.lineinfile:
+      path: /etc/bind/named.conf
+      line: 'include "/etc/bind/tsig.key";'
+      state: present
+    become: yes
+
+  - name: Create named.conf.local from template
+    ansible.builtin.template:
+      src: templates/named.conf.local.j2
+      dest: /etc/bind/named.conf.local
+      owner: bind
+      group: bind
+      mode: '0644'
+    become: yes
+
+  - name: Create named.conf.options from template
+    ansible.builtin.template:
+      src: templates/named.conf.options.j2
+      dest: /etc/bind/named.conf.options
+      owner: bind
+      group: bind
+      mode: '0644'
+    become: yes
+
+  - name: Create forward zone file from template
+    ansible.builtin.template:
+      src: templates/db.trahan.dev.j2
+      dest: /etc/bind/zones/db.trahan.dev
+      owner: bind
+      group: bind
+      mode: '0644'
+    become: yes
+
+  - name: Create reverse zone file for 0.0.10.in-addr.arpa from template
+    ansible.builtin.template:
+      src: templates/db.reverse_0_0_10.j2
+      dest: /etc/bind/zones/0.0.10.in-addr.arpa
+      owner: bind
+      group: bind
+      mode: '0644'
+    become: yes
+
+  - name: Create reverse zone file for 1.0.10.in-addr.arpa from template
+    ansible.builtin.template:
+      src: templates/db.reverse_1_0_10.j2
+      dest: /etc/bind/zones/1.0.10.in-addr.arpa
+      owner: bind
+      group: bind
+      mode: '0644'
+    become: yes

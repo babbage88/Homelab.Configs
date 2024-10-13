@@ -1,0 +1,21 @@
+acl dnsservers {
+    {% for ip in acl_allow_transfer %}
+    "{{ ip }};"
+    {% endfor %}
+};
+
+
+{% for zone in forward_zones %}
+zone "{{ zone }}" {
+    type master;
+    update-policy {
+        grant tsig-key zonesub ANY;
+    };
+    file "/etc/bind/zones/db.{{ zone }}";
+    allow-transfer { dnsservers; };
+};
+{% endfor %}
+
+{% for rev_zone in reverse_zones %}
+zone "{{ rev_zone }}" { type master; update-policy { grant tsig-key zonesub ANY; }; file "/etc/bind/zones/{{ rev_zone }}"; };
+{% endfor %}
