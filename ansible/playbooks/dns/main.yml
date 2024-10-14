@@ -102,7 +102,7 @@
   - name: Add line in named.conf to include db.trahan.dev zone file
     ansible.builtin.lineinfile:
       path: /etc/bind/named.conf
-      line: 'include "/etc/bind/db.trahan.dev";'
+      line: 'include "/etc/bind/zones/db.trahan.dev";'
       state: present
     become: yes
 
@@ -118,7 +118,7 @@
   - name: Add line in named.conf to include 0.0.10.in-addr.arpa zone file
     ansible.builtin.lineinfile:
       path: /etc/bind/named.conf
-      line: 'include "/etc/bind/0.0.10.in-addr.arpa";'
+      line: 'include "/etc/bind/zones/0.0.10.in-addr.arpa";'
       state: present
     become: yes
 
@@ -134,7 +134,7 @@
   - name: Add line in named.conf to include 1.0.10.in-addr.arpa zone file
     ansible.builtin.lineinfile:
       path: /etc/bind/named.conf
-      line: 'include "/etc/bind/1.0.10.in-addr.arpa";'
+      line: 'include "/etc/bind/zones/1.0.10.in-addr.arpa";'
       state: present
     become: yes
     notify: restart bind9
