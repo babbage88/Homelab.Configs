@@ -137,4 +137,31 @@
       line: 'include "/etc/bind/zones/1.0.10.in-addr.arpa";'
       state: present
     become: yes
-    notify: restart bind9
+
+  - name: Handle the error
+    block:
+      - name: Attempt to restart bind9
+        ansible.builtin.systemd:
+          name: bind9
+          state: restarted
+        failed_when: false
+        register: restart_result
+
+      - name: Check if bind9 restart failed
+        ansible.builtin.debug:
+          msg: "Bind9 restart failed, attempting to remove invalid includes."
+        when: restart_result.failed
+
+      - name: Remove invalid include lines
+        import_tasks: handlers/remove_invalid_includes.yml
+        when: restart_result.failed
+
+      - name: Retry restarting bind9 after cleanup
+        ansible.builtin.systemd:
+          name: bind9
+          state: restarted
+        when: restart_result.failed
+    rescue:
+       - name: Fail with error message after attempting to fix
+         ansible.builtin.fail:
+           msg: "Bind9 service restart failed even after attempting to remove invalid include lines."

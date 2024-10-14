@@ -1,0 +1,24 @@
+- name: Find all include statements in /etc/bind/named.conf
+  ansible.builtin.shell: "grep '^include ' /etc/bind/named.conf | awk '{print $2}' | tr -d '\";'"
+  register: include_files
+  ignore_errors: true
+
+- name: Set fact for include files
+  set_fact:
+    include_paths: "{{ include_files.stdout_lines | default([]) }}"
+
+- name: Check if include files exist
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop: "{{ include_paths }}"
+  register: include_file_stats
+  ignore_errors: true
+
+- name: Remove include lines if files don't exist
+  ansible.builtin.lineinfile:
+    path: /etc/bind/named.conf
+    state: absent
+    regexp: '^include "{{ item.item }}";$'
+  loop: "{{ include_file_stats.results }}"
+  when: not item.stat.exists
+  become: true
