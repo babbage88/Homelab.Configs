@@ -34,19 +34,27 @@
       - bind9-doc
       state: present
 
+  - name: Check if TSIG key already exists
+    ansible.builtin.stat:
+      path: /etc/bind/tsig.key
+    register: tsig_key_stat
+    become: yes
+
   - name: Generate TSIG key
     ansible.builtin.command: tsig-keygen -a hmac-sha256
     register: tsig_key_output
     become: yes
+    when: not tsig_key_stat.stat.exists
 
   - name: Save TSIG key to file
     ansible.builtin.copy:
-        content: "{{ tsig_key_output.stdout }}"
-        dest: /etc/bind/tsig.key
-        owner: bind
-        group: bind
-        mode: '0640'
+      content: "{{ tsig_key_output.stdout }}"
+      dest: /etc/bind/tsig.key
+      owner: bind
+      group: bind
+      mode: '0640'
     become: yes
+    when: not tsig_key_stat.stat.exists
 
   - name: Add TSIG key include to named.conf
     ansible.builtin.lineinfile:
@@ -71,6 +79,15 @@
       owner: bind
       group: bind
       mode: '0644'
+    become: yes
+
+  - name: Ensure the zones directory exists
+    ansible.builtin.file:
+      path: /etc/bind/zones
+      state: directory
+      owner: bind
+      group: bind
+      mode: '0755'
     become: yes
 
   - name: Create forward zone file from template
