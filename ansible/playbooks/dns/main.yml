@@ -138,30 +138,46 @@
       state: present
     become: yes
 
-  - name: Handle the error
-    block:
-      - name: Attempt to restart bind9
-        ansible.builtin.systemd:
-          name: bind9
-          state: restarted
-        failed_when: false
-        register: restart_result
-
-      - name: Check if bind9 restart failed
-        ansible.builtin.debug:
-          msg: "Bind9 restart failed, attempting to remove invalid includes."
-        when: restart_result.failed
-
-      - name: Remove invalid include lines
-        import_tasks: handlers/remove_invalid_includes.yml
-        when: restart_result.failed
-
-      - name: Retry restarting bind9 after cleanup
-        ansible.builtin.systemd:
-          name: bind9
-          state: restarted
-        when: restart_result.failed
-    rescue:
-       - name: Fail with error message after attempting to fix
-         ansible.builtin.fail:
-           msg: "Bind9 service restart failed even after attempting to remove invalid include lines."
+  - name: Attempt to restart bind9
+    ansible.builtin.systemd:
+      name: bind9
+      state: restarted
+    register: restart_result
+    failed_when: restart_result.rc != 0
+    ignore_errors: true
+  
+  - name: Check if bind9 restart failed
+    ansible.builtin.debug:
+      msg: "Bind9 restart failed, attempting to remove invalid includes."
+    when: restart_result.failed
+  
+  - name: Find all include statements in /etc/bind/named.conf
+    ansible.builtin.shell: "grep '^include ' /etc/bind/named.conf | awk '{print $2}' | tr -d '\";'"
+    register: include_lines
+    when: restart_result.failed
+  
+  - name: Set fact for include files
+    set_fact:
+      include_files: "{{ include_lines.stdout_lines }}"
+    when: restart_result.failed
+  
+  - name: Check if include files exist
+    ansible.builtin.stat:
+      path: "{{ item }}"
+    register: include_file_stats
+    with_items: "{{ include_files }}"
+    when: restart_result.failed
+  
+  - name: Remove invalid include lines
+    ansible.builtin.lineinfile:
+      path: /etc/bind/named.conf
+      regexp: '^include "{{ item.item }}"'
+      state: absent
+    with_items: "{{ include_file_stats.results }}"
+    when: item.stat.exists == false and restart_result.failed
+  
+  - name: Retry restarting bind9 after cleanup
+    ansible.builtin.systemd:
+      name: bind9
+      state: restarted
+    when: restart_result.failed
