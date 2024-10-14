@@ -1,6 +1,6 @@
 acl dnsservers {
     {% for ip in acl_allow_transfer %}
-    "{{ ip }};"
+    {{ ip }};
     {% endfor %}
 };
 

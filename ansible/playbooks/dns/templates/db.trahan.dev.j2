@@ -10,15 +10,15 @@ $TTL 86400
 
 ; Define Name Servers
 {% for ns in nameservers %}
-@   IN  NS	{{ ns.name }}.{{ ns.zone }}.
+@   NS	{{ ns.name }}.{{ ns.zone }}.
 {% endfor %}
 
 ; Name Server IPs
 {% for ns in nameservers %}
-{{ ns.name }}	IN	A	{{ ns.ip_address }}
+{{ ns.name }} IN	A	{{ ns.ip_address }}
 {% endfor %}
 
 ; DNS Records
 {% for record in dns_records | rejectattr('type', 'equalto', 'PTR') | rejectattr('type', 'equalto', 'ptr') %}
-{{ record.host }}   IN	{{ record.type }}	{{ record.ip_address }}
+{{ record.host }}  {{ record.type }}	{{ record.ip_address }}
 {% endfor %}
