@@ -9,7 +9,7 @@ acl dnsservers {
 zone "{{ zone }}" {
     type master;
     update-policy {
-        grant tsig.key zonesub ANY;
+        grant tsig-key zonesub ANY;
     };
     file "/etc/bind/zones/db.{{ zone }}";
     allow-transfer { dnsservers; };
@@ -17,5 +17,7 @@ zone "{{ zone }}" {
 {% endfor %}
 
 {% for rev_zone in reverse_zones %}
-zone "{{ rev_zone }}" { type master; update-policy { grant tsig.key zonesub ANY; }; file "/etc/bind/zones/{{ rev_zone }}"; };
+zone "{{ rev_zone }}" { type master; update-policy { grant tsig-key zonesub ANY; }; file "/etc/bind/zones/{{ rev_zone }}"; };
 {% endfor %}
+
+
