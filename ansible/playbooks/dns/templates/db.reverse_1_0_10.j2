@@ -11,7 +11,7 @@ $TTL 86400
 
 ; Define Name Servers
 {% for ns in nameservers %}
-@   IN  NS      {{ ns.name }}.{{ ns.zone }}.
+@   IN  NS      {{ ns.ns_name }}.{{ ns.zone }}.
 {% endfor %}
 
 ; DNS PTR Records

@@ -1,7 +1,7 @@
 $TTL 86400
 {% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
 
-@   IN  SOA     {{ current_nameserver.name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
+@   IN  SOA     {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
         {{ "%Y%m%d%H" | strftime }}01 ; serial
         3600       ; refresh
         1800       ; retry
@@ -11,15 +11,16 @@ $TTL 86400
 
 ; Define Name Servers
 {% for ns in nameservers %}
-@   NS	{{ ns.name }}.{{ ns.zone }}.
+@   NS	{{ ns.ns_name }}.{{ ns.zone }}.
 {% endfor %}
 
 ; Name Server IPs
 {% for ns in nameservers %}
-{{ ns.name }} IN	A	{{ ns.ip_address }}
+{{ ns.name }}       IN      A	{{ ns.ip_address }}
+{{ ns.ns_name }}    IN	    A	{{ ns.ip_address }}
 {% endfor %}
 
 ; DNS Records
 {% for record in dns_records | rejectattr('type', 'equalto', 'PTR') | rejectattr('type', 'equalto', 'ptr') %}
-{{ record.host }}  {{ record.type }}	{{ record.ip_address }}
+{{ record.host }}   IN  {{ record.type }}   {{ record.ip_address }}
 {% endfor %}
