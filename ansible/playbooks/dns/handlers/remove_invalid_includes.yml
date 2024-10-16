@@ -1,0 +1,26 @@
+- name: Find all include statements in /etc/bind/named.conf
+  ansible.builtin.shell: "grep '^include ' /etc/bind/named.conf | awk '{print $2}' | tr -d '\";'"
+  register: include_lines
+
+- name: Set fact for include files
+  set_fact:
+    include_files: "{{ include_lines.stdout_lines }}"
+
+- name: Check if include files exist
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  register: include_file_stats
+  with_items: "{{ include_files }}"
+
+- name: Remove invalid include lines
+  ansible.builtin.lineinfile:
+    path: /etc/bind/named.conf
+    regexp: '^include "{{ item.item }}"'
+    state: absent
+  with_items: "{{ include_file_stats.results }}"
+  when: item.stat.exists == false
+
+- name: Retry restarting bind9 after cleanup
+  ansible.builtin.systemd:
+    name: bind9
+    state: restarted

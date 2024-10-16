@@ -1,7 +1,7 @@
 $TTL 86400
 {% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
 
-@   IN  SOA     {{ current_nameserver.name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
+@   IN  SOA     {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
         {{ "%Y%m%d%H" | strftime }}233  ; serial
         604800     ; refresh (1 week)
         86400      ; retry (1 day)
@@ -16,7 +16,7 @@ $TTL 86400
 
 ; DNS PTR Records
 {% for record in dns_records | selectattr('zone', 'equalto', '0.0.10.in-addr.arpa.')  %}
-{{ record.host }}   IN  {{ record.type }}       {{ record.ip_suffix }}
+{{ record.ip_suffix }}  IN  {{ record.type }}       {{ record.host }}
 {% endfor %}
 
 8       IN      PTR     trahan-nas.trahan.dev.

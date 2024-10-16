@@ -22,5 +22,5 @@ $TTL 86400
 
 ; DNS Records
 {% for record in dns_records | rejectattr('type', 'equalto', 'PTR') | rejectattr('type', 'equalto', 'ptr') %}
-{{ record.host }}   IN  {{ record.type }}   {{ record.ip_address }}
+{{ record.host }}   IN  {{ record.type }}   {{ record.record_value }}
 {% endfor %}
