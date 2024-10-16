@@ -1,5 +1,5 @@
 # handlers file for Bind setup
-- name: restart bind9
+- name: restart_bind9_service
   ansible.builtin.systemd:
     name: bind9
     state: restarted

@@ -10,20 +10,20 @@ nameservers:
 - {name: trahdns3, zone: trahan.dev, ip_address: '10.0.0.17', last: 17}
 
 dns_records:
-- {host: vm1, type: A, zone: trahan.dev, ip_address: '10.0.1.64'}
-- {host: proxmox1, type: A, zone: trahan.dev, ip_address: '10.0.0.50'}
-- {host: vm2, type: A, zone: trahan.dev, ip_address: '10.0.1.64'}
-- {host: proxmox2, type: A, zone: trahan.dev, ip_address: '10.0.0.9'}
-- {host: vm3, type: A, zone: trahan.dev, ip_address: '10.0.1.64'}
-- {host: proxmox3, type: A, zone: trahan.dev, ip_address: '10.0.0.7'}
-- {host: trahan-nas, type: A, zone: trahan.dev, ip_address: '10.0.0.8'}
-- {host: trahdb2, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '208'}
-- {host: trahdb1, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '109'}
-- {host: trah-dns-01, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '14'}
-- {host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '14'}
-- {host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '17'}
-- {host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., ip_suffix: '210'}
-- {host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '249'}
-- {host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa., ip_suffix: '29',}
+- {host: vm1, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
+- {host: proxmox1, type: A, zone: trahan.dev, record_value: '10.0.0.50'}
+- {host: vm2, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
+- {host: proxmox2, type: A, zone: trahan.dev, record_value: '10.0.0.9'}
+- {host: vm3, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
+- {host: proxmox3, type: A, zone: trahan.dev, record_value: '10.0.0.7'}
+- {host: trahan-nas, type: A, zone: trahan.dev, record_value: '10.0.0.8'}
+- {host: trahdb2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '208'}
+- {host: trahdb1, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '109'}
+- {host: trah-dns-01, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '14'}
+- {host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '14'}
+- {host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '17'}
+- {host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '210'}
+- {host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '249'}
+- {host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '29',}
 
 
