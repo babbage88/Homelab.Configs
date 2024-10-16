@@ -16,7 +16,7 @@ $TTL 86400
 
 ; DNS PTR Records
 {% for record in dns_records | selectattr('zone', 'equalto', '0.0.10.in-addr.arpa.')  %}
-{{ record.ip_suffix }}  IN  {{ record.type }}       {{ record.host }}
+{{ record.record_value }}  IN  {{ record.type }}       {{ record.host }}
 {% endfor %}
 
 8       IN      PTR     trahan-nas.trahan.dev.
