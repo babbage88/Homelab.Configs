@@ -1,0 +1,26 @@
+- name: Install Bind
+  hosts: "{{ ansible_limit | default(omit) }}"
+  become: yes
+  gather_facts: yes
+
+  vars_files:
+  - vars/vars.yml
+
+
+  # Include the handler using import_tasks
+  handlers:
+  - name: cleanup_includes
+    import_tasks: remove_invalid_includes.yml
+
+  tasks:
+  - name: Include variables
+    ansible.builtin.include_vars:
+      file: "{{ item }}"
+    with_fileglob:
+     - vars/*
+
+  - name: Debug - clean_invalid_includes called
+    ansible.builtin.debug:
+      msg: "Running the cleanup handler. {{ nameservers.i}}"
+    notify: cleanup_includes
+    loop: 

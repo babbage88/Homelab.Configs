@@ -1,0 +1,57 @@
+domain: trahan.dev
+forward_zones: ['trahan.dev']
+reverse_zones: ['1.0.10.in-addr.arpa', '0.0.10.in-addr.arpa']
+forwarders: ['1.1.1.1', '8.8.8.8', '9.9.9.9']
+acl_allow_transfer: ['10.0.0.14', '10.0.0.15', '10.0.0.17', '10.0.0.64', '10.0.1.64', '127.0.0.0/8']
+
+nameservers:
+- {name: trah-dns-01, zone: trahan.dev, ip_address: '10.0.0.15', last: 15, ns_name: ns1}
+- {name: trahdns2, zone: trahan.dev, ip_address: '10.0.0.14', last: 14, ns_name: ns2}
+- {name: trahdns3, zone: trahan.dev, ip_address: '10.0.0.17', last: 17, ns_name: ns3}
+
+dns_records:
+- {host: vm1, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
+- {host: proxmox1, type: A, zone: trahan.dev, record_value: '10.0.0.50'}
+- {host: vm2, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
+- {host: proxmox2, type: A, zone: trahan.dev, record_value: '10.0.0.9'}
+- {host: vm3, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
+- {host: proxmox3, type: A, zone: trahan.dev, record_value: '10.0.0.7'}
+- {host: trahan-nas, type: A, zone: trahan.dev, record_value: '10.0.0.8'}
+- {host: db, type: A, zone: trahan.dev, record_value: '10.0.0.92'}
+- {host: api, type: A, zone: trahan.dev, record_value: "10.0.1.64"}
+- {host: trah-dev-01, type: A, zone: trahan.dev, record_value: "10.0.0.32"}
+- {host: trah-dev-03, type: A, zone: trahan.dev, record_value: "10.0.0.16"}
+- {host: trah-ub-2404, type: A, zone: trahan.dev, record_value: "10.0.0.165"}
+- {host: trah-ub-plex, type: A, zone: trahan.dev, record_value: "10.0.0.99"}
+- {host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8"}
+- {host: elastic, type: A, zone: trahan.dev, record_value: "10.0.0.97"}
+- {host: git, type: A, zone: trahan.dev, record_value: "10.0.0.64"}
+- {host: grafana, type: A, zone: trahan.dev, record_value: "10.0.1.64"}
+- {host: guac, type: A, zone: trahan.dev, record_value: "10.0.0.64"}
+- {host: infra, type: A, zone: trahan.dev, record_value: "10.0.1.64"}
+- {host: kibana, type: A, zone: trahan.dev, record_value: "10.0.0.97"}
+- {host: plex, type: A, zone: trahan.dev, record_value: "10.0.0.64"}
+- {host: portainer, type: A, zone: trahan.dev, record_value: "10.0.0.64"}
+- {host: pgadmin, type: A, zone: trahan.dev, record_value: "10.0.1.64"}
+- {host: prometheus, type: A, zone: trahan.dev, record_value: "10.0.1.64"}
+- {host: traefik, type: A, zone: trahan.dev, record_value: "10.0.1.64"}
+- {host: trah-apt-cache, type: A, zone: trahan.dev, record_value: "10.0.0.68"}
+- {host: trah-rt-01, type: A, zone: trahan.dev, record_value: "10.0.0.157"}
+- {host: trah-rt-02, type: A, zone: trahan.dev, record_value: "10.0.1.168"}
+- {host: trah-ub-2404, type: A, zone: trahan.dev, record_value: "10.0.0.165"}
+- {host: trah-ub-plex, type: A, zone: trahan.dev, record_value: "10.0.0.99"}
+- {host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8"}
+- {host: trahdb1, type: A, zone: trahan.dev, record_value: "10.0.1.209"}
+- {host: trahdb2, type: A, zone: trahan.dev, record_value: "10.0.1.208"}
+- {host: trahkube1, type: A, zone: trahan.dev, record_value: "10.0.0.210"}
+- {host: trahkube2, type: A, zone: trahan.dev, record_value: "10.0.1.249"}
+- {host: trahkube3, type: A, zone: trahan.dev, record_value: "10.0.1.29"}
+- {host: truenas, type: A, zone: trahan.dev, record_value: "10.0.0.12"}
+- {host: trahdb2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '208'}
+- {host: trahdb1, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '109'}
+- {host: trah-dns-01, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '14'}
+- {host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '14'}
+- {host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '17'}
+- {host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '210'}
+- {host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '249'}
+- {host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '29'}

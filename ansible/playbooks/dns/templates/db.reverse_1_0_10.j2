@@ -1,0 +1,20 @@
+$TTL 86400
+{% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
+
+@   IN  SOA     {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
+        {{ "%Y%m%d%H" | strftime }}01 ; serial
+        3600       ; refresh
+        1800       ; retry
+        1209600    ; expire
+        86400      ; minimum
+)
+
+; Define Name Servers
+{% for ns in nameservers %}
+@   IN  NS      {{ ns.ns_name }}.{{ ns.zone }}.
+{% endfor %}
+
+; DNS PTR Records
+{% for record in dns_records | selectattr('zone', 'equalto', '1.0.10.in-addr.arpa.') %}
+{{ record.record_value }}  IN  {{ record.type }}       {{ record.host }}
+{% endfor %}

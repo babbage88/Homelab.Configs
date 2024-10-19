@@ -4,7 +4,8 @@
   hosts: "{{ ansible_limit | default(omit) }}"
 
   vars_files:
-    - vars.yml
+    #- vars.yml
+    - devops_vars.yml
     - vault.yml
   become: yes
 

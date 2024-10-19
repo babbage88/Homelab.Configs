@@ -1,0 +1,28 @@
+$TTL 86400
+{% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
+
+@   IN  SOA     {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
+        {{ "%Y%m%d%H" | strftime }}233  ; serial
+        604800     ; refresh (1 week)
+        86400      ; retry (1 day)
+        2419200    ; expire (4 weeks)
+        604800     ; minimum (1 week)
+	)
+
+; Define Name Servers
+{% for ns in nameservers %}
+@   IN  NS      {{ ns.name }}.{{ ns.zone }}.
+{% endfor %}
+
+; DNS PTR Records
+{% for record in dns_records | selectattr('zone', 'equalto', '0.0.10.in-addr.arpa.')  %}
+{{ record.record_value }}  IN  {{ record.type }}       {{ record.host }}
+{% endfor %}
+
+8       IN      PTR     trahan-nas.trahan.dev.
+11      IN      PTR     trah-dev-01-container.trahan.dev.
+15      IN      PTR     trah-dns-01.
+32      IN      PTR     trah-dev-01.trahan.dev.
+99      IN      PTR     trah-up-plex.trahan.dev.
+254     IN      PTR     asus.trahan.dev.
+16      IN      PTR     trah-dev-03.trahan.dev.

@@ -1,9 +1,0 @@
-nameservers:
-- {name: trah-dns-01, zone: trahan.dev, ip_address: '10.0.0.15'}
-- {name: trahdns2, zone: trahan.dev, ip_address: '10.0.0.16'}
-
-dns_a_records:
-- {host: vm1, zone: trahan.dev, ip_address: '10.0.1.64'}
-- {host: proxmox1, zone: trahan.dev, ip_address: '10.0.0.50'}
-- {host: vm2, zone: trahan.dev, ip_address: '10.0.1.64'}
-- {host: vm2, zone: trahan.dev, ip_address: '10.0.1.64'}
