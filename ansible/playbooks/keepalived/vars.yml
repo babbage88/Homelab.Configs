@@ -1,0 +1,28 @@
+virtual_ip: "10.0.0.19/23"
+
+vrrp_servers:
+- hostname: trahdns2
+  state: MASTER
+  virtual_router_id: 53
+  vrrp_instance: "VI_1"
+  interface: eth0
+  priority: 255
+  global_rt_id: master_node_1
+  auth_pass: "{{ vrrp_auth_pass }}"
+- hostname: trahdns3
+  state: BACKUP
+  virtual_router_id: 53
+  vrrp_instance: "VI_1"
+  interface: eth0
+  priority: 200
+  global_rt_id: master_node_2
+  auth_pass: "{{ vrrp_auth_pass }}"
+- hostname: trah-dns-01
+  state: BACKUP
+  virtual_router_id: 53
+  vrrp_instance: "VI_1"
+  interface: eth0
+  priority: 150
+  global_rt_id: master_node_3
+  auth_pass: "{{ vrrp_auth_pass }}"
+
