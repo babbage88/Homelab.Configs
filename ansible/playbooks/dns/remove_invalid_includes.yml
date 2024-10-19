@@ -14,7 +14,7 @@
 
 - name: Remove invalid include lines
   ansible.builtin.lineinfile:
-    path: /etc/bind/named.conf
+    path: /etc/bind/named.conf.local
     regexp: '^include "{{ item.item }}"'
     state: absent
   with_items: "{{ include_file_stats.results }}"
