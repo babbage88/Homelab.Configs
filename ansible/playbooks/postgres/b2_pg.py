@@ -50,12 +50,12 @@ class B2SyncJob:
             self.logger.error("Please verify B2_APPLICATION_KEY_ID and B2_APPLICATION_KEY are set correctly in {}".format(self.dotenv_path))
 
     def syncronize(self, src=None, dst=None):
-        if src != None:
+        if src is not None:
             source = src
         else:
             source = self.local_file_path
 
-        if dst != None:
+        if dst is not None:
             destination = dst
         else:
             destination = self.b2_bucket_url

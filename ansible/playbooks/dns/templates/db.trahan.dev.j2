@@ -1,26 +1,23 @@
-$TTL 86400
+$TTL 604800
+$ORIGIN .
 {% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
 
-@   IN  SOA     {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
-        {{ "%Y%m%d%H" | strftime }}01 ; serial
-        3600       ; refresh
-        1800       ; retry
-        1209600    ; expire
-        86400      ; minimum
-		)
-
-; Define Name Servers
+{{ current_nameserver.zone }} IN SOA  {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. root.{{ current_nameserver.zone }}. (
+    3        ; serial
+    604800     ; refresh (1 week)
+    86400      ; retry (1 day)
+    2419200    ; expire (4 weeks)
+    604800     ; minimum (1 week)
+    )
 {% for ns in nameservers %}
-@   NS	{{ ns.ns_name }}.{{ ns.zone }}.
+ NS	{{ ns.ns_name }}.{{ ns.zone }}.
 {% endfor %}
 
-; Name Server IPs
+$ORIGIN {{ current_nameserver.zone }}.
 {% for ns in nameservers %}
-{{ ns.name }}       IN      A	{{ ns.ip_address }}
-{{ ns.ns_name }}    IN	    A	{{ ns.ip_address }}
+{{ ns.name }}   IN  A   {{ ns.ip_address }}
+{{ ns.ns_name }}    IN  A   {{ ns.ip_address }}
 {% endfor %}
-
-; DNS Records
 {% for record in dns_records | rejectattr('type', 'equalto', 'PTR') | rejectattr('type', 'equalto', 'ptr') %}
 {{ record.host }}   IN  {{ record.type }}   {{ record.record_value }}
 {% endfor %}
