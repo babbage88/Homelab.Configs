@@ -17,7 +17,7 @@ all:
         ansible_become_password: "{{ lookup('env', 'BECOME_PASSWORD') }}"
     dns-servers:
       hosts:
-        trahd-dns-01:
+        trahdns1:
           ansible_host: 10.0.0.15
           ansible_user: devops
         trahdns2:

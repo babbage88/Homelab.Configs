@@ -17,7 +17,7 @@ vrrp_servers:
   priority: 200
   global_rt_id: master_node_2
   auth_pass: "{{ vrrp_auth_pass }}"
-- hostname: trah-dns-01
+- hostname: trahdns1
   state: BACKUP
   virtual_router_id: 53
   vrrp_instance: "VI_1"

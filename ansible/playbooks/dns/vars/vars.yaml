@@ -5,7 +5,7 @@ forwarders: ['1.1.1.1', '8.8.8.8', '9.9.9.9']
 acl_allow_transfer: ['10.0.0.14', '10.0.0.15', '10.0.0.17', '10.0.0.64', '10.0.1.64', '127.0.0.0/8']
 
 nameservers:
-- {name: trah-dns-01, zone: trahan.dev, ip_address: '10.0.0.15', last: 15, ns_name: ns1}
+- {name: trahdns1, zone: trahan.dev, ip_address: '10.0.0.15', last: 15, ns_name: ns1}
 - {name: trahdns2, zone: trahan.dev, ip_address: '10.0.0.14', last: 14, ns_name: ns2}
 - {name: trahdns3, zone: trahan.dev, ip_address: '10.0.0.17', last: 17, ns_name: ns3}
 
@@ -43,7 +43,7 @@ dns_records:
 - {host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8"}
 - {host: trahdb1, type: A, zone: trahan.dev, record_value: "10.0.1.209"}
 - {host: trahdb2, type: A, zone: trahan.dev, record_value: "10.0.1.208"}
-- {host: trahkube1, type: A, zone: trahan.dev, record_value: "10.0.0.210"}
+- {host: trahkube1, type: A, zone: trahan.dev, record_value: "10.0.1.210"}
 - {host: trahkube2, type: A, zone: trahan.dev, record_value: "10.0.1.249"}
 - {host: trahkube3, type: A, zone: trahan.dev, record_value: "10.0.1.29"}
 - {host: truenas, type: A, zone: trahan.dev, record_value: "10.0.0.12"}
@@ -52,6 +52,7 @@ dns_records:
 - {host: trah-dns-01, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '14'}
 - {host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '14'}
 - {host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '17'}
+- {host: trah-dns, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '19'}
 - {host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '210'}
 - {host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '249'}
 - {host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '29'}

@@ -3,7 +3,7 @@ $ORIGIN .
 {% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
 
 {{ current_nameserver.zone }} IN SOA  {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. root.{{ current_nameserver.zone }}. (
-    3        ; serial
+    4        ; serial
     604800     ; refresh (1 week)
     86400      ; retry (1 day)
     2419200    ; expire (4 weeks)

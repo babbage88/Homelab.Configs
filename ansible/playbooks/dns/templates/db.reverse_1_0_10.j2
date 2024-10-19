@@ -1,17 +1,15 @@
 $TTL 86400
 {% set current_nameserver = nameservers | selectattr('name', 'equalto', inventory_hostname_short) | first %}
 
-@   IN  SOA     {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
-        {{ "%Y%m%d%H" | strftime }}01 ; serial
-        3600       ; refresh
-        1800       ; retry
-        1209600    ; expire
-        86400      ; minimum
-)
-
-; Define Name Servers
+{{ current_nameserver.ns_name }}   IN  SOA     {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. admin.{{ current_nameserver.zone }}. (
+        4        ; serial
+        604800     ; refresh (1 week)
+        86400      ; retry (1 day)
+        2419200    ; expire (4 weeks)
+        604800     ; minimum (1 week)
+        )
 {% for ns in nameservers %}
-@   IN  NS      {{ ns.ns_name }}.{{ ns.zone }}.
+ NS {{ ns.ns_name }}.{{ ns.zone }}.
 {% endfor %}
 
 ; DNS PTR Records
