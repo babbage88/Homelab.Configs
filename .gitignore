@@ -8,6 +8,7 @@ python/testy.yaml
 python/vars.yaml
 python/yamltest.yaml
 python/zone.txt
+ansible/playbooks/initial_dev_config/devops_vars.yml
 scripts/bash/renew_certs.sh
 terraform/scratch_vms/.terraform/
 **/*vault.yml
