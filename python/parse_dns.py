@@ -10,10 +10,14 @@ from custom_logger import CustomLogger
 
 logger = CustomLogger(name='DNSParser', log_file='dns_parser.log', log_level=logging.INFO).get_logger()
 
+# Custom Dumper to control the output style for dictionaries in the list
+class DnsDumper(yaml.Dumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super(DnsDumper, self).increase_indent(flow=True, indentless=indentless)
+
 # Function to parse the DNS records from the zone file text
-def parse_zone_file(zone_file_path):
+def parse_zone_file(zone_file_path, zone='trahan.dev'):
     dns_records = []
-    zone = "trahan.dev"  # Assuming zone is fixed
 
     try:
         # Read the zone file content
@@ -49,7 +53,13 @@ def parse_zone_file(zone_file_path):
 def save_to_yaml(data, output_file):
     try:
         with open(output_file, 'w') as file:
-            yaml.dump({"dns_records": data}, file, default_flow_style=False)
+            yaml.dump(
+                data,
+                file,
+                default_flow_style=None,
+                sort_keys=False,
+                Dumper=yaml.SafeDumper
+            )
         logger.info(f"Data successfully saved to {output_file}")
     except Exception as e:
         logger.error(f"Error saving to YAML: {e}")
@@ -58,13 +68,14 @@ def save_to_yaml(data, output_file):
 if __name__ == "__main__":
     # Argument parser setup
     parser = argparse.ArgumentParser(description="Parse BIND zone file to YAML format")
-    parser.add_argument("--zone-file", required=True, help="Path to the BIND zone file")
-    parser.add_argument("--output-file", required=True, help="Path to save the output YAML file")
+    parser.add_argument("-f","--zone-file", default="zone.txt", help="Path to the BIND zone file")
+    parser.add_argument("-o", "--output-file", default="vars.yaml" , help="Path to save the output YAML file")
+    parser.add_argument("-z", "--zone-name", default="trahan.dev", help="Zone Name")
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
 
     # Parse the zone file
-    records = parse_zone_file(args.zone_file)
+    records = parse_zone_file(args.zone_file, args.zone_name)
 
     # Save to vars.yaml format
     save_to_yaml(records, args.output_file)
