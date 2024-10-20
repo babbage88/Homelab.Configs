@@ -9,6 +9,7 @@ spec:
       - "--api"
       - "--api.dashboard=true"
       - "--api.insecure=true"
+      - "--providers.kubernetescrd.allowExternalNameServices=true"
     ports:
       traefik:
         expose: true

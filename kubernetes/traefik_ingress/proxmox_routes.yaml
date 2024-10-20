@@ -9,11 +9,11 @@ spec:
   routes:
   - match: Host(`vm1.trahan.dev`)
     kind: Rule
-    middlewares:
-    - name: http-to-https
     services:
     - name: proxmox1-service
+      kind: Service
       port: 8006
+      serversTransport: insecure-transport
   tls:
     secretName: trahan-dev-cert
 ---
@@ -26,12 +26,31 @@ spec:
   entryPoints:
   - websecure # HTTPS entry point
   routes:
-  - match: Host(`vm1.trahan.dev`)
+  - match: Host(`vm2.trahan.dev`)
     kind: Rule
-    middlewares:
-    - name: http-to-https
     services:
     - name: proxmox2-service
+      kind: Service
       port: 8006
+      serversTransport: insecure-transport
+  tls:
+    secretName: trahan-dev-cert
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prox3-trahan-ingress
+  namespace: default
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`vm3.trahan.dev`)
+    kind: Rule
+    services:
+    - name: proxmox3-service
+      kind: Service
+      port: 8006
+      serversTransport: insecure-transport # lowercase "serversTransport"
   tls:
     secretName: trahan-dev-cert
