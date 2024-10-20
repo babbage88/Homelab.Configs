@@ -1,0 +1,50 @@
+{% set current_server = vrrp_servers | selectattr('hostname', 'equalto', inventory_hostname_short) | first %}
+{% set other_servers = vrrp_servers | selectattr('hostname', 'ne', inventory_hostname_short) %}
+
+global_defs {
+    router_id {{ current_server.global_rt_id }}
+}
+
+vrrp_instance VI_1 {
+  state {{ current_server.state }}
+  interface {{ current_server.interface }}
+  virtual_router_id {{ current_server.virtual_router_id }}
+  priority {{ current_server.priority }}
+  advert_int 1
+  authentication {
+    auth_type PASS
+    auth_pass {{ current_server.auth_pass }}
+  }
+  unicast_src_ip {{ current_server.unicast_src_ip }}
+  unicast_peer {
+    {% for server in other_servers %}
+    {{ server.unicast_src_ip }}
+    {% endfor %}
+  }
+  virtual_ipaddress {
+    {{ virtual_ip }}
+  }
+}
+
+{% if current_server.is_control_plane %}
+vrrp_instance {{ current_server.control_plane_vrrp_instance }} {
+  state {{ current_server.state }}
+  interface {{ current_server.interface }}
+  virtual_router_id {{ current_server.virtual_router_id + 1 }}
+  priority {{ current_server.control_plane_priority }}
+  advert_int 1
+  authentication {
+    auth_type PASS
+    auth_pass {{ current_server.auth_pass }}
+  }
+  unicast_src_ip {{ current_server.unicast_src_ip }}
+  unicast_peer {
+    {% for server in other_servers | selectattr('is_control_plane', 'equalto', true) %}
+    {{ server.unicast_src_ip }}
+    {% endfor %}
+  }
+  virtual_ipaddress {
+    {{ control_plane_virtual_ip }}
+  }
+}
+{% endif %}

@@ -1,2 +1,0 @@
-goinfra_pg_conn:
-- {pw: "{{ goinfra_db_pw }}", db_name: go-infra, db_user: jtrahan, vrrp_cfg_secret: "{{ vrrp_secret }}"}

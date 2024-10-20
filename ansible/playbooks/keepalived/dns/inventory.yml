@@ -1,0 +1,17 @@
+all:
+  children:
+    dns-servers:
+      hosts:
+        trahdns1:
+          ansible_host: 10.0.0.15
+          ansible_user: devops
+        trahdns2:
+          ansible_host: 10.0.0.14
+          ansible_user: devops
+        trahdns3:
+          ansible_host: 10.0.0.17
+          ansible_user: devops
+      vars:
+        ansible_become: true
+        ansible_become_method: sudo
+        ansible_become_password: "{{ lookup('env', 'ANSIBLE_DEVOPS') }}"

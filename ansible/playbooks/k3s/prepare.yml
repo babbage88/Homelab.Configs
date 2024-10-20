@@ -1,8 +1,0 @@
----
-- name: Prepare
-  hosts: k3s-workers
-  become: true
-  gather_facts: false
-
-  roles:
-    - role: robertdebock.bootstrap
