@@ -99,6 +99,15 @@
       mode: '0644'
     become: yes
 
+  - name: Create forward zone file from template
+    ansible.builtin.template:
+      src: templates/db.test.trahan.dev.j2
+      dest: /etc/bind/zones/db.test.trahan.dev
+      owner: bind
+      group: bind
+      mode: '0644'
+    become: yes
+
   - name: Create reverse zone file for 0.0.10.in-addr.arpa from template
     ansible.builtin.template:
       src: templates/db.reverse_0_0_10.j2

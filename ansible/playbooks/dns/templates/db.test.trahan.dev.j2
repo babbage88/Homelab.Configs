@@ -1,0 +1,23 @@
+$TTL 604800
+$ORIGIN .
+{% set current_nameserver = nameservers_test_zone | selectattr('name', 'equalto', inventory_hostname_short) | first %}
+
+{{ current_nameserver.zone }} IN SOA  {{ current_nameserver.ns_name }}.{{ current_nameserver.zone }}. root.{{ current_nameserver.zone }}. (
+    4        ; serial
+    604800     ; refresh (1 week)
+    86400      ; retry (1 day)
+    2419200    ; expire (4 weeks)
+    604800     ; minimum (1 week)
+    )
+{% for ns in nameservers_test_zone %}
+ NS	{{ ns.ns_name }}.{{ ns.zone }}.
+{% endfor %}
+
+$ORIGIN {{ current_nameserver.zone }}.
+{% for ns in nameservers_test_zone %}
+{{ ns.name }}   IN  A   {{ ns.ip_address }}
+{{ ns.ns_name }}    IN  A   {{ ns.ip_address }}
+{% endfor %}
+{% for record in sub_zone_records | rejectattr('type', 'equalto', 'PTR') | rejectattr('type', 'equalto', 'ptr') %}
+{{ record.host }}   IN  {{ record.type }}   {{ record.record_value }}
+{% endfor %}
