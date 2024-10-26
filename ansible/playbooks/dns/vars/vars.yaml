@@ -16,6 +16,8 @@ nameservers_test_zone:
 
 dns_records:
 - {host: vm1, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
+- {host: kubeapi, type: A, zone: trahan.dev, record_value: '10.0.0.65'}
+- {host: longhorn, type: A, zone: trahan.dev, record_value: '10.0.0.65'}
 - {host: proxmox1, type: A, zone: trahan.dev, record_value: '10.0.0.50'}
 - {host: vm2, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
 - {host: proxmox2, type: A, zone: trahan.dev, record_value: '10.0.0.9'}
@@ -64,9 +66,11 @@ dns_records:
 - {host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: '210'}
 - {host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '249'}
 - {host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: '29'}
+- {host: rancher, type: A, zone: trahan.dev, record_value: '10.0.1.64'}
 
 sub_zone_records:
 - {host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64"}
+- {host: git, type: A, zone: test.trahan.dev, record_value: "10.0.1.64"}
 - {host: calc, type: A, zone: test.trahan.dev, record_value: "10.0.1.64",}
 
 

@@ -12,11 +12,11 @@ variable "ssh_key" {
 variable "proxmox_node" {
   description = "Proxmox Hostname or IP"
   type = string
-  default = "proxmox1"
+  default = "proxmox3"
 }
 
 variable "proxmox_host" {
-    default = "https://vm2.trahan.dev/"
+    default = "https://vm3.trahan.dev/"
 }
 
 variable "template_name" {
@@ -69,7 +69,7 @@ variable "tst_vm_names" {
     template_image_name = string
   }))
   default = {
-    "trahdevtest1" = { node_name = "proxmox1", vm_cpu = 1, vm_memory_bytes = 2048, template_image_name = "local:iso/noble-server-cloudimg-amd64.img" }
+    "trahreplica" = { node_name = "proxmox1", vm_cpu = 2, vm_memory_bytes = 4096, template_image_name = "local:iso/noble-server-cloudimg-amd64.img" }
   }
 }
 

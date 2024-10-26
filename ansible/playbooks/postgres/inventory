@@ -1,0 +1,2 @@
+[replica-db]
+trahdb1 ansible_host=trahdb1.trahan.dev ansible_user=jtrahan

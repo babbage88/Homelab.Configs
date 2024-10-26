@@ -8,7 +8,7 @@
       ansible.builtin.systemd:
         name: postgresql
         state: restarted
-      become: true  
+      become: true
 
   tasks:
     - name: Install PostgreSQL and psycopg2
@@ -43,7 +43,7 @@
       ansible.builtin.systemd:
         name: postgresql
         state: stopped
-      become: true 
+      become: true
 
     - name: Remove all files and directories inside main, but keep main directory
       ansible.builtin.command:
@@ -55,11 +55,12 @@
 
     - name: Init streaming replica
       ansible.builtin.command:
-        cmd: pg_basebackup -h trahdb1.trahan.dev -D /var/lib/postgresql/14/main -U replicator -v -R -X stream
+        cmd: pg_basebackup -h "{{ item.hostname }}" -D /var/lib/postgresql/14/main -U replicator -v -R -X stream
       become: true
       become_user: postgres
       notify:
         - Restart postgresql
+      with_items: "{{ primary_pg_server }}"
 
 
 

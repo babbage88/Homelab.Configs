@@ -36,6 +36,7 @@ postgres_hba_standy_entries:
 - {contype: local, databases: all, users: all, method: peer}
 - {contype: host, databases: replication, users: replicator, address: samenet, method: trust}
 - {contype: host, databases: all, users: replicator, address: trahdb1.trahan.dev, method: trust}
+- {contype: host, databases: all, users: replicator, address: trahdb2.trahan.dev, method: trust}
 - {contype: host, databases: all, users: all, address: samenet, method: scram-sha-256}
 
 
@@ -47,3 +48,6 @@ b2_app_key_and_secret:
 
 seven_z_pw:
 - {pw: "{{ vault_archive_pw }}", localfile: goinfra.7z, path: /pgdumps, db_name: go-infra, db_user: jtrahan}
+
+primary_pg_server:
+- {hostname: trahdb2.trahan.dev}

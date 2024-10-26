@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gitea-route
+  namespace: git
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`git.test.trahan.dev`)
+    kind: Rule
+    services:
+    - name: gitea-http
+      port: 3000
+  tls:
+    secretName: test-trahan-cert
+

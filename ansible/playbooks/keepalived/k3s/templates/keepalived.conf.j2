@@ -1,10 +1,6 @@
 {% set current_server = vrrp_servers | selectattr('hostname', 'equalto', inventory_hostname_short) | first %}
 {% set other_servers = vrrp_servers | selectattr('hostname', 'ne', inventory_hostname_short) %}
 
-global_defs {
-    router_id {{ current_server.global_rt_id }}
-}
-
 vrrp_instance VI_1 {
   state {{ current_server.state }}
   interface {{ current_server.interface }}

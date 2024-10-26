@@ -120,6 +120,12 @@ resource "proxmox_virtual_environment_vm" "tst_vm" {
     size         = 30
   }
 
+  disk {
+    datastore_id = "storageprox"
+    interface = "virtio1"
+    size = "1200"
+  }
+
   initialization {
     ip_config {
       ipv4 {
