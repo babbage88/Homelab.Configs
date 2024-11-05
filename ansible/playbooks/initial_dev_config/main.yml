@@ -76,7 +76,7 @@
         group: "{{ ansible_user }}"
         mode: '0755'
       become: yes
-      become_user: jtrahan
+      become_user: "{{ ansible_user }}"
 
     - name: Create Directory to Neovim build from source
       ansible.builtin.file:
@@ -86,8 +86,30 @@
         group: "{{ ansible_user }}"
         mode: '0755'
       become: yes
-      become_user: jtrahan
+      become_user: "{{ ansible_user }}"
       register: nvim_repo_dir
+
+    - name: Create .config dir for nvim
+      ansible.builtin.file:
+        path: '{{ ansible_env.HOME }}/.config'
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+      become: yes
+      become_user: "{{ ansible_user }}"
+      register: dot_conf_dir
+
+    - name: Create .config dir for nvim
+      ansible.builtin.file:
+        path: '{{ dot_conf_dir.path }}/nvim'
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+      become: yes
+      become_user: "{{ ansible_user }}"
+      register: nvim_config_dir
 
     - name: Clone Neovim repo
       ansible.builtin.git:
@@ -95,7 +117,7 @@
         dest: '{{ nvim_repo_dir.path }}'
         clone: yes
       become: yes
-      become_user: jtrahan
+      become_user: "{{ ansible_user }}"
 
     - name: Make build for Neovim
       ansible.builtin.command:
@@ -103,7 +125,7 @@
         chdir: '{{ ansible_env.HOME }}/build/neovim'
         creates: '{{ ansible_env.HOME }}/build/neovim/build/bin/nvim'
       become: yes
-      become_user: jtrahan
+      become_user: "{{ ansible_user }}"
 
     - name: Make Install Neovim
       ansible.builtin.command:
@@ -111,3 +133,18 @@
         chdir: '{{ nvim_repo_dir.path }}'
         creates: '/usr/local/bin/nvim'
       become: yes
+
+    - name: Clone lazyvim repo
+      ansible.builtin.git:
+        repo: https://github.com/neovim/neovim.git
+        dest: '{{ nvim_config_dir.path }}'
+        clone: yes
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    - name: Remove lazyvim .git file
+      ansible.builtin.command:
+        cmd: rm -rf "{{ nvim_config_dir.path }}/.git"
+        removes: "{{ nvim_config_dir.path }}/.git"
+      become: yes
+      become_user: "{{ ansible_user }}"
