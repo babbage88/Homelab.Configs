@@ -16,7 +16,6 @@
       name: sshd
       state: restarted
     become: true
-
   tasks:
 
     - name: Ensure required groups are present
@@ -97,7 +96,6 @@
         clone: yes
       become: yes
       become_user: jtrahan
-      register: nvim_clone
 
     - name: Make build for Neovim
       ansible.builtin.command:
@@ -107,9 +105,9 @@
       become: yes
       become_user: jtrahan
 
-    - name: Make build for Neovim
+    - name: Make Install Neovim
       ansible.builtin.command:
         cmd: make Install
-        chdir: "{{ nvim_clone.dest }}"
+        chdir: '{{ nvim_repo_dir.path }}'
         creates: '/usr/local/bin/nvim'
       become: yes
