@@ -14,13 +14,13 @@ vrrp_servers:
   auth_pass: "{{ vrrp_auth_pass }}"
   is_control_plane: true
 - hostname: trahkube1
-  state: MASTER
+  state: BACKUP
   unicast_src_ip: 10.0.0.210
   virtual_router_id: 55
   vrrp_instance: "VI_K3_1"
   control_plane_vrrp_instance: "VI_K3_CP"
   interface: eth0
-  priority: 255
+  priority: 254
   control_plane_priority: 255
   auth_pass: "{{ vrrp_auth_pass }}"
   is_control_plane: true
@@ -51,3 +51,14 @@ vrrp_servers:
   priority: 100
   auth_pass: "{{ vrrp_auth_pass }}"
   is_control_plane: false
+- hostname: trahkube4
+  state: MASTER
+  unicast_src_ip: 10.0.0.201
+  virtual_router_id: 55
+  vrrp_instance: "VI_K3_1"
+  control_plane_vrrp_instance: "VI_K3_CP"
+  interface: eth0
+  priority: 255
+  control_plane_priority: 254
+  auth_pass: "{{ vrrp_auth_pass }}"
+  is_control_plane: true

@@ -1,5 +1,6 @@
 - name: Install Bind
-  hosts: "{{ ansible_limit | default(omit) }}"
+  hosts: dns-servers
+  #hosts: "{{ ansible_limit | default(omit) }}"
   become: yes
   gather_facts: yes
 

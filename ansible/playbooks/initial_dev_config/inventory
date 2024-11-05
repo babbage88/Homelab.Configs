@@ -6,3 +6,7 @@ trahtestct ansible_host=10.0.1.16 ansible_user=root
 
 [trahdns1]
 trahdns1 ansible_host=10.0.0.15 ansible_user=root
+
+[test-db]
+trahtestdb1 ansible_host=10.0.0.26 ansible_user=jtrahan
+trahtestdb2 ansible_host=10.0.0.27 ansible_user=jtrahan

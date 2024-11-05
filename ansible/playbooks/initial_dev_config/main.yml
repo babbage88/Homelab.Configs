@@ -1,20 +1,21 @@
 ---
 - name: Install Dev Applications and create users
   # pass --limit=<hostname>
-  hosts: "{{ ansible_limit | default(omit) }}"
+  #hosts: "{{ ansible_limit | default(omit) }}"
+  hosts: test-db
+
 
   vars_files:
     - vars.yml
     #- devops_vars.yml
     - vault.yml
 
-
   handlers:
   - name: Restart sshd
     ansible.builtin.systemd:
       name: sshd
       state: restarted
-    become: yes
+    become: true
 
   tasks:
 
@@ -112,8 +113,3 @@
         chdir: "{{ nvim_clone.dest }}"
         creates: '/usr/local/bin/nvim'
       become: yes
-
-
-
-
-

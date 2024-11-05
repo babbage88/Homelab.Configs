@@ -81,7 +81,7 @@
 
     - name: Add entries to pg_hba
       community.postgresql.postgresql_pg_hba:
-        dest: "/etc/postgresql/14/main/pg_hba.conf"
+        dest: "/etc/postgresql/{{ pg_version }}/main/pg_hba.conf"
         address: "{{ item.address | default(omit) }}"
         contype: "{{ item.contype }}"
         databases: "{{ item.databases }}"
@@ -106,7 +106,7 @@
     - name: Grant REPLICATION to user
       community.postgresql.postgresql_query:
         db: infradb-dev
-        query: 
+        query:
           - ALTER USER replicator REPLICATION;
           - ALTER USER jtrahan REPLICATION;
       become_user: postgres
@@ -117,7 +117,7 @@
     - name: Grant REPLICATION to user
       community.postgresql.postgresql_query:
         db: infradb-dev
-        query: 
+        query:
           - ALTER USER replicator REPLICATION;
           - ALTER USER jtrahan REPLICATION;
       become_user: postgres
@@ -163,7 +163,7 @@
           - pgbackup
         append: true
       become: true
-    
+
     - name: Add postgres user to the pgbackup groups
       ansible.builtin.user:
         name: postgres
@@ -183,7 +183,7 @@
       with_items: "{{ b2_app_key_and_secret }}"
 
     - name: Unarchive a file with extra options
-      ansible.builtin.command: 
+      ansible.builtin.command:
         cmd: 7z x {{ item.localfile }} "-p{{ item.pw }}"
         chdir: /pgdumps
         creates: /pgdumps/go-infra.sql
@@ -199,7 +199,7 @@
       become_user: postgres
       with_items: "{{ seven_z_pw }}"
 
-    - name: Grant access to restored db 
+    - name: Grant access to restored db
       become: yes
       become_user: postgres
       postgresql_privs:
@@ -208,8 +208,6 @@
         objs: ALL_IN_SCHEMA
         privs: SELECT,INSERT,UPDATE,DELETE
       with_items: "{{ seven_z_pw }}"
-
-    
 
 
 

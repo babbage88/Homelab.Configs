@@ -17,6 +17,9 @@ all:
         trahk3worker1:
           ansible_host: trahk3worker1.trahan.dev
           ansible_user: jtrahan
+        trahkube4:
+          ansible_host: trahkube4.trahan.dev
+          ansible_user: jtrahan
       vars:
         ansible_become: true
         ansible_become_method: sudo
