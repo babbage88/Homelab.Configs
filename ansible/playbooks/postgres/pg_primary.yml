@@ -1,4 +1,5 @@
-- hosts: test-db
+- name: install Postgres and setup Master
+  hosts: "{{ ansible_limit | default(omit) }}"
 
   vars_files:
     - vault.yml
