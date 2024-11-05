@@ -136,7 +136,7 @@
 
     - name: Clone lazyvim repo
       ansible.builtin.git:
-        repo: https://github.com/neovim/neovim.git
+        repo: https://github.com/LazyVim/starter
         dest: '{{ nvim_config_dir.path }}'
         clone: yes
       become: yes
