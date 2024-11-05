@@ -126,18 +126,37 @@
       notify:
         - Restart postgresql
 
-    - name: Install bottle python package
-      ansible.builtin.pip:
-        name: b2
-        state: present
-
     - name: Create directory for pg backups
       ansible.builtin.file:
         path: /pgdumps
         state: directory
         mode: "0775"
         owner: postgres
+        group: postgres
       become: true
+
+    - name: Create python venv for b2
+      ansible.builtin.command:
+        cmd: python3 -m venv /pgdumps/venv
+        creates: /pgdumps/venv/bin/activate
+      become: yes
+      become_user: postgres
+
+    - name: Install pipx in venv
+      ansible.builtin.pip:
+        name: pipx
+        state: present
+        virtualenv: /pgdumps/venv
+      become: yes
+      become_user: postgres
+
+    - name: Install bottle python package
+      ansible.builtin.pip:
+        name: b2
+        state: present
+        virtualenv: /pgdumps/venv
+      become: yes
+      become_user: postgres
 
     - name: Ensure group "pgbackup" exists
       ansible.builtin.group:
@@ -154,6 +173,17 @@
         owner: postgres
         group: pgbackup
       become: true
+
+    - name: Create directory for pg backups
+      ansible.builtin.file:
+        path: "{{ item.local_archive_dir }}"
+        state: directory
+        mode: "0775"
+        owner: postgres
+        group: pgbackup
+      become: true
+      with_items: "{{ b2_app_key_and_secret }}"
+      register: local_7z_dir
 
     - name: Add users to pgbackup
       ansible.builtin.user:
@@ -173,28 +203,50 @@
         append: true
       become: true
 
-    - name: Download backup from b2 for go-infra
-      ansible.builtin.command: /usr/local/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
+    - name: Authenticate with b2
+      ansible.builtin.command:
+        cmd: /pgdumps/venv/bin/b2 account authorize "{{ item.key }}" "{{ item.secret }}"
       with_items: "{{ b2_app_key_and_secret }}"
+      become: yes
+      become_user: postgres
 
     - name: Download backup from b2 for go-infra
-      ansible.builtin.command: 
-        cmd: /usr/local/bin/b2 file download "{{ item.remotefile }}" "{{ item.localfile }}"
-        creates: "{{ item.localfile }}"
+      ansible.builtin.command:
+        cmd: /pgdumps/venv/bin/b2 sync "{{ item.archive_dir_b2 }}" "{{ local_7z_dir.path }}"
+        creates: "{{ local_7z_dir.path }}/k3sdb.7z"
       with_items: "{{ b2_app_key_and_secret }}"
+      become: yes
+      become_user: postgres
 
     - name: Unarchive a file with extra options
       ansible.builtin.command:
-        cmd: 7z x {{ item.localfile }} "-p{{ item.pw }}"
-        chdir: /pgdumps
+        cmd: 7z x {{ item.goinfra_file }} "-p{{ item.pw }}"
+        chdir: "{{ local_7z_dir.path }}"
         creates: /pgdumps/go-infra.sql
       with_items: "{{ seven_z_pw }}"
 
-    - name: Restore database from backup
+    - name: Unarchive a file with extra options
+      ansible.builtin.command:
+        cmd: 7z x {{ item.k3s_file }} "-p{{ item.pw }}"
+        chdir: "{{ local_7z_dir.path }}"
+        creates: /pgdumps/k3s.sql
+      with_items: "{{ seven_z_pw }}"
+
+    - name: Restore go-infra database from backup
       community.postgresql.postgresql_db:
         name: "{{ item.db_name }}"
         state: restore
-        target: "/pgdumps/{{ item.db_name }}.sql"
+        target: "{{ local_7z_dir.path }}/{{ item.db_name }}.sql"
+        encoding: "UTF-8"
+      become: true
+      become_user: postgres
+      with_items: "{{ seven_z_pw }}"
+
+    - name: Restore k3s database from backup
+      community.postgresql.postgresql_db:
+        name: "{{ item.k3s_db_name }}"
+        state: restore
+        target: "{{ local_7z_dir.path }}/{{ item.k3s_db_name }}.sql"
         encoding: "UTF-8"
       become: true
       become_user: postgres
@@ -205,6 +257,26 @@
       become_user: postgres
       postgresql_privs:
         db: "{{ item.db_name }}"
+        role: "{{ item.db_user }}"
+        objs: ALL_IN_SCHEMA
+        privs: SELECT,INSERT,UPDATE,DELETE
+      with_items: "{{ seven_z_pw }}"
+
+    - name: Grant access to restored db
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: "{{ item.k3s_db_name }}"
+        role: "{{ item.k3s_db_user }}"
+        objs: ALL_IN_SCHEMA
+        privs: SELECT,INSERT,UPDATE,DELETE
+      with_items: "{{ seven_z_pw }}"
+
+    - name: Grant access to restored db
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: "{{ item.k3s_db_name }}"
         role: "{{ item.db_user }}"
         objs: ALL_IN_SCHEMA
         privs: SELECT,INSERT,UPDATE,DELETE

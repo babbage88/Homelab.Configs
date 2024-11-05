@@ -42,7 +42,13 @@ postgresql_privs:
 
 postgresql_hba_entries:
 - { contype: local, databases: all, users: all, method: peer }
-- { contype: host, databases: all, users: jtrahan, method: scram-sha-256 }
+- {
+    contype: host,
+    databases: all,
+    users: jtrahan,
+    address: samenet,
+    method: scram-sha-256
+  }
 - {
     contype: host,
     databases: replication,
@@ -54,7 +60,7 @@ postgresql_hba_entries:
     contype: host,
     databases: all,
     users: replicator,
-    address: trahdb2.trahan.dev,
+    address: db1.test.trahan.dev,
     method: trust
   }
 - { contype: host, databases: all, users: all, method: scram-sha-256 }
@@ -72,14 +78,28 @@ postgres_hba_standy_entries:
     contype: host,
     databases: all,
     users: replicator,
-    address: trahdb1.trahan.dev,
+    address: db1.test.trahan.dev,
     method: trust
   }
 - {
     contype: host,
     databases: all,
     users: replicator,
-    address: trahdb2.trahan.dev,
+    address: db1.test.trahan.dev,
+    method: trust
+  }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
+    address: 10.0.0.26,
+    method: trust
+  }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
+    address: 10.0.0.27,
     method: trust
   }
 - {
@@ -97,20 +117,27 @@ b2_app_key_and_secret:
 - {
     key: "{{ vault_b2_app_key }}",
     secret: "{{ vault_b2_app_secret }}",
-    localfile: /pgdumps/goinfra.7z,
-    remotefile: 'b2://trahan-postgres-backups/goinfra.7z'
+    localfile: /pgdumps/goinfradb.7z,
+    remotefile: 'b2://trahan-postgres-backups/goinfra.7z',
+    archive_dir_b2: 'b2://trahan-postgres-backups/7z_backups',
+    local_archive_dir: /pgdumps/7z_backups
   }
 
 seven_z_pw:
 - {
     pw: "{{ vault_archive_pw }}",
     localfile: goinfra.7z,
+    goinfra_file: /pgdumps/goinfradb.7z,
+    k3s_file: /pgdumps/k3sdb.7z,
     path: /pgdumps,
     db_name: go-infra,
-    db_user: jtrahan
+    goinfra_db_name: go-infra,
+    k3s_db_name: k3s,
+    db_user: jtrahan,
+    k3s_db_user: k3s
   }
 
 primary_pg_server:
-- { hostname: trahdb2.trahan.dev }
+- { hostname: db1.test.trahan.dev }
 
 pg_version: "15"
