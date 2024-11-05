@@ -107,7 +107,7 @@
 
     - name: Make Install Neovim
       ansible.builtin.command:
-        cmd: make Install
+        cmd: make install
         chdir: '{{ nvim_repo_dir.path }}'
         creates: '/usr/local/bin/nvim'
       become: yes
