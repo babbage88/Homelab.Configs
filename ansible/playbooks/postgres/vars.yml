@@ -1,3 +1,4 @@
+local_7zip_dir: /pgdumps/7z_backups
 postgresql_options:
 - { name: listen_addresses, value: '0.0.0.0' }
 - { name: wal_level, value: replica }
@@ -127,8 +128,8 @@ seven_z_pw:
 - {
     pw: "{{ vault_archive_pw }}",
     localfile: goinfra.7z,
-    goinfra_file: /pgdumps/goinfradb.7z,
-    k3s_file: /pgdumps/k3sdb.7z,
+    goinfra_file: /pgdumps/7z_backups/goinfradb.7z,
+    k3s_file: /pgdumps/7z_backups/k3sdb.7z,
     path: /pgdumps,
     db_name: go-infra,
     goinfra_db_name: go-infra,
