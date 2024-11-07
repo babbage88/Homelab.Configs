@@ -102,8 +102,14 @@ dns_records:
 - { host: trah-ub-plex, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
 - { host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8" }
 - { host: trahdb1, type: A, zone: trahan.dev, record_value: "10.0.1.209" }
+- { host: db1, type: A, zone: trahan.dev, record_value: "10.0.1.209" }
 - { host: trahdb2, type: A, zone: trahan.dev, record_value: "10.0.1.208" }
-- { host: trahdb3, type: A, zone: trahan.dev, record_value: "10.0.0.22" }
+- { host: trahdb2, type: A, zone: trahan.dev, record_value: "10.0.1.208" }
+- { host: trahdb3, type: A, zone: trahan.dev, record_value: "10.0.0.28" }
+- { host: db3, type: A, zone: trahan.dev, record_value: "10.0.0.28" }
+- { host: trahdb4, type: A, zone: trahan.dev, record_value: "10.0.0.29" }
+- { host: db4, type: A, zone: trahan.dev, record_value: "10.0.0.29" }
+- { host: pgprime, type: A, zone: trahan.dev, record_value: "10.0.0.28" }
 - { host: trahkube1, type: A, zone: trahan.dev, record_value: "10.0.0.210" }
 - { host: trahkube2, type: A, zone: trahan.dev, record_value: "10.0.1.249" }
 - { host: trahkube3, type: A, zone: trahan.dev, record_value: "10.0.1.29" }

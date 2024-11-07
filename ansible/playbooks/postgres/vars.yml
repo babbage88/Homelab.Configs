@@ -52,6 +52,13 @@ postgresql_hba_entries:
   }
 - {
     contype: host,
+    databases: all,
+    users: k3s,
+    address: samenet,
+    method: scram-sha-256
+  }
+- {
+    contype: host,
     databases: replication,
     users: replicator,
     address: samenet,
@@ -61,7 +68,28 @@ postgresql_hba_entries:
     contype: host,
     databases: all,
     users: replicator,
-    address: db1.test.trahan.dev,
+    address: db1.trahan.dev,
+    method: trust
+  }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
+    address: db2.trahan.dev,
+    method: trust
+  }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
+    address: db3.trahan.dev,
+    method: trust
+  }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
+    address: db4.trahan.dev,
     method: trust
   }
 - { contype: host, databases: all, users: all, method: scram-sha-256 }
@@ -79,35 +107,35 @@ postgres_hba_standy_entries:
     contype: host,
     databases: all,
     users: replicator,
-    address: db1.test.trahan.dev,
+    address: pgprime.trahan.dev,
     method: trust
   }
 - {
     contype: host,
     databases: all,
     users: replicator,
-    address: db1.test.trahan.dev,
+    address: db3.trahan.dev,
     method: trust
   }
 - {
     contype: host,
     databases: all,
     users: replicator,
-    address: 10.0.0.26,
+    address: 10.0.0.28,
     method: trust
   }
 - {
     contype: host,
     databases: all,
     users: replicator,
-    address: 10.0.0.27,
+    address: 10.0.0.29,
     method: trust
   }
 - {
     contype: host,
     databases: all,
     users: all,
-    address: samenet,
+    address: all,
     method: scram-sha-256
   }
 
@@ -128,17 +156,19 @@ seven_z_pw:
 - {
     pw: "{{ vault_archive_pw }}",
     localfile: goinfra.7z,
-    goinfra_file: /pgdumps/7z_backups/goinfradb.7z,
-    k3s_file: /pgdumps/7z_backups/k3sdb.7z,
+    goinfra_archive_file: goinfradb.7z,
+    k3s_archive_file: k3sdb.7z,
+    goinfra_sql_file: go-infra.sql,
+    k3s_sql_file: k3s.sql,
     path: /pgdumps,
     db_name: go-infra,
     goinfra_db_name: go-infra,
     k3s_db_name: k3s,
     db_user: jtrahan,
-    k3s_db_user: k3s
+    k3s_db_user: k3suser
   }
 
 primary_pg_server:
-- { hostname: db1.test.trahan.dev }
+- { hostname: pgprime.trahan.dev }
 
 pg_version: "15"

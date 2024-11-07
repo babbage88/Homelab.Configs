@@ -218,23 +218,23 @@
 
     - name: Unarchive a file with extra options
       ansible.builtin.command:
-        cmd: 7z x {{ item.goinfra_file }} "-p{{ item.pw }}"
-        chdir: "{{ local_7zip_dir }}"
-        creates: /pgdumps/go-infra.sql
+        cmd: 7z x {{ item.goinfra_archive_file }} "-p{{ item.pw }}"
+        chdir: /pgdumps/7z_backups
+        creates: "{{ item.goinfra_sql_file }}"
       with_items: "{{ seven_z_pw }}"
 
     - name: Unarchive a file with extra options
       ansible.builtin.command:
-        cmd: 7z x {{ item.k3s_file }} "-p{{ item.pw }}"
-        chdir: "{{ local_7zip_dir }}"
-        creates: /pgdumps/k3s.sql
+        cmd: 7z x {{ item.k3s_archive_file }} "-p{{ item.pw }}"
+        chdir: /pgdumps/7z_backups
+        creates: "{{ item.k3s_sql_file }}"
       with_items: "{{ seven_z_pw }}"
 
     - name: Restore go-infra database from backup
       community.postgresql.postgresql_db:
         name: "{{ item.db_name }}"
         state: restore
-        target: "{{ local_7zip_dir }}/{{ item.db_name }}.sql"
+        target: "{{ local_7zip_dir }}/{{ item.goinfra_sql_file }}"
         encoding: "UTF-8"
       become: true
       become_user: postgres
@@ -244,7 +244,7 @@
       community.postgresql.postgresql_db:
         name: "{{ item.k3s_db_name }}"
         state: restore
-        target: "{{ local_7zip_dir }}/{{ item.k3s_db_name }}.sql"
+        target: "{{ local_7zip_dir }}/{{ item.k3s_sql_file }}"
         encoding: "UTF-8"
       become: true
       become_user: postgres
