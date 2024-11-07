@@ -10,8 +10,8 @@ spec:
   - match: Host(`prometheus.trahan.dev`)
     kind: Rule
     services:
-    - name: prometheus-server-ext
-      port: 9090
+    - name: prometheus-server
+      port: 80
   tls:
     secretName: trahan-dev-cert
 ---
@@ -28,6 +28,23 @@ spec:
     kind: Rule
     services:
     - name: grafana
+      port: 80
+  tls:
+    secretName: trahan-dev-cert
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rancher-ingress
+  namespace: cattle-system
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`rancher.trahan.dev`)
+    kind: Rule
+    services:
+    - name: rancher
       port: 80
   tls:
     secretName: trahan-dev-cert

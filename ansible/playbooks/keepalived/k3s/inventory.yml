@@ -11,22 +11,16 @@ all:
         trahkube3:
           ansible_host: trahkube3.trahan.dev
           ansible_user: jtrahan
+        trahkubeapi1:
+          ansible_host: trahkubeapi1.trahan.dev
+          ansible_user: jtrahan
+        trahk3worker1:
+          ansible_host: trahk3worker1.trahan.dev
+          ansible_user: jtrahan
+        trahkube4:
+          ansible_host: trahkube4.trahan.dev
+          ansible_user: jtrahan
       vars:
         ansible_become: true
         ansible_become_method: sudo
         ansible_become_password: "{{ lookup('env', 'BECOME_PASSWORD') }}"
-    dns-servers:
-      hosts:
-        trah-dns-01:
-          ansible_host: 10.0.0.15
-          ansible_user: devops
-        trahdns2:
-          ansible_host: 10.0.0.14
-          ansible_user: devops
-        trahdns3:
-          ansible_host: 10.0.0.17
-          ansible_user: devops
-      vars:
-        ansible_become: true
-        ansible_become_method: sudo
-        ansible_become_password: "{{ lookup('env', 'ANSIBLE_DEVOPS') }}"

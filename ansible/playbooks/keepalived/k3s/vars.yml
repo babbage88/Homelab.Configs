@@ -1,0 +1,64 @@
+virtual_ip: "10.0.1.64/23"
+control_plane_virtual_ip: "10.0.0.65/23"
+
+vrrp_servers:
+- hostname: trahkubeapi1
+  state: BACKUP
+  unicast_src_ip: 10.0.0.200
+  virtual_router_id: 55
+  vrrp_instance: "VI_K3_1"
+  control_plane_vrrp_instance: "VI_K3_CP"
+  interface: eth0
+  priority: 220
+  control_plane_priority: 220
+  auth_pass: "{{ vrrp_auth_pass }}"
+  is_control_plane: true
+- hostname: trahkube1
+  state: BACKUP
+  unicast_src_ip: 10.0.0.210
+  virtual_router_id: 55
+  vrrp_instance: "VI_K3_1"
+  control_plane_vrrp_instance: "VI_K3_CP"
+  interface: eth0
+  priority: 254
+  control_plane_priority: 255
+  auth_pass: "{{ vrrp_auth_pass }}"
+  is_control_plane: true
+- hostname: trahkube2
+  state: BACKUP
+  unicast_src_ip: 10.0.1.249
+  virtual_router_id: 55
+  vrrp_instance: "VI_K3_1"
+  interface: eth0
+  priority: 200
+  auth_pass: "{{ vrrp_auth_pass }}"
+  is_control_plane: false
+- hostname: trahkube3
+  state: BACKUP
+  unicast_src_ip: 10.0.1.29
+  virtual_router_id: 55
+  vrrp_instance: "VI_K3_1"
+  interface: eth0
+  priority: 150
+  auth_pass: "{{ vrrp_auth_pass }}"
+  is_control_plane: false
+- hostname: trahk3worker1
+  state: BACKUP
+  unicast_src_ip: 10.0.0.101
+  virtual_router_id: 55
+  vrrp_instance: "VI_K3_1"
+  interface: eth0
+  priority: 100
+  auth_pass: "{{ vrrp_auth_pass }}"
+  is_control_plane: false
+- hostname: trahkube4
+  state: MASTER
+  unicast_src_ip: 10.0.0.201
+  virtual_router_id: 55
+  vrrp_instance: "VI_K3_1"
+  control_plane_vrrp_instance: "VI_K3_CP"
+  interface: eth0
+  priority: 255
+  control_plane_priority: 254
+  auth_pass: "{{ vrrp_auth_pass }}"
+  is_control_plane: true

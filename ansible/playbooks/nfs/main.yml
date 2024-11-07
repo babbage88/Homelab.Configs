@@ -1,0 +1,54 @@
+- name: Install and Configure NFS Exports
+  # pass --limit=<hostname>
+  hosts: "{{ ansible_limit | default(omit) }}"
+
+  vars_files:
+  - vars.yml
+  become: yes
+
+  handlers:
+  - name: restart_nfs_server
+    ansible.builtin.systemd:
+      name: nfs-server
+      enabled: true
+      state: restarted
+    become: true
+
+  tasks:
+    - name: Run apt cache update
+      ansible.builtin.apt:
+        update_cache: yes
+      become: yes
+
+    - name: Install a list of packages
+      ansible.builtin.apt:
+        pkg: "{{ packages }}"
+        state: present
+      become: yes
+
+    - name: Enable NFS Service
+      ansible.builtin.systemd:
+        name: nfs-server
+        state: stopped
+        enabled: true
+      become: yes
+
+    - name: Ensure NFS export path exists
+      ansible.builtin.file:
+        path: "{{ item.export_path }}"
+        state: directory
+        owner: nobody
+        group: nogroup
+        mode: '0777'
+      when: item.hostname == ansible_facts['hostname']
+      loop: "{{ nfs_servers }}"
+
+    - name: Create keepalived.conf from template
+      ansible.builtin.template:
+        src: templates/etc_exports.j2
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: '0644'
+      become: yes
+      notify: restart_nfs_server

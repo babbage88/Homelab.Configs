@@ -1,0 +1,5 @@
+[primary-db]
+trahtestdb1 ansible_host=db1.test.trahan.dev ansible_user=jtrahan
+
+[replica-db]
+trahtestdb2 ansible_host=db2.test.trahan.dev ansible_user=jtrahan

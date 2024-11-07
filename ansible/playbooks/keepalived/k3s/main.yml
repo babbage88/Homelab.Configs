@@ -1,0 +1,45 @@
+- name: Install and configure Keepalived
+  # pass --limit=<hostname>
+  hosts: "{{ ansible_limit | default(omit) }}"
+
+  vars_files:
+  - vars.yml
+  - vault.yml
+  become: yes
+
+  handlers:
+  - name: restart_keepalived
+    ansible.builtin.systemd:
+      name: keepalived
+      enabled: true
+      state: restarted
+    become: true
+
+  tasks:
+    - name: Run apt cache update
+      ansible.builtin.apt:
+        update_cache: yes
+      become: yes
+
+    - name: Ensure Keepalived is installed
+      ansible.builtin.apt:
+        name: keepalived
+        state: present
+      become: yes
+
+    - name: Enable Keepalived Service
+      ansible.builtin.systemd:
+        name: keepalived
+        state: stopped
+        enabled: true
+      become: yes
+
+    - name: Create keepalived.conf from template
+      ansible.builtin.template:
+        src: templates/keepalived.conf.j2
+        dest: /etc/keepalived/keepalived.conf
+        owner: root
+        group: root
+        mode: '0644'
+      become: yes
+      notify: restart_keepalived

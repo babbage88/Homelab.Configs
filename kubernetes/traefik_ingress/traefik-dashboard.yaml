@@ -5,10 +5,13 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    deployment:
+      kind: DaemonSet
     additionalArguments:
       - "--api"
       - "--api.dashboard=true"
       - "--api.insecure=true"
+      - "--providers.kubernetescrd.allowExternalNameServices=true"
     ports:
       traefik:
         expose: true

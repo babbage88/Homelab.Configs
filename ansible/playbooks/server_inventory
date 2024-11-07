@@ -10,6 +10,10 @@ trah-db-01 ansible_host=10.0.0.92 ansible_user=jtrahan
 trah-dev-01 ansible_host=trah-dev-01.trahan.dev ansible_user=jtrahan
 trah-dev-03 ansible_host=trah-dev-03.trahan.dev ansible_user=jtrahan
 
+[debian-k3nodes]
+trahkubeapi1 ansible_host=trahkubeapi1.trahan.dev ansible_user=jtrahan
+trahk3worker1 ansible_host=trahk3worker1.trahan.dev ansible_user=jtrahan
+
 [plex-vm]
 trah-plex-ub ansible_host=10.0.0.99 ansible_user=jtrahan
 
@@ -35,13 +39,13 @@ trahkube2 ansible_host=trahkube2.trahan.dev ansible_user=jtrahan
 trahkube3 ansible_host=trahkube3.trahan.dev ansible_user=jtrahan
 
 [k3node1]
-trahkube1 ansible_host=trahkube1.trahan.dev ansible_user=root
+trahkube1 ansible_host=trahkube1.trahan.dev ansible_user=jtrahan
 
 [k3node2]
-trahkube2 ansible_host=trahkube2.trahan.dev ansible_user=root
+trahkube2 ansible_host=trahkube2.trahan.dev ansible_user=jtrahan
 
 [k3node3]
-trahkube3 ansible_host=trahkube3.trahan.dev ansible_user=root
+trahkube3 ansible_host=trahkube3.trahan.dev ansible_user=jtrahan
 
 [db1]
 trahdb1 ansible_host=

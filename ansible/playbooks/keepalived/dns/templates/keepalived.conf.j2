@@ -1,4 +1,5 @@
 {% set current_server = vrrp_servers | selectattr('hostname', 'equalto', inventory_hostname_short) | first %}
+{% set other_servers = vrrp_servers | selectattr('hostname', 'ne', inventory_hostname_short) %}
 
 global_defs {
     router_id {{ current_server.global_rt_id }}
@@ -13,6 +14,12 @@ vrrp_instance VI_1 {
   authentication {
     auth_type PASS
     auth_pass {{ current_server.auth_pass }}
+  }
+  unicast_src_ip {{ current server.unicast_src_ip }}
+  unicast_peer {
+    {% for server in other_servers %}
+    {{ server.unicast_src_ip }}
+    {% endfor %}
   }
   virtual_ipaddress {
     {{ virtual_ip }}

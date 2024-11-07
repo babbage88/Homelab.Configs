@@ -1,0 +1,24 @@
+redis-cluster:
+  enabled: false
+redis:
+  enabled: true
+postgresql:
+  enabled: true
+postgresql-ha:
+  enabled: false
+
+persistence:
+  enabled: true
+
+gitea:
+  config:
+    actions:
+      ENABLED: true
+    server:
+      DOMAIN: git.test.trahan.dev
+      SSH_DOMAIN: git.test.trahan.dev
+      ROOT_URL: https://git.test.trahan.dev/
+      APP_NAME: Trahan Git Repositories
+      ROOT: /data/git/repositories
+  metrics:
+    enabled: true

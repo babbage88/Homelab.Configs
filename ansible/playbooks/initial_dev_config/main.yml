@@ -1,21 +1,21 @@
 ---
 - name: Install Dev Applications and create users
   # pass --limit=<hostname>
-  hosts: "{{ ansible_limit | default(omit) }}"
+  #hosts: "{{ ansible_limit | default(omit) }}"
+  hosts: test-db
+
 
   vars_files:
     - vars.yml
     #- devops_vars.yml
     - vault.yml
 
-
   handlers:
   - name: Restart sshd
     ansible.builtin.systemd:
       name: sshd
       state: restarted
-    become: yes
-
+    become: true
   tasks:
 
     - name: Ensure required groups are present
@@ -148,7 +148,3 @@
         removes: "{{ nvim_config_dir.path }}/.git"
       become: yes
       become_user: "{{ ansible_user }}"
-
-
-
-

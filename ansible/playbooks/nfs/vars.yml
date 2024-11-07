@@ -1,0 +1,14 @@
+packages:
+- nfs-kernel-server
+- nfs-common
+
+nfs_servers:
+- hostname: trahreplica
+  export_path: /mnt/replica
+  client: '10.0.0.0/23'
+  export_options: '(rw,anonuid=3000,anongid=3000,no_root_squash)'
+- hostname: trahnfs1
+  export_path: /mnt/trahan-nas
+  client: '10.0.0.0/23'
+  export_options: '(rw,anonuid=3000,anongid=3000,no_root_squash)'
+
