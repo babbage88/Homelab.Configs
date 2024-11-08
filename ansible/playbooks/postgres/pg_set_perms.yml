@@ -1,0 +1,49 @@
+- name: install Postgres and setup Master
+  hosts: "{{ ansible_limit | default(omit) }}"
+
+  vars_files:
+    - vault.yml
+    - vars.yml
+
+  handlers:
+    - name: Restart postgresql
+      ansible.builtin.systemd:
+        name: postgresql
+        state: restarted
+      become: true
+
+  tasks:
+
+    - name: Grant access to restored db
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: "{{ item.db_name }}"
+        role: "{{ item.db_user }}"
+        objs: ALL_IN_SCHEMA
+        privs: SELECT,INSERT,UPDATE,DELETE
+      with_items: "{{ seven_z_pw }}"
+
+    - name: Grant access to restored db
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: "{{ item.k3s_db_name }}"
+        role: "{{ item.k3s_db_user }}"
+        objs: ALL_IN_SCHEMA
+        privs: SELECT,INSERT,UPDATE,DELETE
+      with_items: "{{ seven_z_pw }}"
+
+    - name: Grant access to restored db
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: "{{ item.k3s_db_name }}"
+        role: "{{ item.db_user }}"
+        objs: ALL_IN_SCHEMA
+        privs: SELECT,INSERT,UPDATE,DELETE
+      with_items: "{{ seven_z_pw }}"
+
+
+
+

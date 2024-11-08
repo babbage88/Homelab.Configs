@@ -59,7 +59,7 @@
       notify:
         - Restart postgresql
       with_items: "{{ primary_pg_server }}"
-    
+
     - name: Fix Permissions
       ansible.builtin.command:
         cmd: chown -R postgres:postgres /var/lib/postgresql/{{ pg_version }}/main
