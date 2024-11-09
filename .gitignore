@@ -62,3 +62,4 @@ terraform/k3s/.terraform/**
 ansible/playbooks/k3s/roles/**
 terraform/proxmox_backup_server/**
 kubernetes/certs.sh
+hetzner/cloudinit.yml
