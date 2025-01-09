@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: infra-ui-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - infraui.trahan.dev
+      secretName: trahan-dev-cert
+  rules:
+    - host: "infraui.trahan.dev"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: infra-ui-service
+                port:
+                  number: 3001

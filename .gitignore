@@ -1,3 +1,7 @@
+*/**cert.yaml
+**trahan-dev-cert.yaml
+**/*cert.yaml
+**cert.yaml
 ansible/playbooks/initial_dev_config/vars.yml
 ansible/playbooks/postgres/.env
 python/__pycache__/
