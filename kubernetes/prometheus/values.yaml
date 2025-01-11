@@ -1,10 +1,20 @@
 prometheus:
-  prometheusSpec:    
-    storageSpec: 
-     volumeClaimTemplate:
-       spec:
-         storageClassName: longhorn
-         accessModes: ["ReadWriteOnce"]
-         resources:
-           requests:
-             storage: 20Gi
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "longhorn"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+grafana:
+  grafanaSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "longhorn"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
