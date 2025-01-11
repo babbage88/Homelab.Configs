@@ -8,8 +8,8 @@ prometheus:
           resources:
             requests:
               storage: 10Gi
-grafana:
-  grafanaSpec:
+alertmanager:
+  alertmanagerSpec:
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -18,3 +18,6 @@ grafana:
           resources:
             requests:
               storage: 10Gi
+grafana:
+  persistence:
+    enabled: true
