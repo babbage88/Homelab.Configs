@@ -77,7 +77,7 @@ controller:
       servicePort: 443
       type: ClusterIP
   affinity: {}
-  allowSnippetAnnotations: false
+  allowSnippetAnnotations: true
   annotations: {}
   autoscaling:
     annotations: {}

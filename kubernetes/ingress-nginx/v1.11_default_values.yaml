@@ -20,12 +20,12 @@ controller:
           drop:
           - ALL
         readOnlyRootFilesystem: true
-        runAsGroup: 65532
         runAsNonRoot: true
         runAsUser: 65532
         seccompProfile:
           type: RuntimeDefault
     enabled: true
+    existingPsp: ""
     extraEnvs: []
     failurePolicy: Fail
     key: /usr/local/certificates/key
@@ -39,6 +39,7 @@ controller:
         digest: sha256:aaafd456bda110628b2d4ca6296f38731a3aaf0bf7581efae824a41c770a8fc4
         image: ingress-nginx/kube-webhook-certgen
         pullPolicy: IfNotPresent
+        registry: registry.k8s.io
         tag: v1.5.0
       labels: {}
       networkPolicy:
@@ -64,7 +65,6 @@ controller:
           drop:
           - ALL
         readOnlyRootFilesystem: true
-        runAsGroup: 65532
         runAsNonRoot: true
         runAsUser: 65532
         seccompProfile:
@@ -77,7 +77,7 @@ controller:
       servicePort: 443
       type: ClusterIP
   affinity: {}
-  allowSnippetAnnotations: true
+  allowSnippetAnnotations: false
   annotations: {}
   autoscaling:
     annotations: {}
@@ -107,6 +107,7 @@ controller:
   enableAnnotationValidations: false
   enableMimalloc: true
   enableTopologyAwareRouting: false
+  existingPsp: ""
   extraArgs: {}
   extraContainers: []
   extraEnvs: []
@@ -127,12 +128,12 @@ controller:
   image:
     allowPrivilegeEscalation: false
     chroot: false
-    digest: sha256:e6b8de175acda6ca913891f0f727bca4527e797d52688cbe9fec9040d6f6b6fa
-    digestChroot: sha256:87c88e1c38a6c8d4483c8f70b69e2cca49853bb3ec3124b9b1be648edf139af3
+    digest: sha256:981a97d78bee3109c0b149946c07989f8f1478a9265031d2d23dea839ba05b52
+    digestChroot: sha256:f29d0f9e7a9ef4947eda59ed0c09ec13380b13639d1518cf1ab8ec09c3e22ef8
     image: ingress-nginx/controller
     pullPolicy: IfNotPresent
     readOnlyRootFilesystem: false
-    runAsGroup: 82
+    registry: registry.k8s.io
     runAsNonRoot: true
     runAsUser: 101
     seccompProfile:
@@ -179,27 +180,24 @@ controller:
     timeoutSeconds: 1
   maxmindLicenseKey: ""
   metrics:
-    enabled: true
+    enabled: false
     port: 10254
     portName: metrics
     prometheusRule:
       additionalLabels: {}
-      annotations: {}
       enabled: false
       rules: []
     service:
       annotations: {}
-      enabled: true
       externalIPs: []
       labels: {}
       loadBalancerSourceRanges: []
       servicePort: 10254
       type: ClusterIP
     serviceMonitor:
-      additionalLabels:
-        release: kube-prometheus-stack
+      additionalLabels: {}
       annotations: {}
-      enabled: true
+      enabled: false
       metricRelabelings: []
       namespace: ""
       namespaceSelector: {}
@@ -213,11 +211,30 @@ controller:
     enabled: false
   nodeSelector:
     kubernetes.io/os: linux
+  opentelemetry:
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 65532
+      seccompProfile:
+        type: RuntimeDefault
+    enabled: false
+    image:
+      digest: sha256:f7604ac0547ed64d79b98d92133234e66c2c8aade3c1f4809fed5eec1fb7f922
+      distroless: true
+      image: ingress-nginx/opentelemetry-1.25.3
+      registry: registry.k8s.io
+      tag: v20240813-b933310d
+    name: opentelemetry
+    resources: {}
   podAnnotations: {}
   podLabels: {}
   podSecurityContext: {}
   priorityClassName: ""
-  progressDeadlineSeconds: 0
   proxySetHeaders: {}
   publishService:
     enabled: true
@@ -306,7 +323,6 @@ controller:
   udp:
     annotations: {}
     configMapNamespace: ""
-  unhealthyPodEvictionPolicy: ""
   updateStrategy: {}
   watchIngressWithoutClass: false
 defaultBackend:
@@ -320,6 +336,7 @@ defaultBackend:
     targetMemoryUtilizationPercentage: 50
   containerSecurityContext: {}
   enabled: false
+  existingPsp: ""
   extraArgs: {}
   extraConfigMaps: []
   extraEnvs: []
@@ -330,7 +347,7 @@ defaultBackend:
     image: defaultbackend-amd64
     pullPolicy: IfNotPresent
     readOnlyRootFilesystem: true
-    runAsGroup: 65534
+    registry: registry.k8s.io
     runAsNonRoot: true
     runAsUser: 65534
     seccompProfile:
@@ -375,14 +392,12 @@ defaultBackend:
     name: ""
   tolerations: []
   topologySpreadConstraints: []
-  unhealthyPodEvictionPolicy: ""
   updateStrategy: {}
 dhParam: ""
-global:
-  image:
-    registry: registry.k8s.io
 imagePullSecrets: []
 namespaceOverride: ""
+podSecurityPolicy:
+  enabled: false
 portNamePrefix: ""
 rbac:
   create: true

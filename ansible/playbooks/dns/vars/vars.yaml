@@ -150,6 +150,7 @@ dns_records:
 - { host: rancher, type: A, zone: trahan.dev, record_value: '10.0.1.64' }
 - { host: trahtestdb1, type: A, zone: trahan.dev, record_value: "10.0.0.26" }
 - { host: trahtestdb2, type: A, zone: trahan.dev, record_value: "10.0.0.27" }
+- { host: ngmetrics, type: A, zone: trahan.dev, record_value: "10.0.0.65" }
 
 sub_zone_records:
 - { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
