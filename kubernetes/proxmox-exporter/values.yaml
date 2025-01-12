@@ -1,0 +1,33 @@
+config:
+  # required: Set to your actual API server URL(s). Can be one, or multiple separated by commas
+  # Ex: https://x:8006/,https://y:8006/,https://z:8006/
+  endpoints: 'https://vm2.trahan.dev/,https://vm3.trahan.dev,https://vm4.trahan.dev/'
+
+  # required: A Proxmox API token and token-ID. Needs to have at least the PVEAuditor role
+  token: ''
+  tokenID: 'proxmox-exporter@pve!proxmox-exporter'
+
+  # optional: Set to 'true' if the API server's TLS can not be verified
+  api_insecure: 'false'
+
+  # optional: Set to 'debug' for more logs
+  log_level: 'info'
+
+  # optional: If you change this, change the service.port value too
+  port: '8080'
+
+# optional: creates a ServiceMonitor that targets this exporter's service -- for use with the kube-prometheus operator
+serviceMonitor:
+  enabled: false
+  ## The label to use to retrieve the job name from.
+  ## jobLabel: "app.kubernetes.io/name"
+  additionalLabels: {}
+  annotations: {}
+  targetLabels: []
+  relabelings: []
+  metricRelabelings: []
+
+# optional: creates a PrometheusRule with some basic alerts for proxmox clusters -- for use with the kube-prometheus operator
+prometheusRule:
+  enabled: false
+
