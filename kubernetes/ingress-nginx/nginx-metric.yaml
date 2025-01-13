@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-metrics-ingress
+  namespace: ingress-nginx
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ngmetrics.trahan.dev
+      secretName: trahan-dev-cert
+  rules:
+    - host: "ngmetrics.trahan.dev"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: ingress-nginx-controller-metrics
+                port:
+                  number: 10254

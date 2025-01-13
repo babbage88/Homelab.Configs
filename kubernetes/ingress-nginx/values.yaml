@@ -1,0 +1,10 @@
+USER-SUPPLIED VALUES:
+tcp: 
+  5432: "default/infra-user-cluster-dev-rw:5432"
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      additionalLabels:
+        release: kube-prometheus-stack
+      enabled: true
