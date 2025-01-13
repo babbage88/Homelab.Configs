@@ -14,4 +14,3 @@ spec:
       port: 3000
   tls:
     secretName: test-trahan-cert
-

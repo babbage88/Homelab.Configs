@@ -1,33 +1,45 @@
 - name: Mount NAS NFS Shares
-  hosts: k3node3
+  hosts: debian-k3nodes
   remote_user: jtrahan
   become: true
+  vars:
+    drives:
+      - { dev_name: /dev/vda, size: 40GB, mount_point: /gfs_bricks}
 
   tasks:
+    - name: Install parted
+      ansible.builtin.apt:
+        name: parted
+        state: present
+
     - name: Create parition
       parted:
-        device: /dev/vdb
+        device: "{{ item.dev_name }}"
         number: 1
         label: gpt
         part_start: 0GB
-        part_end: 44GB
+        part_end: "{{ item.size }}"
         state: present
+      with_items: "{{ drives }}"
 
     - name: format gfs partition
       filesystem:
         fstype: ext4
-        dev: /dev/vdb1
+        dev: "{{ item.dev_name }}1"
         state: present
+      with_items: "{{ drives }}"
 
     - name: Creat mount point for brick
       ansible.builtin.file:
-        path: /gfs_bricks
+        path: "{{ item.mount_point }}"
         state: directory
         mode: 755
+      with_items: "{{ drives }}"
 
     - name: Mount gfs brick
       ansible.posix.mount:
         fstype: ext4
-        src: /dev/vdb1
-        path: /gfs_bricks
+        src: "{{ item.dev_name }}1"
+        path: "{{ item.mount_point }}"
         state: mounted
+      with_items: "{{ drives }}"

@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: invoiceninja-route
+  namespace: invoiceninja
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`ninja.trahan.dev`)
+    kind: Rule
+    services:
+    - name: invoiceninja-trahan
+      port: 9000
+  tls:
+    secretName: trahan-dev-cert

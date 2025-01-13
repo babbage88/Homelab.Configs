@@ -1,3 +1,12 @@
+[netboot]
+trahnetbootxyz ansible_host=10.0.0.78 ansible_user=root
+
+[invninja]
+trahninja1 ansible_host=10.0.0.82 ansible_user=root
+
+[mysqlsrv]
+trahmysql1 ansible_host=10.0.0.83 ansible_user=root
+
 [dns-servers]
 trahdns2 ansible_host=10.0.0.14 ansible_user=root
 
@@ -15,4 +24,11 @@ trahtestdb2 ansible_host=10.0.0.27 ansible_user=jtrahan
 trahdb3 ansible_host=trahdb3.trahan.dev ansible_user=jtrahan
 
 [pg-replica]
-trahdb4 ansible_host=trahdb4.trahan.dev ansible_user=root
+trahdb4 ansible_host=trahdb4.trahan.dev ansible_user=jtrahan
+trahdb5 ansible_host=trahdb5.trahan.dev ansible_user=root
+
+[tailscale-rtr]
+trahrtr1 ansible_host=trahrtr1.trahan.dev ansible_user=jtrahan
+
+[vps-servers]
+trahvps1 ansible_host=49.12.207.9 ansible_user=jtrahan

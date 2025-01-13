@@ -1,17 +1,15 @@
 - name: Resize partition
-  hosts: primary-db
+  hosts: "{{ ansible_limit | default(omit) }}"
   remote_user: jtrahan
   become: true
   vars:
-    drives:
-      { hostname: trahdb1, dev_name: /dev/vda }
 
   tasks:
     - name: Extend an existing partition to fill all available space
       community.general.parted:
-        device: "{{ item.dev_name }}"
-        number: "{{ sdb_info.partitions | length }}"
+        device: "/dev/vdb"
+        number: 1
         part_end: "100%"
+        label: gpt
         resize: true
         state: present
-      with_items: "{{ drives }}"
