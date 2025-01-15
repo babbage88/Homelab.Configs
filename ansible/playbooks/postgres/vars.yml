@@ -92,6 +92,13 @@ postgresql_hba_entries:
     address: db4.trahan.dev,
     method: trust
   }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
+    address: db5.trahan.dev,
+    method: trust
+  }
 - { contype: host, databases: all, users: all, method: scram-sha-256 }
 
 postgres_hba_standy_entries:
@@ -114,7 +121,21 @@ postgres_hba_standy_entries:
     contype: host,
     databases: all,
     users: replicator,
+    address: db5.trahan.dev,
+    method: trust
+  }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
     address: db3.trahan.dev,
+    method: trust
+  }
+- {
+    contype: host,
+    databases: all,
+    users: replicator,
+    address: db5.trahan.dev,
     method: trust
   }
 - {

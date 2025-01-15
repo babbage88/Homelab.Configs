@@ -2,61 +2,17 @@ domain: trahan.dev
 forward_zones: [ 'trahan.dev', 'test.trahan.dev' ]
 reverse_zones: [ '1.0.10.in-addr.arpa', '0.0.10.in-addr.arpa' ]
 forwarders: [ '1.1.1.1', '8.8.8.8', '9.9.9.9' ]
-acl_allow_transfer:
-  [
-    '10.0.0.14',
-    '10.0.0.15',
-    '10.0.0.17',
-    '10.0.0.64',
-    '10.0.1.64',
-    '127.0.0.0/8'
-  ]
+acl_allow_transfer: [ '10.0.0.14', '10.0.0.15', '10.0.0.17', '10.0.0.64', '10.0.1.64', '127.0.0.0/8' ]
 
 nameservers:
-- {
-    name: trahdns1,
-    zone: trahan.dev,
-    ip_address: '10.0.0.15',
-    last: 15,
-    ns_name: ns1
-  }
-- {
-    name: trahdns2,
-    zone: trahan.dev,
-    ip_address: '10.0.0.14',
-    last: 14,
-    ns_name: ns2
-  }
-- {
-    name: trahdns3,
-    zone: trahan.dev,
-    ip_address: '10.0.0.17',
-    last: 17,
-    ns_name: ns3
-  }
+  - { name: trahdns1, zone: trahan.dev, ip_address: '10.0.0.15', last: 15, ns_name: ns1 }
+  - { name: trahdns2, zone: trahan.dev, ip_address: '10.0.0.14', last: 14, ns_name: ns2 }
+  - { name: trahdns3, zone: trahan.dev, ip_address: '10.0.0.17', last: 17, ns_name: ns3 }
 
 nameservers_test_zone:
-- {
-    name: trahdns1,
-    zone: test.trahan.dev,
-    ip_address: '10.0.0.15',
-    last: 15,
-    ns_name: ns1
-  }
-- {
-    name: trahdns2,
-    zone: test.trahan.dev,
-    ip_address: '10.0.0.14',
-    last: 14,
-    ns_name: ns2
-  }
-- {
-    name: trahdns3,
-    zone: test.trahan.dev,
-    ip_address: '10.0.0.17',
-    last: 17,
-    ns_name: ns3
-  }
+  - { name: trahdns1, zone: test.trahan.dev, ip_address: '10.0.0.15', last: 15, ns_name: ns1 }
+  - { name: trahdns2, zone: test.trahan.dev, ip_address: '10.0.0.14', last: 14, ns_name: ns2 }
+  - { name: trahdns3, zone: test.trahan.dev, ip_address: '10.0.0.17', last: 17, ns_name: ns3 }
 
 dns_records:
 - { host: vm1, type: A, zone: trahan.dev, record_value: '10.0.1.64' }
@@ -154,20 +110,14 @@ dns_records:
 - { host: ngmetrics, type: A, zone: trahan.dev, record_value: "10.0.0.65" }
 
 sub_zone_records:
-- { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
-- { host: git, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
-- { host: calc, type: A, zone: test.trahan.dev, record_value: "10.0.2.64" }
-- {
-    host: trahtestdb1,
-    type: A,
-    zone: test.trahan.dev,
-    record_value: "10.0.0.26"
-  }
-- {
-    host: trahtestdb2,
-    type: A,
-    zone: test.trahan.dev,
-    record_value: "10.0.0.27"
-  }
-- { host: db1, type: A, zone: test.trahan.dev, record_value: "10.0.0.26" }
-- { host: db2, type: A, zone: test.trahan.dev, record_value: "10.0.0.27" }
+  - { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
+  - { host: git, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
+  - { host: calc, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
+  - { host: infraui, type: A, zone: test.trahan.dev, record_value: "10.0.0.64" }
+  - { host: gofiles, type: A, zone: test.trahan.dev, record_value: "10.0.0.64" }
+  - { host: filesrv, type: A, zone: test.trahan.dev, record_value: "10.0.0.64" }
+  - { host: infra, type: A, zone: test.trahan.dev, record_value: "10.0.0.64" }
+  - { host: trahtestdb1, type: A, zone: test.trahan.dev, record_value: "10.0.0.26" }
+  - { host: trahtestdb2, type: A, zone: test.trahan.dev, record_value: "10.0.0.27" }
+  - { host: db1, type: A, zone: test.trahan.dev, record_value: "10.0.0.26" }
+  - { host: db2, type: A, zone: test.trahan.dev, record_value: "10.0.0.27" }

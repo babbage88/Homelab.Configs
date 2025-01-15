@@ -1,3 +1,4 @@
+cloud_init/**
 */**cert.yaml
 **trahan-dev-cert.yaml
 **/*cert.yaml

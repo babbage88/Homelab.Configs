@@ -7,7 +7,7 @@ prometheus:
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 10Gi
+              storage: 20Gi
     additionalScrapeConfigs: |
       - job_name: goinfra-https
         scrape_interval: 5s
@@ -19,6 +19,7 @@ prometheus:
         static_configs:
           - targets: ['proxmox-exporter.monitoring.svc.cluster.local:8080']
         metrics_path: "/metrics"
+              storage: 20Gi
 alertmanager:
   alertmanagerSpec:
     storageSpec:
