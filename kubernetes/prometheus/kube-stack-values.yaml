@@ -1,0 +1,26 @@
+USER-SUPPLIED VALUES:
+alertmanager:
+  alertmanagerSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+          storageClassName: longhorn
+grafana:
+  persistence:
+    enabled: true
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+          storageClassName: longhorn

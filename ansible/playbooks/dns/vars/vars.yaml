@@ -90,6 +90,7 @@ dns_records:
 - { host: pgadmin, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
 - { host: prometheus, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
 - { host: traefik, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
+- { host: proxmox-metrics, type: A, zone: trahan.dev, record_value: "10.0.0.65" }
 - {
     host: trah-apt-cache,
     type: A,

@@ -4,7 +4,7 @@ config:
   endpoints: 'https://vm2.trahan.dev/,https://vm3.trahan.dev,https://vm4.trahan.dev/'
 
   # required: A Proxmox API token and token-ID. Needs to have at least the PVEAuditor role
-  token: ''
+  token: 'e0351ea2-5e04-48a4-84ff-fc49e28bc61f'
   tokenID: 'proxmox-exporter@pve!proxmox-exporter'
 
   # optional: Set to 'true' if the API server's TLS can not be verified
