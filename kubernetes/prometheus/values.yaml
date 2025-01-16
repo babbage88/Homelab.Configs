@@ -1,5 +1,9 @@
 prometheus:
   prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -19,7 +23,6 @@ prometheus:
         static_configs:
           - targets: ['proxmox-exporter.monitoring.svc.cluster.local:8080']
         metrics_path: "/metrics"
-              storage: 20Gi
 alertmanager:
   alertmanagerSpec:
     storageSpec:
