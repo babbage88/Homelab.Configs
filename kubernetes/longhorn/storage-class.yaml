@@ -1,0 +1,42 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    longhorn.io/last-applied-configmap: |
+      kind: StorageClass
+      apiVersion: storage.k8s.io/v1
+      metadata:
+        name: longhorn
+        annotations:
+          storageclass.kubernetes.io/is-default-class: "true"
+      provisioner: driver.longhorn.io
+      allowVolumeExpansion: true
+      reclaimPolicy: "Delete"
+      volumeBindingMode: Immediate
+      parameters:
+        numberOfReplicas: "3"
+        staleReplicaTimeout: "30"
+        fromBackup: ""
+        fsType: "ext4"
+        dataLocality: "disabled"
+        unmapMarkSnapChainRemoved: "ignored"
+        disableRevisionCounter: "true"
+        dataEngine: "v1"
+    storageclass.kubernetes.io/is-default-class: "true"
+  creationTimestamp: "2024-10-22T00:34:38Z"
+  name: longhorn
+  resourceVersion: "6823273"
+  uid: 8f8b3b40-345e-4b7c-9427-8b1488486a20
+parameters:
+  dataEngine: v1
+  dataLocality: disabled
+  disableRevisionCounter: "true"
+  fromBackup: ""
+  fsType: ext4
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "30"
+  unmapMarkSnapChainRemoved: ignored
+provisioner: driver.longhorn.io
+reclaimPolicy: Delete
+volumeBindingMode: Immediate

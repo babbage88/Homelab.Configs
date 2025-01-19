@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: longhorn-ingress
+  namespace: longhorn-system
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - longhorn-talos.trahan.dev
+      secretName: trahan-dev-cert
+  rules:
+    - host: "longhorn-talos.trahan.dev"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: longhorn-frontend
+                port:
+                  number: 8000
+
