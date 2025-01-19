@@ -1,0 +1,38 @@
+prometheus:
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "longhorn"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+    #additionalScrapeConfigs: |
+    #  - job_name: goinfra-https
+    #    scrape_interval: 5s
+    #    static_configs:
+    #     - targets: ['go-infra-service.default.svc.cluster.local:8993']
+    #    metrics_path: '/metrics'
+    #  - job_name: proxmox-exporter
+    #    scrape_interval: 5s
+    #    static_configs:
+    #      - targets: ['proxmox-exporter.monitoring.svc.cluster.local:8080']
+    #    metrics_path: "/metrics"
+alertmanager:
+  alertmanagerSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "longhorn"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+grafana:
+  persistence:
+    enabled: true
