@@ -4,10 +4,10 @@ persist: true
 # Provides machine specific configuration options.
 machine:
     type: worker # Defines the role of the machine within the cluster.
-    token: hymlol.bytab8bw7plzbpex # The `token` is used by a machine to join the PKI of the cluster.
+    token: pnohp7.16eh40tq8dntph7p # The `token` is used by a machine to join the PKI of the cluster.
     # The root certificate authority of the PKI.
     ca:
-        crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEJWcFQxTEF2c1dMbnZ1RXpUZEwzWlVNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5UQXhNVGt4TmpVNE1qSmFGdzB6TlRBeE1UY3hOalU0TWpKYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBQ1EwZWJIL3cxNW5qV0hHalF3SHdOSkl4Q2xVK1RlVktVZVJDClF2dlRvVXlqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVUW1LL1A0V2gzRHQwTzdjZApWWGpxUVBrRjEzZ3dCUVlESzJWd0EwRUFDZXk0L1JVcjg3YWgrWUpVYkVuWkZWaUh1NFFHbmNEeEhFSGlqZWlwCmd3a3NGbkhDNzl5RDZiaWMrMUhUbHNmaWNRY2lsMXhUVWZud2h5VnlUNCsrQnc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+        crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBeEhQNlJST1lMbzhuWXVXTlZFam5FREFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qVXdNVEU1TVRNME1qSTJXaGNOTXpVd01URTNNVE0wTWpJMldqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQUlwYUNVMUJteTB6M0szVjdWYmI3Z2EvRFBYTDRwUEVQTGhFCjVRa0picGdibzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkJzWndPSjdTVjZ6OW1DZAo4bThmVDFHQnE4WFJNQVVHQXl0bGNBTkJBQmxjK2o3cUw0RUVkK2tFM1BYMlhVSThEcSs0cVI3LzlJUTZJUEUzCis5WWNHNGdwQlpoQWs3ODh1ZHVzTG1may9iYmFVZlNmMUZiVVk5RmszTktYS2c0PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
         key: ""
     # Extra certificate subject alternative names for the machine's certificate.
     certSANs: []
@@ -198,8 +198,8 @@ machine:
         # Allows for supplying extra kernel args via the bootloader.
         extraKernelArgs:
             - net.ifnames=0
-        image: factoryfactory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b:v1.9.2 # Allows for supplying the image used to perform the installation.
-        wipe: true # Indicates if the installation disk should be wiped at installation time.
+        image: ghcr.io/siderolabs/installer:v1.9.1 # Allows for supplying the image used to perform the installation.
+        wipe: false # Indicates if the installation disk should be wiped at installation time.
         
         # # Look up disk using disk attributes like model, size, serial and others.
         # diskSelector:
@@ -429,8 +429,8 @@ machine:
     #     exampleTaint: exampleTaintValue:NoSchedule
 # Provides cluster specific configuration options.
 cluster:
-    id: m9L-OYUxDQZyS5-3aQL942_mF_i82FJBIqAodZvW52M= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
-    secret: hvv/jlpXj8XWzAhe96/zXzztGhcfpRT0I3YXp2kZI6Q= # Shared secret of cluster (base64 encoded random 32 bytes).
+    id: KITAfD3z5qcNOFQ4o7kWgRmVOfXEsYcfmbP1C46eHso= # Globally unique identifier for this cluster (base64 encoded random 32 bytes).
+    secret: d2OZSPtfRTVHztj2zWc7YVdjT6hVoQ3lN9vMZY173Vs= # Shared secret of cluster (base64 encoded random 32 bytes).
     # Provides control plane specific configuration options.
     controlPlane:
         endpoint: https://10.0.0.70:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
@@ -450,10 +450,10 @@ cluster:
         # The service subnet CIDR.
         serviceSubnets:
             - 10.96.0.0/12
-    token: yce8jx.d991kp3m8ovwpqr2 # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
+    token: 8vacgm.0rff96r6fs227l9j # The [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/) used to join the cluster.
     # The base64 encoded root certificate authority used by Kubernetes.
     ca:
-        crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpakNDQVRDZ0F3SUJBZ0lSQUowK1NxcGgxVHB0RzFqODBpR2Fqd0F3Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOVEF4TVRreE5qVTRNakphRncwek5UQXhNVGN4TmpVNApNakphTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVNwUThJeGNoM2F5b0xUSzlOVkJ4SWlrTE1hLzFSc1hleHFQVlZKdWZjOXUwL2RkMVN0WEZsMXBJekYKL2tCSERrS08wQXErbFBTUWNPUXFEY2JKVjFjUW8yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGTE9BSmZRS3crakFtV2RmRGtyeFoxanlrbVluTUFvR0NDcUdTTTQ5QkFNQ0EwZ0FNRVVDSUdVeGNzaWgKbmtyVnpBb0JYZWNQbEU2QWdIWE96SHg5ODFHS0V6T0ZrSnU4QWlFQXpwRld4Y1ZpeDdHSzNPK1RwdXROejBNMQpvbk1sTXR1STdDVzFWTjZEbHZVPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+        crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpakNDQVRDZ0F3SUJBZ0lSQU5LNHNtbUJTTVBUUGNoSG1JTm9KazR3Q2dZSUtvWkl6ajBFQXdJd0ZURVQKTUJFR0ExVUVDaE1LYTNWaVpYSnVaWFJsY3pBZUZ3MHlOVEF4TVRreE16UXlNalphRncwek5UQXhNVGN4TXpReQpNalphTUJVeEV6QVJCZ05WQkFvVENtdDFZbVZ5Ym1WMFpYTXdXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVNyUTh6TUF1Y0E4eVRkUUJqM0pxOVpjQi8yYnFNTTZ1cnJCUWs2bXJtdWwrU2lrblBPUC9scVg3eG8KUE9rWTRkcCtiNDFZaGpOVTJvdFVvblhGbWVqY28yRXdYekFPQmdOVkhROEJBZjhFQkFNQ0FvUXdIUVlEVlIwbApCQll3RkFZSUt3WUJCUVVIQXdFR0NDc0dBUVVGQndNQ01BOEdBMVVkRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPCkJCWUVGQzFwcG4vNGtrYzI3S2s5bzlzbmpRMXRBRUUvTUFvR0NDcUdTTTQ5QkFNQ0EwZ0FNRVVDSUNaY0FiVlQKaklGVUJiME11cHdJL1VVSUsrY1QrTWplb3c0MnpRcEJJakZHQWlFQXNTN05WZkRSb3p1SFQ1Ym52UUFwYTZJbwoyOEhZSkNkQ2RoREZwQkZtWVprPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
         key: ""
     # API server specific configuration options.
     apiServer:
@@ -470,6 +470,12 @@ cluster:
                     enforce-version: latest
                     warn: privileged
                     warn-version: latest
+                exemptions:
+                    namespaces:
+                        - kube-system
+                    runtimeClasses: []
+                    usernames: []
+                kind: PodSecurityConfiguration
         
         # # The container image used in the API server manifest.
         # image: registry.k8s.io/kube-apiserver:v1.32.0

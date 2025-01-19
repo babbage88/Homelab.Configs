@@ -12,9 +12,3 @@ cluster:
               enforce-version: latest
               warn: privileged
               warn-version: latest
-          exemptions:
-              namespaces:
-                  - kube-system
-              runtimeClasses: []
-              usernames: []
-          kind: PodSecurityConfiguration
