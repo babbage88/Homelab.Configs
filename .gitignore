@@ -1,4 +1,11 @@
+kubernetes/talos/secrets/**
+kubernetes/talos/rendered/**
+**infra-db-user.yaml
 cloud_init/**
+**kubeconfig
+**talosconfig
+**secret.yaml
+**secrets.yaml
 */**cert.yaml
 **trahan-dev-cert.yaml
 **/*cert.yaml

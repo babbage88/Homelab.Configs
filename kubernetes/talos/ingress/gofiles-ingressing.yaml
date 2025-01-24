@@ -7,10 +7,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - gofiles-talos.trahan.dev
+        - gofiles-2.trahan.dev
       secretName: trahan-dev-cert
   rules:
-    - host: "gofiles-talos.trahan.dev"
+    - host: "gofiles-2.trahan.dev"
       http:
         paths:
           - pathType: Prefix
