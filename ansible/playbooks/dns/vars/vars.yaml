@@ -78,6 +78,7 @@ dns_records:
   - { host: filesrv, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: longhorn-talos, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: minio, type: A, zone: trahan.dev, record_value: "10.0.0.83" }
+  - { host: minioui, type: A, zone: trahan.dev, record_value: "10.0.0.83" }
   - { host: minio1, type: A, zone: trahan.dev, record_value: "10.0.0.83" }
   - { host: talosvip, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: taloskube1, type: A, zone: trahan.dev, record_value: "10.0.1.71" }
