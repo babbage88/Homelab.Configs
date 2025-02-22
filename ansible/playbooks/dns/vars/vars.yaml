@@ -16,41 +16,40 @@ nameservers_test_zone:
 
 dns_records:
   - { host: vm1, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
-  - { host: kubeapi, type: A, zone: trahan.dev, record_value: "10.0.0.65" }
-  - { host: longhorn, type: A, zone: trahan.dev, record_value: "10.0.0.65" }
+  - { host: kubeapi, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
+  - { host: longhorn, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox1, type: A, zone: trahan.dev, record_value: "10.0.0.50" }
-  - { host: vm2, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: vm2, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox2, type: A, zone: trahan.dev, record_value: "10.0.0.9" }
-  - { host: vm3, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: vm3, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox3, type: A, zone: trahan.dev, record_value: "10.0.0.7" }
-  - { host: vm4, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: vm4, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox4, type: A, zone: trahan.dev, record_value: "10.0.0.6" }
   - { host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8" }
   - { host: trahnfs1, type: A, zone: trahan.dev, record_value: "10.0.0.8" }
   - { host: db, type: A, zone: trahan.dev, record_value: "10.0.0.92" }
-  - { host: api, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
+  - { host: api, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: trah-dev-01, type: A, zone: trahan.dev, record_value: "10.0.0.32" }
   - { host: trah-dev-03, type: A, zone: trahan.dev, record_value: "10.0.0.16" }
-  - { host: trah-ub-2404, type: A, zone: trahan.dev,record_value: "10.0.0.165" }
+  - { host: trah-ub-2404, type: A, zone: trahan.dev, record_value: "10.0.0.165" }
   - { host: trah-ub-plex, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
   - { host: trahplex1, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
   - { host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8" }
   - { host: elastic, type: A, zone: trahan.dev, record_value: "10.0.0.97" }
   - { host: git, type: A, zone: trahan.dev, record_value: "10.0.0.64" }
-  - { host: grafana, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: grafana, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: guac, type: A, zone: trahan.dev, record_value: "10.0.0.64" }
-  - { host: infra, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
+  - { host: infra, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: kibana, type: A, zone: trahan.dev, record_value: "10.0.0.97" }
   - { host: plex, type: A, zone: trahan.dev, record_value: "10.0.0.64" }
   - { host: portainer, type: A, zone: trahan.dev, record_value: "10.0.0.64" }
   - { host: pgadmin, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
-  - { host: prometheus, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: prometheus, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: traefik, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
-  - { host: proxmox-metrics, type: A, zone: trahan.dev,record_value: "10.0.0.65" }
-  - { host: trah-apt-cache, type: A, zone: trahan.dev,record_value: "10.0.0.68" }
+  - { host: proxmox-metrics, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: trah-rt-01, type: A, zone: trahan.dev, record_value: "10.0.0.157" }
   - { host: trah-rt-02, type: A, zone: trahan.dev, record_value: "10.0.1.168" }
-  - { host: trah-ub-2404, type: A, zone: trahan.dev,record_value: "10.0.0.165" }
+  - { host: trah-ub-2404, type: A, zone: trahan.dev, record_value: "10.0.0.165" }
   - { host: trah-ub-plex, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
   - { host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8" }
   - { host: trahdb1, type: A, zone: trahan.dev, record_value: "10.0.1.209" }
@@ -63,34 +62,33 @@ dns_records:
   - { host: db4, type: A, zone: trahan.dev, record_value: "10.0.0.29" }
   - { host: pgprime, type: A, zone: trahan.dev, record_value: "10.0.0.28" }
   - { host: truenas, type: A, zone: trahan.dev, record_value: "10.0.0.12" }
-  - { host: trahdb2, type: PTR, zone: 1.0.10.in-addr.arpa.,record_value: "208" }
-  - { host: trahdb1, type: PTR, zone: 1.0.10.in-addr.arpa.,record_value: "109" }
-  - { host: trahdns1, type: PTR, zone: 0.0.10.in-addr.arpa.,record_value: "15" }
-  - { host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa.,record_value: "14" }
-  - { host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa.,record_value: "17" }
-  - { host: trah-dns, type: PTR, zone: 0.0.10.in-addr.arpa.,record_value: "19" }
+  - { host: trahdb2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: "208" }
+  - { host: trahdb1, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: "109" }
+  - { host: trahdns1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "15" }
+  - { host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "14" }
+  - { host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "17" }
+  - { host: trah-dns, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "19" }
   - { host: asus, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "254" }
-  - { host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa.,record_value: "210" }
-  - { host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa.,record_value: "249" }
-  - { host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa.,record_value: "29" }
+  - { host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "210" }
+  - { host: trahkube2, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: "249" }
+  - { host: trahkube3, type: PTR, zone: 1.0.10.in-addr.arpa., record_value: "29" }
   - { host: rancher, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
-  - { host: ngmetrics, type: A, zone: trahan.dev, record_value: "10.0.0.65" }
-  - { host: gofiles, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: filesrv, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: longhorn-talos, type: A, zone: trahan.dev,record_value: "10.0.0.90" }
-  - { host: talosvip, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: ngmetrics, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
+  - { host: gofiles, type: A, zone: trahan.dev, record_value: "10.0.0.80" }
+  - { host: filesrv, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
+  - { host: longhorn-talos, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
+  - { host: minio, type: A, zone: trahan.dev, record_value: "10.0.0.83" }
+  - { host: minio1, type: A, zone: trahan.dev, record_value: "10.0.0.83" }
+  - { host: talosvip, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: taloskube1, type: A, zone: trahan.dev, record_value: "10.0.1.71" }
   - { host: taloskube2, type: A, zone: trahan.dev, record_value: "10.0.1.72" }
   - { host: taloskube3, type: A, zone: trahan.dev, record_value: "10.0.1.73" }
   - { host: taloskube4, type: A, zone: trahan.dev, record_value: "10.0.1.74" }
-  - { host: prometheus-talos, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: grafana-talos, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: gofiles-talos, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: prometheus-2, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: grafana-2, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: gofiles-2, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
-  - { host: longhorn-2, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: pbs1, type: A, zone: trahan.dev, record_value: "10.0.0.80" }
   - { host: gofiles-local, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
+  - { host: trahvps1, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
+  - { host: hetzner-ngmetrics, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
+  - { host: loki, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
 
 sub_zone_records:
   - { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
@@ -100,7 +98,7 @@ sub_zone_records:
   - { host: gofiles, type: A, zone: test.trahan.dev, record_value: "10.0.0.64" }
   - { host: filesrv, type: A, zone: test.trahan.dev, record_value: "10.0.0.64" }
   - { host: infra, type: A, zone: test.trahan.dev, record_value: "10.0.0.64" }
-  - { host: trahtestdb1, type: A, zone: test.trahan.dev,record_value: "10.0.0.26" }
-  - { host: trahtestdb2, type: A, zone: test.trahan.dev,record_value: "10.0.0.27" }
+  - { host: trahtestdb1, type: A, zone: test.trahan.dev, record_value: "10.0.0.26" }
+  - { host: trahtestdb2, type: A, zone: test.trahan.dev, record_value: "10.0.0.27" }
   - { host: db1, type: A, zone: test.trahan.dev, record_value: "10.0.0.26" }
   - { host: db2, type: A, zone: test.trahan.dev, record_value: "10.0.0.27" }
