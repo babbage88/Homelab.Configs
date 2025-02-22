@@ -31,10 +31,10 @@ helm --kubeconfig kubeconfig install longhorn longhorn/longhorn --namespace long
 
 kubectl --kubeconfig kubeconfig --namespace longhorn-system port-forward --address 0.0.0.0 service/longhorn-frontend 5080:80
 
-helm --kubeconfig kubeconfig -n monitoring upgrade --create-namespace --install kube-prometheus-stack prometheus-community/kube-prometheus-stack  \
+helm -n monitoring upgrade --create-namespace --install kube-prometheus-stack prometheus-community/kube-prometheus-stack  \
  -f values-prometheus.yaml
 
-helm --kubeconfig kubeconfig upgrade --install --create-namespace -n ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --values v1.11_ingx_values.yaml
+helm upgrade --install --create-namespace -n ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --values v1.11_ingx_values.yaml
 
 kubectl --kubeconfig kubeconfig patch -n ingress-nginx services ingress-nginx-controller -p '{"spec":{"externalIPs":["10.0.0.90", "10.0.1.74", "10.0.1.84"]}}'
 kubectl --kubeconfig kubeconfig apply -f config-maps/nginx-dashboard.yaml 

@@ -17,6 +17,6 @@ spec:
             path: "/"
             backend:
               service:
-                name: go-infra-service
+                name: go-infra-svc
                 port:
                   number: 8993

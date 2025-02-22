@@ -7,10 +7,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - grafana-2.trahan.dev
+        - grafana.trahan.dev
       secretName: trahan-dev-cert
   rules:
-    - host: "grafana-2.trahan.dev"
+    - host: "grafana.trahan.dev"
       http:
         paths:
           - pathType: Prefix
@@ -30,10 +30,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - prometheus-2.trahan.dev
+        - prometheus.trahan.dev
       secretName: trahan-dev-cert
   rules:
-    - host: "prometheus-2.trahan.dev"
+    - host: "prometheus.trahan.dev"
       http:
         paths:
           - pathType: Prefix

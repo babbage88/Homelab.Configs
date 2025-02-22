@@ -284,11 +284,6 @@ controller:
       loadBalancerClass: ""
       loadBalancerIP: ""
       loadBalancerSourceRanges: []
-      nodePorts:
-        http: ""
-        https: ""
-        tcp: {}
-        udp: {}
       ports: {}
       sessionAffinity: ""
       targetPorts: {}
@@ -300,11 +295,6 @@ controller:
     loadBalancerClass: ""
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
-    nodePorts:
-      http: ""
-      https: ""
-      tcp: {}
-      udp: {}
     ports:
       http: 80
       https: 443
@@ -410,5 +400,4 @@ serviceAccount:
   create: true
   name: ""
 tcp: {}
-  #5432: "default/infra-user-cluster-dev-rw:5432"
 udp: {}
