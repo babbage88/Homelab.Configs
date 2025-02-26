@@ -90,6 +90,8 @@ dns_records:
   - { host: trahvps1, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
   - { host: hetzner-ngmetrics, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
   - { host: loki, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: trahrtr1, type: A, zone: trahan.dev, record_value: "10.0.0.86" }
+  - { host: trahlpdev1, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
 
 sub_zone_records:
   - { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
