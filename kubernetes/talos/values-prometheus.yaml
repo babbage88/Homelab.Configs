@@ -1,0 +1,45 @@
+prometheus:
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "longhorn"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+    additionalScrapeConfigs: |
+      - job_name: goinfra-https
+        scrape_interval: 5s
+        static_configs:
+         - targets: ['go-infra-svc.default.svc.cluster.local:8993']
+        metrics_path: '/metrics'
+      - job_name: hetzner-ngmetrics
+        scrape_interval: 5s
+        static_configs:
+         - targets: ['hetzner-ngmetrics.trahan.dev']
+        metrics_path: '/'
+    #  - job_name: proxmox-exporter
+    #    scrape_interval: 5s
+    #    static_configs:
+    #      - targets: ['proxmox-exporter.monitoring.svc.cluster.local:8080']
+    #    metrics_path: "/metrics"
+alertmanager:
+  alertmanagerSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "longhorn"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+grafana:
+  persistence:
+    enabled: true
+  adminPassword: ez6koZeaUR4t2@
+  adminUser: jtrahan

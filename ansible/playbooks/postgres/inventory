@@ -1,5 +1,9 @@
 [primary-db]
-trahtestdb1 ansible_host=db1.test.trahan.dev ansible_user=jtrahan
+trahdb3 ansible_host=pgprime.trahan.dev ansible_user=jtrahan
 
 [replica-db]
-trahtestdb2 ansible_host=db2.test.trahan.dev ansible_user=jtrahan
+trahdb4 ansible_host=db4.trahan.dev ansible_user=jtrahan ansible_become=true
+trahdb5 ansible_host=db5.trahan.dev ansible_user=jtrahan ansible_become=true
+
+[privilege_escalation]
+become_ask_pass=False

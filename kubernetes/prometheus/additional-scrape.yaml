@@ -1,0 +1,13 @@
+    additionalScrapeConfigs: |
+      - job_name: goinfra-svc
+          scrape_interval: 5s
+          static_configs:
+            - targets: ['go-infra-service.default.svc.cluster.local:8993/metrics']
+      - job_name: goinfra-https
+          scrape_interval: 5s
+          static_configs:
+            - targets: ['https://infra.trahan.dev/metrics']
+      - job_name: proxmox-exporter
+        scrape_interval: 5s
+        static_configs:
+          - targets: ['proxmox-exporter.monitoring.svc.cluster.local:8080/metrics']

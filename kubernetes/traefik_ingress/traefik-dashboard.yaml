@@ -13,8 +13,14 @@ spec:
       - "--api.insecure=true"
       - "--providers.kubernetescrd.allowExternalNameServices=true"
     ports:
+      cnpgusr:
+        port: 5432
+        expose: true
+        exposedPort: 5432
+        protocol: TCP
       traefik:
         expose: true
     providers:
       kubernetesCRD:
         allowCrossNamespace: true
+    

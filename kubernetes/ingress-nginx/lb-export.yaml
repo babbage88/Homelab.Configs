@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/publicEndpoints: '[{"addresses":["10.0.0.65"],"port":80,"protocol":"TCP","serviceName":"ingress-nginx:ingress-nginx-controller","allNodes":false},{"addresses":["10.0.0.65"],"port":443,"protocol":"TCP","serviceName":"ingress-nginx:ingress-nginx-controller","allNodes":false}]'
+    meta.helm.sh/release-name: ingress-nginx
+    meta.helm.sh/release-namespace: ingress-nginx
+  creationTimestamp: "2025-01-10T04:39:49Z"
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.12.0
+    helm.sh/chart: ingress-nginx-4.12.0
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+  resourceVersion: "45565763"
+  uid: 63d7f962-a299-4676-90c0-b9f073dc8dfe
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.43.68.187
+  clusterIPs:
+  - 10.43.68.187
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - appProtocol: http
+    name: http
+    nodePort: 31239
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - appProtocol: https
+    name: https
+    nodePort: 30438
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 10.0.0.65
+      ipMode: VIP

@@ -1,0 +1,7 @@
+---
+cluster:
+  network:
+    cni:
+      name: custom
+      urls:
+        - https://raw.githubusercontent.com/babbage88/Homelab.Configs/refs/heads/develop/kubernetes/taloskube/canal.yaml
