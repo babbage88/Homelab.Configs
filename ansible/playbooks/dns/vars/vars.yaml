@@ -18,6 +18,7 @@ dns_records:
   - { host: vm1, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
   - { host: kubeapi, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: longhorn, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
+  - { host: smbplusplus, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox1, type: A, zone: trahan.dev, record_value: "10.0.0.50" }
   - { host: vm2, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox2, type: A, zone: trahan.dev, record_value: "10.0.0.9" }
@@ -34,6 +35,10 @@ dns_records:
   - { host: trah-ub-2404, type: A, zone: trahan.dev, record_value: "10.0.0.165" }
   - { host: trah-ub-plex, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
   - { host: trahplex1, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
+  - { host: trahplex2, type: A, zone: trahan.dev, record_value: "10.0.0.98" }
+  - { host: trahjellyfin1, type: A, zone: trahan.dev, record_value: "10.0.0.96" }
+  - { host: trahjellyfin2, type: A, zone: trahan.dev, record_value: "10.0.0.96" }
+  - { host: jellyfin, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8" }
   - { host: elastic, type: A, zone: trahan.dev, record_value: "10.0.0.97" }
   - { host: git, type: A, zone: trahan.dev, record_value: "10.0.0.64" }
@@ -85,6 +90,7 @@ dns_records:
   - { host: taloskube2, type: A, zone: trahan.dev, record_value: "10.0.1.72" }
   - { host: taloskube3, type: A, zone: trahan.dev, record_value: "10.0.1.73" }
   - { host: taloskube4, type: A, zone: trahan.dev, record_value: "10.0.1.74" }
+  - { host: taloskube5, type: A, zone: trahan.dev, record_value: "10.0.1.84" }
   - { host: pbs1, type: A, zone: trahan.dev, record_value: "10.0.0.80" }
   - { host: gofiles-local, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
   - { host: trahvps1, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
