@@ -7,7 +7,7 @@ install_updates() {
 
 # Install pre-reqs
 install_apt_reqs() {
-	sudo apt-get install -y wget tar curl python3-venv git ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+	sudo apt-get install -y software-properties-common wget tar curl python3-venv git ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
 }
 
 # install cargo
@@ -34,6 +34,7 @@ install_nvm_node() {
 
 install_dotnet_sdk() {
 	# install dotnet 9.0 sdk
+	sudo apt-get install -y software-properties-common
 	sudo add-apt-repository ppa:dotnet/backports
 	sudo apt-get update &&
 		sudo apt-get install -y dotnet-sdk-9.0
@@ -62,6 +63,26 @@ install_lazyvim() {
 	rm -rf ~/.config/nvim/.git
 }
 
+add_dev_user() {
+	USERNAME="$1"
+
+	# Create the user
+	if id "$USERNAME" &>/dev/null; then
+		echo "User '$USERNAME' already exists."
+	else
+		useradd -m -s /bin/bash "$USERNAME"
+		echo "User '$USERNAME' created."
+	fi
+
+	# Set password
+	echo "Set password for '$USERNAME':"
+	passwd "$USERNAME"
+
+	# Add to sudo group
+	usermod -aG sudo "$USERNAME"
+	echo "User '$USERNAME' added to 'sudo' group."
+}
+
 install_updates
 install_apt_reqs
 install_rust_cargo
@@ -71,3 +92,4 @@ install_golang
 install_dotnet_sdk
 install_nvim_from_source
 install_lazyvim
+add_dev_user jtrahan
