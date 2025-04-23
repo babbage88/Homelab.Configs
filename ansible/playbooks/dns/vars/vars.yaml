@@ -8,14 +8,14 @@ nameservers:
   - {  name: trahdns1, zone: trahan.dev, ip_address: "10.0.0.15", last: 15, ns_name: ns1}
   #- {  name: trahdns2, zone: trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
   - {  name: trahdns3, zone: trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns3 }
-  - {  name: trahdns3, zone: trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns4 }
+  - {  name: trahdns4, zone: trahan.dev, ip_address: "10.0.0.18", last: 17, ns_name: ns4 }
 
 
 nameservers_test_zone:
   - { name: trahdns1, zone: test.trahan.dev, ip_address: "10.0.0.15", last: 15, ns_name: ns1}
   #- { name: trahdns2, zone: test.trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
   - { name: trahdns3, zone: test.trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns3}
-  - { name: trahdns3, zone: test.trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns4}
+  - { name: trahdns4, zone: test.trahan.dev, ip_address: "10.0.0.18", last: 17, ns_name: ns4}
 
 
 dns_records:
@@ -76,6 +76,7 @@ dns_records:
   - { host: trahdns1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "15" }
   - { host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "14" }
   - { host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "17" }
+  - { host: trahdns4, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "18" }
   - { host: trah-dns, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "19" }
   - { host: asus, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "254" }
   - { host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "210" }
