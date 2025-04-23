@@ -2,17 +2,21 @@ domain: trahan.dev
 forward_zones: ["trahan.dev", "test.trahan.dev"]
 reverse_zones: ["1.0.10.in-addr.arpa", "0.0.10.in-addr.arpa"]
 forwarders: ["1.1.1.1", "8.8.8.8", "9.9.9.9"]
-acl_allow_transfer: [ "10.0.0.14", "10.0.0.15", "10.0.0.17", "10.0.0.64", "10.0.1.64", "127.0.0.0/8" ]
+acl_allow_transfer: [ "10.0.0.18", "10.0.0.15", "10.0.0.17", "10.0.0.64", "10.0.1.64", "127.0.0.0/8" ]
 
 nameservers:
   - {  name: trahdns1, zone: trahan.dev, ip_address: "10.0.0.15", last: 15, ns_name: ns1}
-  - {  name: trahdns2, zone: trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
+  #- {  name: trahdns2, zone: trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
   - {  name: trahdns3, zone: trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns3 }
+  - {  name: trahdns3, zone: trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns4 }
+
 
 nameservers_test_zone:
   - { name: trahdns1, zone: test.trahan.dev, ip_address: "10.0.0.15", last: 15, ns_name: ns1}
-  - { name: trahdns2, zone: test.trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
+  #- { name: trahdns2, zone: test.trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
   - { name: trahdns3, zone: test.trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns3}
+  - { name: trahdns3, zone: test.trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns4}
+
 
 dns_records:
   - { host: vm1, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
@@ -98,6 +102,8 @@ dns_records:
   - { host: loki, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
   - { host: trahrtr1, type: A, zone: trahan.dev, record_value: "10.0.0.86" }
   - { host: trahlpdev1, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
+  - { host: trahalpinedev1, type: A, zone: trahan.dev, record_value: "10.0.0.36" }
+  - { host: trahdev3, type: A, zone: trahan.dev, record_value: "192.168.99.100" }
 
 sub_zone_records:
   - { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }
