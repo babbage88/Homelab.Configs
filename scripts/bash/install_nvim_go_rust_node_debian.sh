@@ -55,6 +55,16 @@ install_nvim_from_source() {
 	cd neovim
 	make CMAKE_BUILD_TYPE=RelWithDebInfo
 	sudo make install
+	cd .. && rm -rf neovim
+}
+
+install_nerd_fonts() {
+	wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip \
+	&& cd ~/.local/share/fonts \
+	&& unzip JetBrainsMono.zip \
+	&& rm JetBrainsMono.zip \
+	&& fc-cache -fv
+	cd
 }
 
 install_lazyvim() {
@@ -81,6 +91,14 @@ add_dev_user() {
 	# Add to sudo group
 	usermod -aG sudo "$USERNAME"
 	echo "User '$USERNAME' added to 'sudo' group."
+
+	echo "$USERNAME ALL=(ALL:ALL) NOPASSWD: ALL" >>/etc/sudoers.d/$USERNAME
+	
+	mkdir -p /home/$USERNAME/.ssh && chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh && chmod 700 /home/$USERNAME/.ssh
+
+	touch /home/$USERNAME/.ssh/authorized_keys
+	cat ~/.ssh/authorized_keys >>/home/$USERNAME/.ssh/authorized_keys
+	chown $USERNAME:$USERNAME /home/$USERNAME/.ssh/authorized_keys
 }
 
 install_updates
@@ -91,5 +109,6 @@ install_nvm_node
 install_golang
 install_dotnet_sdk
 install_nvim_from_source
+install_nerd_fonts
 install_lazyvim
 add_dev_user jtrahan
