@@ -1,0 +1,8 @@
+---
+cluster:
+    controlPlane:
+        endpoint: https://10.0.0.70:6443 # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
+    clusterName: trahan-test-cluster 
+    apiServer:
+        certSANs:
+            - 10.0.0.70

@@ -13,16 +13,18 @@ talosctl gen config trahan-cluster https://10.0.0.70:6443 \
   --config-patch @patches/pod-security.yaml \
   --config-patch @patches/extra-disk-mounts.yaml \
   --config-patch-control-plane @patches/vip.yaml \
-  --output rendered/
+  --output rendered2/.
 
 talosctl apply -f rendered/controlplane.yaml -n 10.0.1.71 --insecure
 talosctl apply -f rendered/controlplane.yaml -n 10.0.1.72 --insecure
 talosctl apply -f rendered/controlplane.yaml -n 10.0.1.73 --insecure
 talosctl apply -f rendered/controlplane2.yaml -n 10.0.1.74 --insecure
-talosctl apply -f renderedv2-onedisk/controlplane4.yaml -n 10.0.1.84 --insecure
+talosctl apply -f rendered/controlplane.yaml -n 10.0.1.84 --insecure
+
+#talosctl apply -f renderedv2-onedisk/controlplane4.yaml -n 10.0.1.84 --insecure
 
 
-talosctl patch mc --nodes 10.0.1.74 --patch @./patches/extra-disk-mount.yaml
+talosctl patch mc --nodes 10.0.1.84 --patch @./patches/extra-disk-mount.yaml
 
 
 mkdir -p ~/.talos
@@ -40,6 +42,6 @@ helm -n monitoring upgrade --create-namespace --install kube-prometheus-stack pr
 
 helm upgrade --install --create-namespace -n ingress-nginx ingress-nginx ingress-nginx/ingress-nginx --values v1.11_ingx_values.yaml
 
-kubectl  patch -n ingress-nginx services ingress-nginx-controller -p '{"spec":{"externalIPs":["10.0.0.70", "10.0.1.73", "10.0.1.71","10.0.1.72"]}}'
+kubectl  patch -n ingress-nginx services ingress-nginx-controller -p '{"spec":{"externalIPs":["10.0.0.70", "10.0.1.73", "10.0.1.71","10.0.1.72, "10.0.1.84"]}}'
 
 kubectl apply --server-side --force-conflicts -f  https://github.com/cloudnative-pg/cloudnative-pg/releases/download/v1.25.0/cnpg-1.25.0.yaml

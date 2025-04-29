@@ -11,18 +11,18 @@ prometheus:
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 50Gi
+              storage: 65Gi
     additionalScrapeConfigs: |
       - job_name: goinfra-https
         scrape_interval: 5s
         static_configs:
          - targets: ['go-infra-svc.default.svc.cluster.local:8993']
         metrics_path: '/metrics'
-      - job_name: hetzner-ngmetrics
-        scrape_interval: 5s
-        static_configs:
-         - targets: ['hetzner-ngmetrics.trahan.dev']
-        metrics_path: '/'
+    #  - job_name: hetzner-ngmetrics
+    #    scrape_interval: 5s
+    #    static_configs:
+    #     - targets: ['hetzner-ngmetrics.trahan.dev']
+    #    metrics_path: '/'
     #  - job_name: proxmox-exporter
     #    scrape_interval: 5s
     #    static_configs:

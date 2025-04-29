@@ -2,22 +2,27 @@ domain: trahan.dev
 forward_zones: ["trahan.dev", "test.trahan.dev"]
 reverse_zones: ["1.0.10.in-addr.arpa", "0.0.10.in-addr.arpa"]
 forwarders: ["1.1.1.1", "8.8.8.8", "9.9.9.9"]
-acl_allow_transfer: [ "10.0.0.14", "10.0.0.15", "10.0.0.17", "10.0.0.64", "10.0.1.64", "127.0.0.0/8" ]
+acl_allow_transfer: [ "10.0.0.18", "10.0.0.15", "10.0.0.17", "10.0.0.64", "10.0.1.64", "127.0.0.0/8" ]
 
 nameservers:
   - {  name: trahdns1, zone: trahan.dev, ip_address: "10.0.0.15", last: 15, ns_name: ns1}
-  - {  name: trahdns2, zone: trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
+  #- {  name: trahdns2, zone: trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
   - {  name: trahdns3, zone: trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns3 }
+  - {  name: trahdns4, zone: trahan.dev, ip_address: "10.0.0.18", last: 17, ns_name: ns4 }
+
 
 nameservers_test_zone:
   - { name: trahdns1, zone: test.trahan.dev, ip_address: "10.0.0.15", last: 15, ns_name: ns1}
-  - { name: trahdns2, zone: test.trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
+  #- { name: trahdns2, zone: test.trahan.dev, ip_address: "10.0.0.14", last: 14, ns_name: ns2}
   - { name: trahdns3, zone: test.trahan.dev, ip_address: "10.0.0.17", last: 17, ns_name: ns3}
+  - { name: trahdns4, zone: test.trahan.dev, ip_address: "10.0.0.18", last: 17, ns_name: ns4}
+
 
 dns_records:
   - { host: vm1, type: A, zone: trahan.dev, record_value: "10.0.1.64" }
   - { host: kubeapi, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: longhorn, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
+  - { host: smbplusplus, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox1, type: A, zone: trahan.dev, record_value: "10.0.0.50" }
   - { host: vm2, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: proxmox2, type: A, zone: trahan.dev, record_value: "10.0.0.9" }
@@ -34,6 +39,10 @@ dns_records:
   - { host: trah-ub-2404, type: A, zone: trahan.dev, record_value: "10.0.0.165" }
   - { host: trah-ub-plex, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
   - { host: trahplex1, type: A, zone: trahan.dev, record_value: "10.0.0.99" }
+  - { host: trahplex2, type: A, zone: trahan.dev, record_value: "10.0.0.98" }
+  - { host: trahjellyfin1, type: A, zone: trahan.dev, record_value: "10.0.0.96" }
+  - { host: trahjellyfin2, type: A, zone: trahan.dev, record_value: "10.0.0.96" }
+  - { host: jellyfin, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: trahan-nas, type: A, zone: trahan.dev, record_value: "10.0.0.8" }
   - { host: elastic, type: A, zone: trahan.dev, record_value: "10.0.0.97" }
   - { host: git, type: A, zone: trahan.dev, record_value: "10.0.0.64" }
@@ -67,6 +76,7 @@ dns_records:
   - { host: trahdns1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "15" }
   - { host: trahdns2, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "14" }
   - { host: trahdns3, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "17" }
+  - { host: trahdns4, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "18" }
   - { host: trah-dns, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "19" }
   - { host: asus, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "254" }
   - { host: trahkube1, type: PTR, zone: 0.0.10.in-addr.arpa., record_value: "210" }
@@ -85,13 +95,18 @@ dns_records:
   - { host: taloskube2, type: A, zone: trahan.dev, record_value: "10.0.1.72" }
   - { host: taloskube3, type: A, zone: trahan.dev, record_value: "10.0.1.73" }
   - { host: taloskube4, type: A, zone: trahan.dev, record_value: "10.0.1.74" }
+  - { host: taloskube5, type: A, zone: trahan.dev, record_value: "10.0.1.84" }
   - { host: pbs1, type: A, zone: trahan.dev, record_value: "10.0.0.80" }
   - { host: gofiles-local, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
   - { host: trahvps1, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
   - { host: hetzner-ngmetrics, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
-  - { host: loki, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: loki, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: trahrtr1, type: A, zone: trahan.dev, record_value: "10.0.0.86" }
   - { host: trahlpdev1, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
+  - { host: trahalpinedev1, type: A, zone: trahan.dev, record_value: "10.0.0.36" }
+  - { host: trahdev3, type: A, zone: trahan.dev, record_value: "192.168.99.100" }
+  - { host: ub24remoteappsrv1, type: A, zone: trahan.dev, record_value: "10.0.1.37" }
+  - { host: postgres-backups.minio, type: A, zone: trahan.dev, record_value: "10.0.1.83" }
 
 sub_zone_records:
   - { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }

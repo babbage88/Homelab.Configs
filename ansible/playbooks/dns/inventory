@@ -2,3 +2,4 @@
 trahdns1 ansible_host=10.0.0.15 ansible_user=jtrahan
 #trahdns2 ansible_host=10.0.0.14 ansible_user=root
 trahdns3 ansible_host=10.0.0.17 ansible_user=jtrahan
+trahdns4 ansible_host=10.0.0.18 ansible_user=jtrahan
