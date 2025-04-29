@@ -27,5 +27,3 @@ delete_zero() {
 		jq -r '.items[] | select(.spec.replicas == 0) | .metadata.name' |
 		xargs kubectl -n $namespace delete replicaset
 }
-
-delete_zero

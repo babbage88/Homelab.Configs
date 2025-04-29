@@ -1,0 +1,107 @@
+loki:
+  server:
+    grpc_server_max_recv_msg_size: 20971520
+    grpc_server_max_send_msg_size: 20971520
+  auth_enabled: false
+  structuredConfig:
+    memberlist:
+      cluster_label: "loki"
+    schema_config:
+      configs:
+      - from: "2020-09-07"
+        store: tsdb
+        object_store: "s3"
+        schema: "v13"
+        index:
+          period: "24h"
+          prefix: "loki_index_"
+  compactor:
+    compaction_interval: 10m
+    retention_enabled: true
+    retention_delete_delay: 2h
+    retention_delete_worker_count: 150
+    delete_request_store: s3
+  limits_config:
+    retention_period: 24h
+    ingestion_rate_mb: 4
+    ingestion_burst_size_mb: 6
+  s3:
+    s3: "https://qYmJn3kak8tWUnSrxX0j:Eo65naKIKJWqWtZy5NGtlxagwJgWSsDk8m1IFQL5@minio.trahan.dev"
+    endpoint: https://minio.trahan.dev
+    s3ForcePathStyle: true
+    access_key_id: "qYmJn3kak8tWUnSrxX0j"
+    secret_access_key: "Eo65naKIKJWqWtZy5NGtlxagwJgWSsDk8m1IFQL5"
+    insecure: true
+    region: null
+    sse_encryption: false
+    http_config:
+      idle_conn_timeout: 90s
+      response_header_timeout: 0s
+      insecure_skip_verify: true
+  ingester:
+    autoforget_unhealthy: true
+  storage_config:
+  memcached:
+    chunk_cache:
+      enabled: false
+    results_cache:
+      enabled: false
+  commonConfig:
+    replication_factor: 1
+
+deploymentMode: SingleBinary
+
+singleBinary:
+  replicas: 1
+
+resultsCache:
+  enabled: false
+chunksCache:
+  enabled: false
+
+write:
+  replicas: 1
+  autoscaling:
+    enabled: false
+  extraArgs:
+    - "-log.level=info"
+  maxUnavailable: 0
+      
+read:
+  replicas: 1
+  autoscaling:
+    enabled: false
+  extraArgs:
+    - "-log.level=info"
+  maxUnavailable: 0
+
+backend:
+  replicas: 1
+  autoscaling:
+    enabled: false
+  extraArgs:
+    - "-log.level=info"
+  maxUnavailable: 0
+
+lokiCanary:
+  enabled: false
+
+sidecar:
+  rules:
+    enabled: false
+
+serviceMonitor:
+  enabled: false
+
+monitoring:
+  selfMonitoring:
+    enabled: false
+
+test:
+  enabled: false
+
+enterprise:
+  enabled: false
+
+gateway:
+  enabled: false

@@ -100,11 +100,13 @@ dns_records:
   - { host: gofiles-local, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
   - { host: trahvps1, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
   - { host: hetzner-ngmetrics, type: A, zone: trahan.dev, record_value: "49.12.207.9" }
-  - { host: loki, type: A, zone: trahan.dev, record_value: "10.0.0.90" }
+  - { host: loki, type: A, zone: trahan.dev, record_value: "10.0.0.70" }
   - { host: trahrtr1, type: A, zone: trahan.dev, record_value: "10.0.0.86" }
   - { host: trahlpdev1, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
   - { host: trahalpinedev1, type: A, zone: trahan.dev, record_value: "10.0.0.36" }
   - { host: trahdev3, type: A, zone: trahan.dev, record_value: "192.168.99.100" }
+  - { host: ub24remoteappsrv1, type: A, zone: trahan.dev, record_value: "10.0.1.37" }
+  - { host: postgres-backups.minio, type: A, zone: trahan.dev, record_value: "10.0.1.83" }
 
 sub_zone_records:
   - { host: api, type: A, zone: test.trahan.dev, record_value: "10.0.1.64" }

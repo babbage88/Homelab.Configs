@@ -4,4 +4,4 @@ machine:
     interfaces:
       - interface: eth0
         vip:
-          ip: 10.0.0.90
+          ip: 10.0.0.70
