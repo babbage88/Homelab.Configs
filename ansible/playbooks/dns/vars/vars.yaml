@@ -105,6 +105,7 @@ dns_records:
   - { host: trahlpdev1, type: A, zone: trahan.dev, record_value: "10.0.1.161" }
   - { host: trahalpinedev1, type: A, zone: trahan.dev, record_value: "10.0.0.36" }
   - { host: trahdev3, type: A, zone: trahan.dev, record_value: "192.168.99.100" }
+  - { host: trahdev2, type: A, zone: trahan.dev, record_value: "10.0.0.68" }
   - { host: ub24remoteappsrv1, type: A, zone: trahan.dev, record_value: "10.0.1.37" }
   - { host: postgres-backups.minio, type: A, zone: trahan.dev, record_value: "10.0.1.83" }
 
