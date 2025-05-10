@@ -126,6 +126,28 @@ add_dev_user() {
 	chown $USERNAME:$USERNAME /home/$USERNAME/.ssh/authorized_keys
 }
 
+clone-projects() {
+	curdir=$(pwd)
+	mv ~/projects/{,.bak}
+	mkdir -p ~/projects
+	cd ~/projects
+	git clone git@github.com:babbage88/Homelab.Configs.git
+	git clone git@github.com:babbage88/infra-cli.git
+	git clone git@github.com:babbage88/go-infra.git
+	git clone git@github.com:babbage88/infra-kubeinit.git
+	git clone git@github.com:babbage88/infra-db.git
+	git clone git@github.com:babbage88/db-helper-ui.git
+	git clone git@github.com:babbage88/react-trahan-compounds.git
+	git clone git@github.com:babbage88/smbplusplus.git
+	git clone git@github.com:babbage88/goph.git
+	git clone git@github.com:babbage88/tint.git
+	git clone git@github.com:babbage88/rust-web-test.git
+	git clone git@github.com:babbage88/go-acme-cli.git
+	git clone git@github.com:babbage88/gofiles.git
+	git clone git@github.com:babbage88/infra-svui.git
+	cd $curdir
+}
+
 #install_updates
 #install_apt_reqs
 #install_rust_cargo
