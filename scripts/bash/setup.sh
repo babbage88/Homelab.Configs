@@ -137,7 +137,7 @@ clone-projects() {
 	git clone git@github.com:babbage88/infra-kubeinit.git
 	git clone git@github.com:babbage88/infra-db.git
 	git clone git@github.com:babbage88/db-helper-ui.git
-	git clone git@github.com:babbage88/react-trahan-compounds.git
+	git clone git@github.com:babbage88/react-trahan-compound.git
 	git clone git@github.com:babbage88/smbplusplus.git
 	git clone git@github.com:babbage88/goph.git
 	git clone git@github.com:babbage88/tint.git
